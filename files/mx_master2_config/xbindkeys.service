@@ -1,0 +1,10 @@
+[Unit]
+Description=Start xbindkeys
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/usr/bin/xbindkeys
+
+[Install]
+WantedBy=multi-user.target

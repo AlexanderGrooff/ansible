@@ -1,0 +1,10 @@
+---
+- name: Clone dotfiles
+  git: repo=git://github.com/AlexanderGrooff/dotfiles.git dest=~/code/dotfiles accept_hostkey=yes update=yes
+  register: df_clone
+
+- name: Set up dotfiles
+  command: ./setup chdir="~/code/dotfiles"
+  changed_when: false
+  when: df_clone.changed
+
