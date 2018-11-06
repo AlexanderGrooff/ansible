@@ -9,3 +9,4 @@
   - import_tasks: tasks/core.yml
   - import_tasks: tasks/vim.yml
   - import_tasks: tasks/dotfiles.yml
+  - import_tasks: tasks/desktop.yml

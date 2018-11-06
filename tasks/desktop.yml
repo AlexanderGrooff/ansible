@@ -1,0 +1,14 @@
+---
+- name: Install packages for desktop
+  apt:
+    name: "{{ packages }}"
+    state: present
+  become: yes
+  become_user: root
+  vars:
+    packages:
+    - x11-xserver-utils
+    - i3
+
+- name: Set keyboard rate and delay
+  command: xset r rate 175 45
