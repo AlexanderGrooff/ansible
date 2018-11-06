@@ -29,11 +29,23 @@
     - libcurl4-openssl-dev
     - libiw-dev
     - libnl-genl-3-dev
-    - fonts-font-awesome
     - i3
+
+- name: Install fonts
+  apt:
+    name: "{{ packages }}"
+    state: present
+  become: yes
+  become_user: root
+  vars:
+    packages:
+    - fonts-powerline
+    - fonts-font-awesome
+  register: fonts_installed
 
 - name: Reset font cache
   command: fc-cache -fv
+  when: fonts_installed.changed
 
 - name: Clone polybar repo
   git:
@@ -44,6 +56,12 @@
     version: 3.2
     recursive: yes
   register: polybar_clone
+
+- name: Create polybar build directory
+  file:
+    path: ~/.apps/polybar/build
+    state: directory
+  when: polybar_clone.changed
 
 - name: Set up polybar
   command: ./build.sh chdir="~/.apps/polybar"
