@@ -3,6 +3,8 @@
   apt: 
     name: "{{ packages }}"
     state: present
+  become: yes
+  become_user: root
   vars:
     packages:
     - python-pip
