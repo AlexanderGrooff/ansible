@@ -8,7 +8,33 @@
   vars:
     packages:
     - x11-xserver-utils
+    - xcb
+    - libcairo2-dev
+    - libxcb-util0-dev
+    - libxcb-randr0-dev
+    - libxcb-composite0-dev
+    - python-xcbgen
+    - xcb-proto
+    - libxcb-image0-dev
+    - libxcb1-dev
+    - libxcb-ewmh-dev
+    - libxcb-icccm4-dev
     - i3
+
+- name: Clone polybar repo
+  git:
+    repo: https://github.com/jaagr/polybar
+    dest: ~/.apps/polybar
+    accept_hostkey: yes
+    update: no
+    version: 3.2
+    recursive: yes
+  register: polybar_clone
+
+- name: Set up polybar
+  command: ./build.sh chdir="~/.apps/polybar"
+  changed_when: false
+  when: polybar_clone.changed
 
 - name: Set keyboard rate and delay
   command: xset r rate 175 45
