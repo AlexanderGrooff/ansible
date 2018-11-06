@@ -19,7 +19,21 @@
     - libxcb1-dev
     - libxcb-ewmh-dev
     - libxcb-icccm4-dev
+    - libxcb-xkb-dev
+    - libxcb-xrm-dev
+    - libxcb-cursor-dev
+    - libasound2-dev
+    - libpulse-dev
+    - libjsoncpp-dev
+    - libmpdclient-dev
+    - libcurl4-openssl-dev
+    - libiw-dev
+    - libnl-genl-3-dev
+    - fonts-font-awesome
     - i3
+
+- name: Reset font cache
+  command: fc-cache -fv
 
 - name: Clone polybar repo
   git:
