@@ -2,6 +2,7 @@
 - name: Clone dotfiles
   git: repo=git://github.com/AlexanderGrooff/dotfiles.git dest=~/code/dotfiles accept_hostkey=yes update=yes
   register: df_clone
+  ignore_errors: yes
 
 - name: Set up dotfiles
   command: ./setup chdir="~/code/dotfiles"
