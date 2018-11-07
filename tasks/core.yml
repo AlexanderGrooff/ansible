@@ -12,7 +12,7 @@
     - python3-distutils
     - cmake
     - htop
-    - slack
+    - slack-desktop
     - chromium-browser
 
 - name: Install virtualenvwrapper
