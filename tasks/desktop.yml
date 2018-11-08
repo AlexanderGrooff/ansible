@@ -75,6 +75,3 @@
 
 - name: Download wallpapers
   command: ~/scripts/download_wallpapers.py chdir="~/wallpapers"
-
-- name: Set keyboard rate and delay
-  command: xset r rate 175 45
