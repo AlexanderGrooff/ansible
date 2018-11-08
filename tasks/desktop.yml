@@ -68,5 +68,13 @@
   changed_when: false
   when: polybar_clone.changed
 
+- name: Create wallpapers directory
+  file:
+    path: ~/wallpapers
+    state: directory
+
+- name: Download wallpapers
+  command: ~/scripts/download_wallpapers.py chdir="~/wallpapers"
+
 - name: Set keyboard rate and delay
   command: xset r rate 175 45
