@@ -1,6 +1,6 @@
 ---
 - name: Install core packages
-  apt: 
+  apt:
     name: "{{ packages }}"
     state: present
   become: yes
@@ -12,8 +12,12 @@
     - python3-distutils
     - cmake
     - htop
-    - slack-desktop
     - chromium-browser
 
-- name: Install virtualenvwrapper
-  pip: name=virtualenvwrapper
+- name: Install Python packages
+  pip:
+      name: "{{ packages }}"
+  vars:
+    packages:
+    - virtualenvwrapper
+    - flake8
