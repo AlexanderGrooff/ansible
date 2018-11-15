@@ -1,11 +1,35 @@
 ---
 - name: Clone dotfiles
-  git: repo=git://github.com/AlexanderGrooff/dotfiles.git dest=~/code/dotfiles accept_hostkey=yes update=yes
+  git: repo=git://github.com/AlexanderGrooff/dotfiles.git dest=/home/alex/code/dotfiles accept_hostkey=yes update=yes
   register: df_clone
   ignore_errors: yes
 
 - name: Set up dotfiles
-  command: ./setup chdir="~/code/dotfiles"
+  command: ./setup chdir="/home/alex/code/dotfiles"
   changed_when: false
-  when: df_clone.changed
+  when: df_clone.changed and df_clone.before != df_clone.after
 
+- name: Reload systemd
+  command: systemctl daemon-reload
+  become: yes
+  become_user: root
+
+- name: Enable compton
+  command: systemctl enable /home/alex/.config/systemd/compton.service
+  become: yes
+  become_user: root
+
+- name: Start compton
+  command: systemctl start compton.service
+  become: yes
+  become_user: root
+
+- name: Enable background changer
+  command: systemctl enable /home/alex/.config/systemd/background-changer.service
+  become: yes
+  become_user: root
+
+- name: Start background changer
+  command: systemctl start background-changer.service
+  become: yes
+  become_user: root
