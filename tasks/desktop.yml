@@ -31,6 +31,12 @@
     - libnl-genl-3-dev
     - i3
     - compton
+    - zsh
+
+- name: Cloning oh-my-zsh
+  git:
+    repo=https://github.com/robbyrussell/oh-my-zsh
+    dest=/home/alex/.oh-my-zsh
 
 - name: Install fonts
   apt:
