@@ -13,6 +13,7 @@
     - cmake
     - htop
     - chromium-browser
+    - keychain
 
 - name: Install Python packages
   pip:
