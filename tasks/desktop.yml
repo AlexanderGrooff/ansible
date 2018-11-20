@@ -33,10 +33,15 @@
     - compton
     - zsh
 
-- name: Cloning oh-my-zsh
+- name: Clone oh-my-zsh
   git:
     repo=https://github.com/robbyrussell/oh-my-zsh
     dest=/home/alex/.oh-my-zsh
+
+- name: Set zsh as default shell
+  command: chsh -s /usr/bin/zsh alex
+  become: yes
+  become_user: root
 
 - name: Install fonts
   apt:
