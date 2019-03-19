@@ -30,6 +30,7 @@
     - libiw-dev
     - libnl-genl-3-dev
     - i3
+    - py3status
     - compton
     - zsh
 
