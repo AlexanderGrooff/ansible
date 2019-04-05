@@ -5,6 +5,15 @@
   become: yes
   become_user: root
 
+- name: Check if vundle is installed
+  stat:
+    path: ~/.vim/bundle/Vundle.vim
+  register: vundle_exists
+
+- name: Clone vundle package
+  git: repo=https://github.com/VundleVim/Vundle.vim.git dest=~/.vim/bundle/Vundle.vim
+  when: not vundle_exists
+
 - name: Clone fzf package
   git: repo=https://github.com/junegunn/fzf.git depth=1 update=no dest=~/.apps/fzf
   register: fzf_updated
