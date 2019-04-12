@@ -33,6 +33,7 @@
     - py3status
     - compton
     - zsh
+    - scrot
 
 - name: Clone oh-my-zsh
   git:
@@ -88,3 +89,14 @@
 
 - name: Download wallpapers
   command: ~/scripts/download_wallpapers.py chdir="~/wallpapers"
+
+- name: Clone i3lock-fancy
+  git:
+    repo=https://github.com/AlexanderGrooff/i3lock-fancy
+    dest=/home/alex/code/i3lock-fancy
+    branch=dualmonitors
+  register: i3lock_clone
+
+- name: Build i3lock-fancy
+  command: sudo make install chdir="/home/alex/code/i3lock-fancy"
+  when: i3lock_clone.changed
