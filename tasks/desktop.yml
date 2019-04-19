@@ -35,6 +35,7 @@
     - zsh
     - scrot
     - python3-lxml  # Needed for Download wallpapers task
+    - imagemagick  # Needed for i3lock-fancy's convert command
 
 - name: Clone oh-my-zsh
   git:
