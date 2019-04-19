@@ -8,11 +8,11 @@
 - name: Check if vundle is installed
   stat:
     path: ~/.vim/bundle/Vundle.vim
-  register: vundle_exists
+  register: vundle
 
 - name: Clone vundle package
   git: repo=https://github.com/VundleVim/Vundle.vim.git dest=~/.vim/bundle/Vundle.vim
-  when: not vundle_exists
+  when: vundle.stat.exists == false
 
 - name: Clone fzf package
   git: repo=https://github.com/junegunn/fzf.git depth=1 update=no dest=~/.apps/fzf

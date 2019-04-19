@@ -34,6 +34,7 @@
     - compton
     - zsh
     - scrot
+    - python3-lxml  # Needed for Download wallpapers task
 
 - name: Clone oh-my-zsh
   git:
@@ -61,27 +62,6 @@
   command: fc-cache -fv
   when: fonts_installed.changed
 
-- name: Clone polybar repo
-  git:
-    repo: https://github.com/jaagr/polybar
-    dest: ~/.apps/polybar
-    accept_hostkey: yes
-    update: no
-    version: 3.2
-    recursive: yes
-  register: polybar_clone
-
-- name: Create polybar build directory
-  file:
-    path: ~/.apps/polybar/build
-    state: directory
-  when: polybar_clone.changed
-
-- name: Set up polybar
-  command: ./build.sh chdir="~/.apps/polybar"
-  changed_when: false
-  when: polybar_clone.changed
-
 - name: Create wallpapers directory
   file:
     path: ~/wallpapers
@@ -94,7 +74,7 @@
   git:
     repo=https://github.com/AlexanderGrooff/i3lock-fancy
     dest=/home/alex/code/i3lock-fancy
-    branch=dualmonitors
+    version=dualmonitors
   register: i3lock_clone
 
 - name: Build i3lock-fancy

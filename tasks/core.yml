@@ -12,8 +12,6 @@
     - python3-distutils
     - cmake
     - htop
-    - chromium-browser
-    - keychain
     - python3-venv
 
 - name: Install Python packages
