@@ -13,6 +13,7 @@
     - cmake
     - htop
     - python3-venv
+    - fd-find
 
 - name: Install Python packages
   pip:
