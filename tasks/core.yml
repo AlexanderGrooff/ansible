@@ -22,3 +22,11 @@
     packages:
     - virtualenvwrapper
     - flake8
+  register: pip_installs
+
+- name: Symlink virtualenvwrapper.sh
+  file:
+    src: bla
+    dest: /home/alex/.local/bin/virtualenvwrapper.sh
+    state: link
+  when: pip_installs.changed

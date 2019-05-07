@@ -1,0 +1,8 @@
+---
+- name: Install openvpn
+  apt: package=openvpn state=present
+
+- name: Create vpn directory
+  file:
+    path: ~/vpn
+    state: directory
