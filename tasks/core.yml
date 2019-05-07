@@ -13,7 +13,17 @@
     - cmake
     - htop
     - python3-venv
+
+- name: Install debian buster core packages
+  apt:
+    name: "{{ packages }}"
+    state: present
+  become: yes
+  become_user: root
+  vars:
+    packages:
     - fd-find
+  failed_when: false
 
 - name: Install Python packages
   pip:
