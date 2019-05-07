@@ -4,6 +4,7 @@
   register: df_clone
   ignore_errors: yes
 
+  # TODO: create handler that sources all relevant config files
 - name: Set up dotfiles
   command: ./setup chdir="/home/alex/code/dotfiles"
   changed_when: false

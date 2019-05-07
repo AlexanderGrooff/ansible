@@ -18,6 +18,7 @@
   git: repo=https://github.com/junegunn/fzf.git depth=1 update=no dest=~/.apps/fzf
   register: fzf_updated
 
+  # TODO: add handler for installing vim plugins
 - name: Install fzf
   command: ~/.apps/fzf/install
   when: fzf_updated.changed

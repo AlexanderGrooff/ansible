@@ -59,6 +59,7 @@
     - fonts-font-awesome
   register: fonts_installed
 
+  # TODO: refactor this to a handler
 - name: Reset font cache
   command: fc-cache -fv
   when: fonts_installed.changed
@@ -68,6 +69,7 @@
     path: ~/wallpapers
     state: directory
 
+  # TODO: don't download when not necessary
 - name: Download wallpapers
   command: ~/scripts/download_wallpapers.py chdir="~/wallpapers"
 
