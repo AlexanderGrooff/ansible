@@ -45,3 +45,8 @@
   command: systemctl start background-changer.service
   become: yes
   become_user: root
+
+- name: Clone zsh-autosuggestions
+  git:
+    repo: git@github.com:zsh-users/zsh-autosuggestions.git
+    dest: /home/alex/.oh-my-zsh/custom/plugins/zsh-autosuggestions
