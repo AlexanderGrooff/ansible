@@ -1,9 +1,9 @@
 ---
-- name: Install vim-gtk3 package
-  apt: 
-    name: vim-gtk3
-  become: yes
-  become_user: root
+#- name: Install vim-gtk3 package
+#  apt: 
+#    name: vim-gtk3
+#  become: yes
+#  become_user: root
 
 - name: Check if vundle is installed
   stat:

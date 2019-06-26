@@ -7,12 +7,12 @@
   become_user: root
   vars:
     packages:
-    - python-pip
-    - python3
-    - python3-distutils
-    - cmake
-    - htop
-    - python3-venv
+        #    - python-pip
+        #    - python3
+        #    - python3-distutils
+        #    - cmake
+        #    - htop
+        #    - python3-venv
 
   # TODO: only try to install on buster
 - name: Install debian buster core packages
@@ -37,9 +37,13 @@
     - flake8
   register: pip_installs
 
+- name: Check if virtualenvwrapper exists
+  stat: path=/home/alex/.local/bin/virtualenvwrapper.sh
+  register: virtualenvwrapper
+
 - name: Symlink virtualenvwrapper.sh
   file:
-    src: bla
+    src: /usr/local/bin/virtualenvwrapper.sh
     dest: /home/alex/.local/bin/virtualenvwrapper.sh
     state: link
-  when: pip_installs.changed
+  when: not virtualenvwrapper.stat.exists

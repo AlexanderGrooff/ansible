@@ -30,17 +30,29 @@
     - libiw-dev
     - libnl-genl-3-dev
     - i3
-    - py3status
     - compton
     - zsh
     - scrot
     - python3-lxml  # Needed for Download wallpapers task
     - imagemagick  # Needed for i3lock-fancy's convert command
 
+- name: Install desktop Python packages
+  pip:
+      name: "{{ packages }}"
+  vars:
+    packages:
+    - py3status
+  register: pip_installs
+
+- name: Check if oh-my-zsh exists
+  stat: path=/home/alex/.oh-my-zsh
+  register: ohmyzsh
+
 - name: Clone oh-my-zsh
   git:
     repo=https://github.com/robbyrussell/oh-my-zsh
     dest=/home/alex/.oh-my-zsh
+  when: ohmyzsh.stat.exists
 
 - name: Set zsh as default shell
   command: chsh -s /usr/bin/zsh alex
