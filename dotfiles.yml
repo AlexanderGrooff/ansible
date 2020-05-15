@@ -1,4 +1,5 @@
 ---
+- hosts: all
 - tasks:
   - name: Clone dotfiles
     git: repo=git://github.com/AlexanderGrooff/dotfiles.git dest=/home/alex/code/dotfiles accept_hostkey=yes update=yes
