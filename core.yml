@@ -21,6 +21,7 @@
         - npm
         - net-tools  # Contains netstat
         - vim
+        - sudo
 
   - include: includes/vim.yml
   
