@@ -7,12 +7,17 @@
   become_user: root
   vars:
     packages:
-        #    - python-pip
-        #    - python3
-        #    - python3-distutils
-        #    - cmake
-        #    - htop
-        #    - python3-venv
+      - python3-pip
+      - python3
+      - python3-distutils
+      - cmake
+      - htop
+      - virtualenvwrapper
+      - git
+      - curl
+      - nodejs
+      - npm
+      - net-tools  # Contains netstat
 
   # TODO: only try to install on buster
 - name: Install debian buster core packages
@@ -34,7 +39,6 @@
   vars:
     packages:
     - virtualenvwrapper
-    - flake8
   register: pip_installs
 
 - name: Check if virtualenvwrapper exists
