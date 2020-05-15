@@ -1,6 +1,6 @@
----
-- hosts: all
-- tasks:
+- name: Core playbook
+  hosts: all
+  tasks:
   - name: Install core packages
     apt:
       name: "{{ packages }}"
