@@ -22,8 +22,9 @@
         - net-tools  # Contains netstat
         - vim
         - sudo
+        - apt-transport-https
 
-  - include: includes/vim.yml
+  - include_role: name=vim
   
     # TODO: only try to install on buster
   - name: Install debian buster core packages
