@@ -14,5 +14,5 @@
 
   # TODO: add handler for installing vim plugins
 - name: Install fzf
-  command: ~/.apps/fzf/install
+  command: ~/.apps/fzf/install --completion --no-key-bindings --update-rc
   when: fzf_updated.changed
