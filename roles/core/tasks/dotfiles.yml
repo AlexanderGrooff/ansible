@@ -16,5 +16,7 @@
 
 - name: Clone zsh-autosuggestions
   git:
-    repo: git@github.com:zsh-users/zsh-autosuggestions.git
+    repo: git://github.com/zsh-users/zsh-autosuggestions.git
     dest: /home/alex/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    accept_hostkey: yes
+    update: yes
