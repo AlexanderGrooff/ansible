@@ -1,0 +1,3 @@
+---
+- name: Add github keys to authorized keys
+  shell: curl https://github.com/AlexanderGrooff.keys >> ~/.ssh/authorized_keys

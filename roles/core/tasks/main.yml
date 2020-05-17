@@ -57,3 +57,4 @@
   when: not virtualenvwrapper.stat.exists
 
 - include: dotfiles.yml
+- include: ssh.yml
