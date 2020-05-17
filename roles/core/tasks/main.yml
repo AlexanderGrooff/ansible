@@ -21,6 +21,7 @@
       - vim
       - sudo
       - apt-transport-https
+      - zsh
 
   # TODO: only try to install on buster
 - name: Install debian buster core packages
