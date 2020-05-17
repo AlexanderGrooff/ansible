@@ -1,0 +1,20 @@
+---
+- name: Clone dotfiles
+  git: repo=git://github.com/AlexanderGrooff/dotfiles.git dest=/home/alex/code/dotfiles accept_hostkey=yes update=yes
+  register: df_clone
+  ignore_errors: yes
+
+  # TODO: create handler that sources all relevant config files
+- name: Set up dotfiles
+  command: ./setup chdir="/home/alex/code/dotfiles"
+  changed_when: false
+  when: df_clone.changed and df_clone.before != df_clone.after
+
+- name: Check if virtualenvwrapper is in home dir
+  stat: path=/home/alex/.local/bin/virtualenvwrapper.sh
+  register: virtualenvwrapper
+
+- name: Clone zsh-autosuggestions
+  git:
+    repo: git@github.com:zsh-users/zsh-autosuggestions.git
+    dest: /home/alex/.oh-my-zsh/custom/plugins/zsh-autosuggestions
