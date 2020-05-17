@@ -4,11 +4,12 @@
   register: df_clone
   ignore_errors: yes
 
-  # This installs it to ~/.oh-my-zsh
-  # Fails if dir already exists, so ignore errors
-- name: Install ohmyzsh
-  shell: sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-  ignore_errors: yes
+- name: Clone ohmyzsh
+  git:
+    repo: git://github.com/ohmyzsh/ohmyzsh.git
+    dest: /home/alex/.oh-my-zsh
+    accept_hostkey: yes
+    update: yes
 
   # TODO: create handler that sources all relevant config files
 - name: Set up dotfiles
