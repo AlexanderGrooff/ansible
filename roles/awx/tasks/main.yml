@@ -13,6 +13,8 @@
 
 - name: Check if certificate exists
   stat: path=/etc/letsencrypt/live/awx.agrooff.com/fullchain.pem
+  become: yes
+  become_user: root
   register: cert_path
 
 - name: Generate letsencrypt certificates
