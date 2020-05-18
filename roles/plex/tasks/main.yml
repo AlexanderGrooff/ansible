@@ -35,16 +35,6 @@
   become_user: root
   notify: restart plex
 
-- name: Set plex nginx config
-  template:
-    src: nginx/plex.conf
-    dest: /etc/nginx/sites-enabled/plex.conf
-    owner: root
-    group: root
-    mode: 0644
-  become: yes
-  become_user: root
-
 - name: Check if certificate exists
   stat: path=/etc/letsencrypt/live/plex.agrooff.com/fullchain.pem
   become: yes
@@ -56,3 +46,13 @@
   become: yes
   become_user: root
   when: not cert_path.stat.exists
+
+- name: Set plex nginx config
+  template:
+    src: nginx/plex.conf
+    dest: /etc/nginx/sites-enabled/plex.conf
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+  become_user: root
