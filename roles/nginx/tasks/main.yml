@@ -17,6 +17,7 @@
 
 - name: Add renew cron for certbot
   cron:
+    name: Certbot renewal
     job: /usr/bin/certbot renew
     user: root
     weekday: "0"
