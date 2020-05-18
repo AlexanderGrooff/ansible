@@ -1,0 +1,28 @@
+---
+# TODO: Clone awx and change configs
+
+- name: Set awx nginx config
+  template:
+    src: nginx/awx.conf
+    dest: /etc/nginx/sites-enabled/awx.conf
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+  become_user: root
+
+- name: Generate letsencrypt certificates
+  command: certbot certonly -d awx.agrooff.com --nginx -m alexandergrooff@gmail.com --agree-tos -n
+  become: yes
+  become_user: root
+
+- name: Add renew cron for certbot
+  cron:
+    job: /usr/bin/certbot renew
+    user: root
+    weekday: "0"
+    minute: "42"
+    hour: "9"
+    cron_file: /etc/cron.d/certbot
+  become: yes
+  become_user: root

@@ -1,0 +1,5 @@
+---
+- name: Install packages for nginx
+  apt:
+    state: present
+    name: [nginx, certbot, python-certbot-nginx]
