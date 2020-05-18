@@ -24,9 +24,13 @@
       notify: restart plex
 
   when: ansible_os_family == "Debian"
+  become: true
+  become_user: root
 
 - name: Autostart Plex and start service
   service:
     name: plexmediaserver
     enabled: true
+  become: yes
+  become_user: root
   notify: restart plex
