@@ -6,7 +6,7 @@
   become: yes
   become_user: root
 
-- name: reload nginx
+- name: reload-nginx
   service:
     name: nginx
     state: reloaded
