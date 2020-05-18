@@ -3,3 +3,25 @@
   apt:
     state: present
     name: [nginx, certbot, python-certbot-nginx]
+  become: yes
+  become_user: root
+
+- name: Place generic nginx configs
+  template:
+    src: "{{ item }}"
+    dest: "/etc/nginx/{{ item }}"
+  with_items:
+    - ssl-options.conf
+  become: yes
+  become_user: root
+
+- name: Add renew cron for certbot
+  cron:
+    job: /usr/bin/certbot renew
+    user: root
+    weekday: "0"
+    minute: "42"
+    hour: "9"
+    cron_file: /etc/cron.d/certbot
+  become: yes
+  become_user: root

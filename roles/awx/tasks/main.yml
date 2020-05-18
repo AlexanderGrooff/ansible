@@ -22,14 +22,3 @@
   become: yes
   become_user: root
   when: not cert_path.stat.exists
-
-- name: Add renew cron for certbot
-  cron:
-    job: /usr/bin/certbot renew
-    user: root
-    weekday: "0"
-    minute: "42"
-    hour: "9"
-    cron_file: /etc/cron.d/certbot
-  become: yes
-  become_user: root
