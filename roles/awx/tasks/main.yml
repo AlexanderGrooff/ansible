@@ -10,6 +10,7 @@
     mode: 0644
   become: yes
   become_user: root
+  notify: reload-nginx
 
 - name: Check if certificate exists
   stat: path=/etc/letsencrypt/live/awx.agrooff.com/fullchain.pem

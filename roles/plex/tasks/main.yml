@@ -56,3 +56,4 @@
     mode: 0644
   become: yes
   become_user: root
+  notify: reload-nginx

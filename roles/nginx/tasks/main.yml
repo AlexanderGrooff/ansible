@@ -14,6 +14,7 @@
     - ssl-options.conf
   become: yes
   become_user: root
+  notify: reload-nginx
 
 - name: Add renew cron for certbot
   cron:
