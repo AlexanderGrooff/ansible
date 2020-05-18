@@ -11,10 +11,15 @@
   become: yes
   become_user: root
 
+- name: Check if certificate exists
+  stat: path=/etc/letsencrypt/live/awx.agrooff.com/fullchain.pem
+  register: cert_path
+
 - name: Generate letsencrypt certificates
   command: certbot certonly -d awx.agrooff.com --nginx -m alexandergrooff@gmail.com --agree-tos -n
   become: yes
   become_user: root
+  when: not cert_path.stat.exists
 
 - name: Add renew cron for certbot
   cron:
