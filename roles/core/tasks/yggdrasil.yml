@@ -1,0 +1,25 @@
+---
+- name: Add yggdrasil repo
+  lineinfile:
+    line: "deb http://neilalexander.s3.dualstack.eu-west-2.amazonaws.com/deb/ debian yggdrasil"
+    path: /etc/apt/sources.list.d/yggdrasil.list
+    create: yes
+    state: present
+
+- name: Add Apt key
+  apt_key:
+    id: 569130E8CA20FBC4CB3FDE555898470A764B32C9
+    url: https://neilalexander.s3.dualstack.eu-west-2.amazonaws.com/deb/key.txt
+    state: present
+
+- name: Install yggdrasil
+  apt:
+    name: yggdrasil
+    update_cache: yes
+  notify: restart-yggdrasil
+
+- name: Start yggdrasil
+  service:
+    name: yggdrasil
+    state: started
+    enabled: yes
