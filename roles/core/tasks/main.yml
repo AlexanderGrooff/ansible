@@ -58,10 +58,17 @@
   when: not virtualenvwrapper.stat.exists
 
 - include: dotfiles.yml
+
 - include: ssh.yml
+
 - include: iptables.yml
   become: yes
   become_user: root
+
+- include: fail2ban.yml
+  become: yes
+  become_user: root
+
 - include: yggdrasil.yml
   become: yes
   become_user: root

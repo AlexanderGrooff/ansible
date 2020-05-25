@@ -1,0 +1,13 @@
+---
+- name: Install fail2ban
+  apt:
+      name: fail2ban
+      state: present
+      update_cache: yes
+  notify: restart-fail2ban
+
+- name: Set jail.local
+  template:
+    src: fail2ban/jail.local
+    dest: /etc/fail2ban/jail.local
+  notify: restart-fail2ban
