@@ -3,8 +3,12 @@
   service:
     name: yggdrasil
     state: restarted
+  become: yes
+  become_user: root
 
 - name: restart-fail2ban
   service:
     name: fail2ban
     state: restarted
+  become: yes
+  become_user: root
