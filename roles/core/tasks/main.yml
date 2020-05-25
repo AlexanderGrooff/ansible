@@ -69,6 +69,6 @@
   become: yes
   become_user: root
 
-- include: yggdrasil.yml
+- include: tailscale.yml
   become: yes
   become_user: root

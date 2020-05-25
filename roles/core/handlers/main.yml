@@ -1,7 +1,7 @@
 ---
-- name: restart-yggdrasil
+- name: restart-tailscaled
   service:
-    name: yggdrasil
+    name: tailscaled
     state: restarted
   become: yes
   become_user: root
