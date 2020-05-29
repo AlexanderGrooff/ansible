@@ -23,6 +23,7 @@
       - apt-transport-https
       - zsh
       - keychain
+      - unzip
 
   # TODO: only try to install on buster
 - name: Install debian buster core packages

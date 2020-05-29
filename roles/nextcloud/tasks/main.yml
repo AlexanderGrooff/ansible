@@ -1,0 +1,33 @@
+---
+- name: Check if installation exists
+  stat: path=/home/alex/nextcloud
+  register: nextcloud_installation
+
+- name: Download nextcloud
+  command: curl -Lso /tmp/nextcloud https://download.nextcloud.com/server/releases/nextcloud-18.0.4.zip
+  when: not nextcloud_installation.stat.exists
+
+- name: Unzip installation
+  command: unzip /tmp/nextcloud -d /home/alex/nextcloud
+  when: not nextcloud_installation.stat.exists
+
+- name: Remove download file
+  file: path=/tmp/nextcloud state=absent
+  when: not nextcloud_installation.stat.exists
+
+- name: Place nginx config
+  template: src=nginx/nextcloud.conf dest=/etc/nginx/sites-enabled/nextcloud.conf
+  become: yes
+  become_user: root
+
+- name: Check if certificate exists
+  stat: path=/etc/letsencrypt/live/nextcloud.agrooff.com/fullchain.pem
+  become: yes
+  become_user: root
+  register: cert_path
+
+- name: Generate letsencrypt certificates
+  command: certbot certonly -d nextcloud.agrooff.com --nginx -m alexandergrooff@gmail.com --agree-tos -n
+  become: yes
+  become_user: root
+  when: not cert_path.stat.exists
