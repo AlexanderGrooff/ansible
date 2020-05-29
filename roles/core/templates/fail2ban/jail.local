@@ -1,2 +1,8 @@
+[DEFAULT]
+ignoreip = 127.0.0.1/8
+
+# after this num of sec, reset counters
+findtime = 600
+
 [sshd]
 enabled = true
