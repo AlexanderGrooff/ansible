@@ -41,15 +41,9 @@
   become_user: root
   register: cert_path
 
-- name: Generate letsencrypt certificates
-  command: certbot certonly -d plex.agrooff.com --nginx -m alexandergrooff@gmail.com --agree-tos -n
-  become: yes
-  become_user: root
-  when: not cert_path.stat.exists
-
-- name: Set plex nginx config
+- name: Set plex nginx http config
   template:
-    src: nginx/plex.conf
+    src: nginx/plex_http.conf
     dest: /etc/nginx/sites-enabled/plex.conf
     owner: root
     group: root
@@ -57,3 +51,23 @@
   become: yes
   become_user: root
   notify: reload-nginx
+  when: not cert_path.stat.exists
+
+- name: Generate letsencrypt certificates
+  command: certbot certonly -d plex.agrooff.com --nginx -m alexandergrooff@gmail.com --agree-tos -n
+  become: yes
+  become_user: root
+  when: not cert_path.stat.exists
+  register: cert_generation
+
+- name: Set plex nginx https config
+  template:
+    src: nginx/plex_force_https.conf
+    dest: /etc/nginx/sites-enabled/plex.conf
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+  become_user: root
+  notify: reload-nginx
+  when: cert_path.stat.exists or cert_generation.changed

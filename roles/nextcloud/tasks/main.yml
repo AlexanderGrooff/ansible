@@ -15,19 +15,29 @@
   file: path=/tmp/nextcloud state=absent
   when: not nextcloud_installation.stat.exists
 
-- name: Place nginx config
-  template: src=nginx/nextcloud.conf dest=/etc/nginx/sites-enabled/nextcloud.conf
-  become: yes
-  become_user: root
-
 - name: Check if certificate exists
   stat: path=/etc/letsencrypt/live/nextcloud.agrooff.com/fullchain.pem
   become: yes
   become_user: root
   register: cert_path
 
+- name: Place http nginx config
+  template: src=nginx/nextcloud_http.conf dest=/etc/nginx/sites-enabled/nextcloud.conf
+  become: yes
+  become_user: root
+  notify: reload-nginx
+  when: not cert_path.stat.exists
+
 - name: Generate letsencrypt certificates
   command: certbot certonly -d nextcloud.agrooff.com --nginx -m alexandergrooff@gmail.com --agree-tos -n
   become: yes
   become_user: root
   when: not cert_path.stat.exists
+  register: cert_generation
+
+- name: Place force https nginx config
+  template: src=nginx/nextcloud_force_https.conf dest=/etc/nginx/sites-enabled/nextcloud.conf
+  become: yes
+  become_user: root
+  notify: reload-nginx
+  when: cert_path.stat.exists or cert_generation.changed
