@@ -1,35 +1,24 @@
 ---
 - name: Install php fpm and modules
   apt:
-    package: "{{ item }}"
+    package: [
+    'php7.3-fpm',
+    'php7.3-bz2',
+    'php7.3-ctype',
+    'php7.3-curl',
+    'php7.3-dom',
+    'php7.3-fileinfo',
+    'php7.3-gd',
+    'php7.3-iconv',
+    'php7.3-imagick',
+    'php7.3-intl',
+    'php7.3-json',
+    'php7.3-mbstring',
+    'php7.3-memcached',
+    'php7.3-posix',
+    'php7.3-xml',
+    'php7.3-zip']
     state: present
-  with_items:
-    - php7.3-fpm
-    # Modules required for nextcloud
-    - php7.3-bz2
-    - php7.3-ctype
-    - php7.3-curl
-    - php7.3-dom
-    - php7.3-fileinfo
-    - php7.3-gd
-    - php7.3-hash
-    - php7.3-iconv
-    - php7.3-imagick
-    - php7.3-intl
-    - php7.3-json
-    - php7.3-libxml
-    - php7.3-mbstring
-    - php7.3-memcached
-    - php7.3-openssl
-    - php7.3-pcntl
-    - php7.3-pdo_mysql
-    - php7.3-posix
-    - php7.3-session
-    - php7.3-SimpleXML
-    - php7.3-xmlreader
-    - php7.3-xmlwriter
-    - php7.3-zip
-    - php7.3-zlib
   become: yes
   become_user: root
   notify: restart-php
