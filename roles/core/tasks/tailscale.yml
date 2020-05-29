@@ -1,7 +1,7 @@
 ---
 - name: Add tailscale repo
   apt_repository:
-    line: "deb https://pkgs.tailscale.com/stable/debian buster main"
+    repo: "deb https://pkgs.tailscale.com/stable/debian buster main"
     state: present
 
 # See https://tailscale.com/kb/1041/install-debian-buster
