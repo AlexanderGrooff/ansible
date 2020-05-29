@@ -1,3 +1,5 @@
 ---
 - name: restart-php
   service: name=php7.3-fpm state=restarted
+  become: yes
+  become_user: root
