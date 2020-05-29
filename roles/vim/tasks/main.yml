@@ -16,3 +16,6 @@
 - name: Install fzf
   command: ~/.apps/fzf/install --completion --no-key-bindings --update-rc
   when: fzf_updated.changed
+
+- name: Symlink fzf to path
+  file: src=~/.apps/fzf/bin/fzf dest=~/.local/bin/fzf state=link
