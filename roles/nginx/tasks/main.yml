@@ -12,7 +12,7 @@
     dest: "/etc/nginx/{{ item }}"
   with_items:
     - ssl-options.conf
-    - phphandler.conf
+    - conf.d/phphandler.conf
   become: yes
   become_user: root
   notify: reload-nginx
