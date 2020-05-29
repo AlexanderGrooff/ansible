@@ -1,9 +1,7 @@
 ---
 - name: Add tailscale repo
-  lineinfile:
+  apt_repository:
     line: "deb https://pkgs.tailscale.com/stable/debian buster main"
-    path: /etc/apt/sources.list.d/tailscale.list
-    create: yes
     state: present
 
 # See https://tailscale.com/kb/1041/install-debian-buster
