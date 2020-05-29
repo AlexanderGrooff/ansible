@@ -1,9 +1,4 @@
 ---
-- name: Install phpfpm
-  apt: package=php7.3-fpm state=present
-  become: yes
-  become_user: root
-
 - name: Check if installation exists
   stat: path=/home/alex/nextcloud
   register: nextcloud_installation
