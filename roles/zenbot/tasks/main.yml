@@ -15,10 +15,7 @@
   npm:
     path: /home/alex/zenbot
 
-- name: Symlink executable to local bin
-  file:
-    src: /home/alex/zenbot/zenbot.sh
+- name: Place executable
+  template:
+    src: zenbot/zenbot.sh
     dest: /home/alex/.local/bin/zenbot
-    state: link
-    owner: alex
-    group: alex
