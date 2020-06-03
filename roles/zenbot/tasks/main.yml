@@ -4,7 +4,9 @@
     repo: git://github.com/deviavir/zenbot.git
     dest: /home/alex/zenbot
     accept_hostkey: yes
-    update: no
+    update: yes
+    force: yes
+  register: update_zenbot
 
 - name: Place zenbot config
   template:
@@ -14,6 +16,7 @@
 - name: Install dependencies
   npm:
     path: /home/alex/zenbot
+  when: update_zenbot.changed
 
 - name: Place executable
   template:
