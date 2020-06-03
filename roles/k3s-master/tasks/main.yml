@@ -1,4 +1,36 @@
 ---
-- name: Test if variable is set
-  command: which k3sup
-  become: yes
+- name: Create master server with k3s
+  command:
+  args:
+    argv:
+      - k3sup
+      - install
+      - --ip
+      - "{{item.ansible_facts.eth0.ipv4.address}}"
+      - --user
+      - "{{k3s_username}}"
+    creates: "{{playbook_dir}}/kubeconfig"
+  with_items: "{{ hostvars }}"
+  register: master_created
+
+- name: Debug report of master creation
+  debug: var=master_created
+  when: debug_master or master_created is failed
+
+- name: Check API availability of master servers
+  uri:
+    url: "https://{{hostvars[item].ansible_facts.eth0.ipv4.address}}:6443"
+    method: GET
+    validate_certs: False
+    status_code: 401
+    body_format: json
+  with_items: "{{ groups['master'] }}"
+  register: http_api_result
+  retries: 6
+  delay: 15
+  until: http_api_result is not failed
+  when: master_created is succeeded
+
+- name: Debug report of API availability
+  debug: var=http_api_result
+  when: http_api_result is failed or debug_master
