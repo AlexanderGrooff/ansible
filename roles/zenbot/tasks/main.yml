@@ -1,0 +1,24 @@
+---
+- name: Clone zenbot
+  git:
+    repo: git://github.com/deviavir/zenbot.git
+    dest: /home/alex/zenbot
+    accept_hostkey: yes
+    update: no
+
+- name: Place zenbot config
+  template:
+    src: zenbot/conf.js
+    dest: /home/alex/zenbot/conf.js
+
+- name: Install dependencies
+  npm:
+    path: /home/alex/zenbot
+
+- name: Symlink executable to local bin
+  file:
+    src: /home/alex/zenbot/zenbot.sh
+    dest: /home/alex/.local/bin/zenbot
+    state: link
+    owner: alex
+    group: alex
