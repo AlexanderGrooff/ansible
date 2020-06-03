@@ -1,0 +1,4 @@
+---
+- name: Test if variable is set
+  command: which k3sup
+  become: yes

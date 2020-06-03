@@ -1,0 +1,6 @@
+- name: K3S master playbook
+  hosts: all
+  tasks:
+    - include_role: name=core
+    - include_role: name=k3sup
+    - include_role: name=k3s-master
