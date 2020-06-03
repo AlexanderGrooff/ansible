@@ -22,3 +22,6 @@
   template:
     src: zenbot/zenbot.sh
     dest: /home/alex/.local/bin/zenbot
+    owner: alex
+    group: alex
+    mode: 0755
