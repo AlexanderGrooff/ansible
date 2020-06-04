@@ -6,11 +6,10 @@
       - k3sup
       - install
       - --ip
-      - "{{item.ansible_facts.eth0.ipv4.address}}"
+      - "{{hostvars[inventory_hostname].ansible_facts.eth0.ipv4.address}}"
       - --user
       - "{{k3s_username}}"
     creates: "{{playbook_dir}}/kubeconfig"
-  with_items: "{{ hostvars }}"
   register: master_created
 
 - name: Debug report of master creation
@@ -19,12 +18,11 @@
 
 - name: Check API availability of master servers
   uri:
-    url: "https://{{hostvars[item].ansible_facts.eth0.ipv4.address}}:6443"
+    url: "https://{{hostvars[inventory_hostname].ansible_facts.eth0.ipv4.address}}:6443"
     method: GET
     validate_certs: False
     status_code: 401
     body_format: json
-  with_items: "{{ groups['master'] }}"
   register: http_api_result
   retries: 6
   delay: 15
