@@ -5,18 +5,16 @@
     argv:
       - k3sup
       - install
-      - --ip
-      - "{{ansible_facts.eth0.ipv4.address}}"
+      - --local
       - --user
       - "{{k3s_username}}"
-      - --ssh-key
-      - "{{ssh_key}}"
   register: master_created
   become: true
+  notify: reboot
 
 - name: Debug report of master creation
   debug: var=master_created
-  when: debug_master or master_created is failed
+  when: master_created is failed
 
 - name: Check API availability of master servers
   uri:
@@ -33,4 +31,4 @@
 
 - name: Debug report of API availability
   debug: var=http_api_result
-  when: http_api_result is failed or debug_master
+  when: http_api_result is failed

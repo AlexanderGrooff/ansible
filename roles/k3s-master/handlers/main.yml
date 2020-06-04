@@ -1,0 +1,5 @@
+---
+- name: reboot
+  reboot:
+  when: '"No change detected so skipping service start" not in master_created.stdout'
+  become: yes

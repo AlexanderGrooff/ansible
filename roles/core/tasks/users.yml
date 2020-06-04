@@ -1,0 +1,21 @@
+---
+- name: Create alex group
+  group:
+    name: alex
+    state: present
+  become: yes
+
+- name: Make alex group sudoer
+  copy:
+    content: '%{{alex_username}} ALL=(ALL:ALL) NOPASSWD:ALL'
+    dest: '/etc/sudoers.d/0pw4alex'
+    mode: 0440
+    validate: 'visudo -cf %s'
+  become: yes
+
+- name: Create alex user
+  user:
+    name: alex
+    groups: alex,docker
+    state: present
+  become: yes
