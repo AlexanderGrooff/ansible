@@ -6,11 +6,13 @@
       - k3sup
       - install
       - --ip
-      - "{{hostvars[inventory_hostname].ansible_facts.eth0.ipv4.address}}"
+      - "{{ansible_facts.eth0.ipv4.address}}"
       - --user
       - "{{k3s_username}}"
-    creates: "{{playbook_dir}}/kubeconfig"
+      - --ssh-key
+      - "{{ssh_key}}"
   register: master_created
+  become: true
 
 - name: Debug report of master creation
   debug: var=master_created

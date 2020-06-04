@@ -23,4 +23,18 @@
     state: present
   become: yes
 
+- name: Ensure ssh directory
+  file:
+    path: "/home/{{k3s_username}}/.ssh"
+    state: directory
+    owner: "{{k3s_username}}"
+    group: "{{k3s_username}}"
+  become: yes
+
+- name: Authorize github ssh keys for k3s user
+  get_url:
+    url: https://github.com/AlexanderGrooff.keys
+    dest: "/home/{{k3s_username}}/.ssh/authorized_keys"
+  become: yes
+
 - include: k3sup.yml

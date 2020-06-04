@@ -1,3 +1,5 @@
 ---
-- name: Add github keys to authorized keys
-  shell: curl https://github.com/AlexanderGrooff.keys >> /home/alex/.ssh/authorized_keys
+- name: Authorize github ssh keys
+  get_url:
+    url: https://github.com/AlexanderGrooff.keys
+    dest: "/home/alex/.ssh/authorized_keys"
