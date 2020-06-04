@@ -14,20 +14,10 @@
   set_fact:
     k3sup_suffix: "{{ k3sup_arch_map[ansible_architecture].suffix }}"
 
-- name: Ensure suffix information is overridden for Windows and Macos
-  set_fact:
-    k3sup_suffix: "{{ k3sup_os_map[ansible_os_family].suffix }}"
-  when: k3sup_os_map[ansible_os_family].suffix is defined
-
 - name: Ensure URLs are set as facts for downloading binaries
   set_fact:
     k3sup_binary_url: "{{ k3sup_github_download_url }}/{{ k3sup_release_version }}/k3sup{{ k3sup_suffix }}"
     k3sup_hash_url: "{{ k3sup_github_download_url }}/{{ k3sup_release_version }}/k3sup{{ k3sup_suffix }}.sha256"
-
-- name: Set k3sup_install_dir for Windows if not configured
-  set_fact:
-    k3sup_install_dir: $HOME/bin
-  when: ansible_facts['os_family'] == "Windows" and k3sup_install_dir == "/usr/local/bin"
 
 - name: Ensure the k3sup hashsum is downloaded
   uri:

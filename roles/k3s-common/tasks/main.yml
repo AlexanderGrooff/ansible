@@ -22,3 +22,5 @@
     password: '!'
     state: present
   become: yes
+
+- include: k3sup.yml
