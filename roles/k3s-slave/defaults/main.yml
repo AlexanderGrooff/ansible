@@ -1,0 +1,8 @@
+---
+k3s_masters:
+  zeta:
+    tailscale_ip: 100.121.110.3
+    ssh_pubkey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK40tIPeKW0ryTUc5/RyPQjBm6zRDIsv4eJ4k2PE9TGQ alex@zeta"
+
+k3s_username: 'k3s'
+ssh_key: /home/alex/.ssh/id_ed25519

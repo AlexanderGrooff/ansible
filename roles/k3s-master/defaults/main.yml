@@ -1,3 +1,8 @@
 ---
+k3s_slaves:
+  - eta:
+      tailscale_ip: 100.115.95.22
+      ssh_pubkey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHvmp9lqzQBLfFso/+J5/RILd4ZSmT5OJ4orrFk3Sjqs eta"
+
 k3s_username: 'k3s'
 ssh_key: /home/alex/.ssh/id_ed25519

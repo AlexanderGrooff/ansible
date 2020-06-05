@@ -18,7 +18,7 @@
 
 - name: Check API availability of master servers
   uri:
-    url: "https://{{hostvars[inventory_hostname].ansible_facts.eth0.ipv4.address}}:6443"
+    url: "https://{{ansible_facts.eth0.ipv4.address}}:6443"
     method: GET
     validate_certs: False
     status_code: 401
@@ -32,3 +32,14 @@
 - name: Debug report of API availability
   debug: var=http_api_result
   when: http_api_result is failed
+
+- name: debug slaves
+  debug: var="{{item}}"
+  with_items: "{{k3s_slaves}}"
+
+- name: Accept keys of slaves
+  authorized_key:
+    user: "{{k3s_username}}"
+    key: "{{item['ssh_pubkey']}}"
+    state: present
+  with_items: "{{k3s_slaves}}"

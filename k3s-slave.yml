@@ -1,0 +1,5 @@
+- name: K3S master playbook
+  hosts: all
+  tasks:
+    - include_role: name=k3s-common
+    - include_role: name=k3s-slave
