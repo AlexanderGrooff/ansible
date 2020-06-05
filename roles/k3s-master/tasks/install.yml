@@ -1,0 +1,34 @@
+---
+- name: Create master server with k3s
+  command:
+  args:
+    argv:
+      - k3sup
+      - install
+      - --local
+      - --user
+      - "{{k3s_username}}"
+  register: master_created
+  become: true
+  notify: reboot
+
+- name: Debug report of master creation
+  debug: var=master_created
+  when: master_created is failed
+
+- name: Check API availability of master servers
+  uri:
+    url: "https://{{ansible_facts.eth0.ipv4.address}}:6443"
+    method: GET
+    validate_certs: False
+    status_code: 401
+    body_format: json
+  register: http_api_result
+  retries: 6
+  delay: 15
+  until: http_api_result is not failed
+  when: master_created is succeeded
+
+- name: Debug report of API availability
+  debug: var=http_api_result
+  when: http_api_result is failed

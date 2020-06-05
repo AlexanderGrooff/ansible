@@ -1,37 +1,10 @@
 ---
-- name: Join k3s as slave
-  command:
-  args:
-    argv:
-      - k3sup
-      - join
-      - --server-ip
-      - "{{ k3s_masters.0.tailscale_ip }}"
-      - --user
-      - "{{k3s_username}}"
-      - --ssh-key
-      - "{{ssh_key}}"
-  register: slave_created
-  become: true
-  notify: reboot
+- name: Check if k3s-agent is already running
+  service:
+    name: k3s-agent
+    state: started
+  register: start_k3s_agent
+  failed_when: false  # Will error if not installed, that's fine
 
-- name: Debug report of slave creation
-  debug: var=slave_created
-  when: slave_created is failed
-
-- name: Check API availability of slave servers
-  uri:
-    url: "https://{{hostvars[inventory_hostname].ansible_facts.eth0.ipv4.address}}:6443"
-    method: GET
-    validate_certs: False
-    status_code: 401
-    body_format: json
-  register: http_api_result
-  retries: 6
-  delay: 15
-  until: http_api_result is not failed
-  when: slave_created is succeeded
-
-- name: Debug report of API availability
-  debug: var=http_api_result
-  when: http_api_result is failed
+- include: install.yml
+  when: not start_k3s_agent.changed
