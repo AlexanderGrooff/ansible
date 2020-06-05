@@ -7,11 +7,15 @@
   failed_when: false  # Will error if not installed, that's fine
 
 - include: install.yml
-  when: not start_k3s.changed
+  when: not start_k3s is succeeded
 
-- name: Accept keys of slaves
-  authorized_key:
-    user: "{{k3s_username}}"
-    key: "{{item['ssh_pubkey']}}"
-    state: present
-  with_items: "{{k3s_slaves}}"
+# TODO: FIGURE THIS OUT
+#- name: Accept keys of slaves
+#  authorized_key:
+#    user: "{{k3s_username}}"
+#    key: "{{item['ssh_pubkey']}}"
+#    state: present
+#  with_items:
+#  - "{{k3s_slaves}}"
+
+- include: helm.yml

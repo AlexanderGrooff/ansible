@@ -1,0 +1,17 @@
+---
+- name: Get helm install script
+  get_url:
+    url: https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+    dest: ~/get_helm.sh
+  register: download_helmscript
+
+- name: Make script executable
+  file:
+    path: ~/get_helm.sh
+    mode: 0755
+    owner: alex
+    group: alex
+
+- name: Install helm
+  command: ~/get_helm.sh
+  when: download_helmscript.changed
