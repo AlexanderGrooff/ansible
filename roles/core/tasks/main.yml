@@ -50,10 +50,6 @@
 - include: ssh.yml
 - include: dotfiles.yml
 
-- include: iptables.yml
-  become: yes
-  become_user: root
-
 - include: fail2ban.yml
   become: yes
   become_user: root
