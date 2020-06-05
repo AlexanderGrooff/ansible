@@ -7,7 +7,7 @@
 
 - name: Make alex group sudoer
   copy:
-    content: '%{{alex_username}} ALL=(ALL:ALL) NOPASSWD:ALL'
+    content: '%alex ALL=(ALL:ALL) NOPASSWD:ALL'
     dest: '/etc/sudoers.d/0pw4alex'
     mode: 0440
     validate: 'visudo -cf %s'
@@ -16,6 +16,17 @@
 - name: Create alex user
   user:
     name: alex
-    groups: alex,docker
+    groups: alex
     state: present
+  become: yes
+
+- name: Create local bin
+  file: path=/home/alex/.local/bin state=directory owner=alex group=alex
+
+- name: Use ZSH for alex
+  command: chsh -s /usr/bin/zsh alex
+  become: yes
+
+- name: Use ZSH for root
+  command: chsh -s /usr/bin/zsh root
   become: yes

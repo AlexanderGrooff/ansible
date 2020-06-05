@@ -1,5 +1,14 @@
 ---
+- name: Create ssh dir
+  file:
+    path: /home/alex/.ssh
+    state: directory
+    owner: alex
+    group: alex
+
 - name: Authorize github ssh keys
   get_url:
     url: https://github.com/AlexanderGrooff.keys
     dest: "/home/alex/.ssh/authorized_keys"
+    owner: alex
+    group: alex

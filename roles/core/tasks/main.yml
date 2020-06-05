@@ -1,66 +1,54 @@
 ---
 - name: Install core packages
   apt:
-    name: "{{ packages }}"
+    name: [
+      python3-pip,
+      python3,
+      python3-distutils,
+      cmake,
+      htop,
+      virtualenvwrapper,
+      git,
+      curl,
+      nodejs,
+      npm,
+      net-tools,  # Contains netstat
+      vim,
+      sudo,
+      apt-transport-https,
+      zsh,
+      keychain,
+      unzip,
+    ]
     state: present
   become: yes
   become_user: root
-  vars:
-    packages:
-      - python3-pip
-      - python3
-      - python3-distutils
-      - cmake
-      - htop
-      - virtualenvwrapper
-      - git
-      - curl
-      - nodejs
-      - npm
-      - net-tools  # Contains netstat
-      - vim
-      - sudo
-      - apt-transport-https
-      - zsh
-      - keychain
-      - unzip
 
   # TODO: only try to install on buster
+  # TODO: install 'fd' on distros other than buster
 - name: Install debian buster core packages
   apt:
-    name: "{{ packages }}"
+    name: [fd-find]
     state: present
   become: yes
   become_user: root
-  vars:
-    packages:
-    - fd-find
   failed_when: false
 
-  # TODO: install 'fd' on distros other than buster
+- name: Symlink pip to pip3
+  file:
+    src: /usr/bin/pip3
+    dest: /usr/bin/pip
+    state: link
+  become: yes
 
 - name: Install Python packages
   pip:
-      name: "{{ packages }}"
-  vars:
-    packages:
-    - virtualenvwrapper
+    name: [virtualenvwrapper]
   register: pip_installs
 
-- name: Check if virtualenvwrapper exists
-  stat: path=/home/alex/.local/bin/virtualenvwrapper.sh
-  register: virtualenvwrapper
-
-- name: Symlink virtualenvwrapper.sh
-  file:
-    src: /usr/local/bin/virtualenvwrapper.sh
-    dest: /home/alex/.local/bin/virtualenvwrapper.sh
-    state: link
-  when: not virtualenvwrapper.stat.exists
-
-- include: dotfiles.yml
-
+- include: users.yml
 - include: ssh.yml
+- include: dotfiles.yml
 
 - include: iptables.yml
   become: yes
