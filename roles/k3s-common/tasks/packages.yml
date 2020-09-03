@@ -3,5 +3,5 @@
   apt:
       state: present
       package: [
-          'open-scsi', # Required for longhorn
+          'open-iscsi', # Required for longhorn
       ]
