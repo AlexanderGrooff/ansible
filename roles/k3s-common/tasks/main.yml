@@ -23,4 +23,5 @@
     state: present
   become: yes
 
+- include: packages.yml
 - include: k3sup.yml
