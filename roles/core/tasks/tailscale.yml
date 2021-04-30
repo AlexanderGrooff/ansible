@@ -21,3 +21,12 @@
     name: tailscaled
     state: started
     enabled: yes
+
+- name: Check if tailscale is running
+  command: tailscale status
+  register: tailscale_status
+
+- name: Connect tailscale
+  command: tailscale up -authkey {{ tailscale_auth_key }}
+  become: yes
+  when: '"Tailscale is stopped" in tailscale_status.stdout'
