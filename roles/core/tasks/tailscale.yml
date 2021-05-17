@@ -23,10 +23,10 @@
     enabled: yes
 
 - name: Check if tailscale is running
-  command: tailscale status
+  shell: systemctl status tailscaled.service | grep 'Status:' | tail -n1 | awk '{for (i=2; i<=NF; i++) print $i}'
   register: tailscale_status
 
 - name: Connect tailscale
-  command: tailscale up -authkey {{ tailscale_auth_key }}
+  command: tailscale up
   become: yes
-  when: '"Tailscale is stopped" in tailscale_status.stdout'
+  when: '"Connected" not in tailscale_status.stdout'

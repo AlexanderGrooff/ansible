@@ -20,6 +20,7 @@
       zsh,
       keychain,
       unzip,
+      apparmor,
     ]
     state: present
     update_cache: yes
@@ -45,7 +46,10 @@
 
 - name: Install Python packages
   pip:
-    name: [virtualenvwrapper]
+    name: [
+        virtualenvwrapper,
+        speedtest-cli
+    ]
   register: pip_installs
 
 - include: users.yml
