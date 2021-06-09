@@ -37,11 +37,13 @@
   become_user: root
   failed_when: false
 
+
+- name: Symlink python to python3
+  command: update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+  become: yes
+
 - name: Symlink pip to pip3
-  file:
-    src: /usr/bin/pip3
-    dest: /usr/bin/pip
-    state: link
+  command: update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
   become: yes
 
 - name: Install Python packages
@@ -55,11 +57,3 @@
 - include: users.yml
 - include: ssh.yml
 - include: dotfiles.yml
-
-- include: fail2ban.yml
-  become: yes
-  become_user: root
-
-- include: tailscale.yml
-  become: yes
-  become_user: root
