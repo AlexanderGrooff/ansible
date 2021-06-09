@@ -16,7 +16,9 @@
 - name: Create alex user
   user:
     name: alex
-    groups: alex
+    groups:
+      - alex
+      - docker
     state: present
   become: yes
 
