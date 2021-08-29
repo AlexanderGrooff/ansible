@@ -1,0 +1,15 @@
+- name: Add hashicorp apt-key
+  apt_key:
+    id: 9FED2BCBDCD29CDF762678CBAED4B06F473041FA
+    url: https://apt.releases.hashicorp.com/gpg
+    state: present
+
+- name: Add hashicorp repository into sources list
+  apt_repository:
+    repo: "deb [arch=amd64] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
+    state: present
+
+- name: Install nomad
+  apt:
+    package: nomad
+    update_cache: yes

@@ -1,0 +1,11 @@
+[nomad_clients]
+192.168.1.19
+
+[nomad_servers]
+eta
+zeta
+theta
+
+[nomad:children]
+nomad_clients
+nomad_servers
