@@ -8,6 +8,24 @@
     mode: 0775
   become: yes
 
+- name: Ensure nomad dir exists
+  file:
+    path: /nomad
+    owner: nomad
+    group: nomad
+    state: directory
+    mode: 0775
+  become: yes
+
+- name: Ensure nomad job dir exists
+  file:
+    path: /nomad/jobs
+    owner: nomad
+    group: nomad
+    state: directory
+    mode: 0775
+  become: yes
+
 - name: Ensure config dir exists
   file:
     path: /etc/nomad.d
@@ -37,4 +55,18 @@
   with_items:
   - etc/nomad.d/nomad.hcl
   - etc/nomad.d/server.hcl
+  notify: restart-nomad
+
+- name: Place nomad job files
+  template:
+    src: "{{ item }}.j2"
+    dest: "/{{ item }}"
+    owner: nomad
+    group: nomad
+    mode: 0644
+  become: yes
+  with_items:
+  - etc/nomad.d/nomad.hcl
+  - etc/nomad.d/server.hcl
+  - nomad/jobs/webapp.nomad
   notify: restart-nomad
