@@ -54,6 +54,7 @@
   register: pip_installs
 
 - include: hostname.yml
+- include: docker.yml
 - include: users.yml
 - include: ssh.yml
 - include: tailscale.yml

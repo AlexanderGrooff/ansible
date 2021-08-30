@@ -25,3 +25,12 @@
     append: yes
     state: present
   become: yes
+
+- name: Add nomad user to docker group
+  user:
+    name: nomad
+    groups:
+      - docker
+    append: yes
+    state: present
+  become: yes

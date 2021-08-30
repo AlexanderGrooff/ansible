@@ -18,6 +18,7 @@
     name: alex
     groups:
       - alex
+      - docker
     state: present
   become: yes
 
