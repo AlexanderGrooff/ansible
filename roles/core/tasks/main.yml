@@ -37,6 +37,10 @@
   become_user: root
   failed_when: false
 
+- name: Set hostname to {{ inventory_hostname }}
+  hostname:
+    name: "{{ inventory_hostname }}"
+  become: true
 
 - name: Symlink python to python3
   command: update-alternatives --install /usr/bin/python python /usr/bin/python3 1
