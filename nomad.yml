@@ -1,5 +1,5 @@
 - name: Ensure all nomad hosts are updated
   hosts: nomad
   tasks:
-    - include_role: name=nginx
-    - include_role: name=awx
+    - include_role: name=core
+    - include_role: name=nomad-server

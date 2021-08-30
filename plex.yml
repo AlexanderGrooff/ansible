@@ -1,5 +1,0 @@
-- name: Plex playbook
-  hosts: all
-  tasks:
-    - include_role: name=nginx
-    - include_role: name=plex

@@ -1,6 +1,0 @@
-- name: Nextcloud playbook
-  hosts: all
-  tasks:
-    - include_role: name=nginx
-    - include_role: name=php
-    - include_role: name=nextcloud
