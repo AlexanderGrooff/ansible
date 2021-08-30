@@ -30,6 +30,7 @@
   shell: systemctl status tailscaled.service | grep 'Status:' | tail -n1 | awk '{for (i=2; i<=NF; i++) print $i}'
   register: tailscale_status
 
+# TODO: This doesn't show any output if it's not yet connected and will hang.
 - name: Connect tailscale
   command: tailscale up
   become: yes
