@@ -12,3 +12,10 @@
     state: restarted
   become: yes
   become_user: root
+
+- name: reload-ssh
+  service:
+    name: ssh
+    state: reloaded
+  become: yes
+  become_user: root

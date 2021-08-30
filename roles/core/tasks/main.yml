@@ -56,4 +56,5 @@
 
 - include: users.yml
 - include: ssh.yml
+- include: tailscale.yml
 - include: dotfiles.yml

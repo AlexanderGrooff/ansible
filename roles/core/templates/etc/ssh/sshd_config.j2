@@ -1,0 +1,15 @@
+PubkeyAuthentication no
+PasswordAuthentication no
+X11Forwarding no
+PrintMotd no # pam does that
+
+# Change to no to disable s/key passwords
+ChallengeResponseAuthentication no
+UsePAM yes
+# override default of no subsystems
+Subsystem       sftp    /usr/lib/ssh/sftp-server
+
+# Only allow SSH over tailscale subnet
+Match User alex Address 100.64.0.0/10
+    PubkeyAuthentication yes
+    X11Forwarding yes

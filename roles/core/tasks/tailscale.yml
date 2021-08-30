@@ -2,18 +2,21 @@
 # See https://tailscale.com/kb/1041/install-debian-buster
 - name: Add apt key for tailscale
   apt_key:
-    url: https://pkgs.tailscale.com/stable/debian/buster.gpg
+    url: "https://pkgs.tailscale.com/stable/debian/{{ ansible_distribution_release }}.gpg"
     state: present
+  become: true
 
 - name: Add tailscale repo
   apt_repository:
-    repo: "deb https://pkgs.tailscale.com/stable/debian buster main"
+    repo: "deb https://pkgs.tailscale.com/stable/debian {{ ansible_distribution_release }} main"
     state: present
+  become: true
 
 - name: Install tailscale
   apt:
     name: tailscale
     update_cache: yes
+  become: yes
   notify: restart-tailscaled
 
 - name: Start tailscaled
@@ -21,6 +24,7 @@
     name: tailscaled
     state: started
     enabled: yes
+  become: yes
 
 - name: Check if tailscale is running
   shell: systemctl status tailscaled.service | grep 'Status:' | tail -n1 | awk '{for (i=2; i<=NF; i++) print $i}'
@@ -30,3 +34,10 @@
   command: tailscale up
   become: yes
   when: '"Connected" not in tailscale_status.stdout'
+
+- name: Place sshd config
+  template:
+    src: etc/ssh/sshd_config.j2
+    dest: /etc/ssh/sshd_config
+  become: yes
+  notify: reload-ssh
