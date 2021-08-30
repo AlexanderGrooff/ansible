@@ -1,0 +1,17 @@
+---
+- name: Place nomad job files
+  copy:
+    src: "{{ item }}"
+    dest: "/{{ item }}"
+    owner: nomad
+    group: nomad
+    mode: 0644
+  become: yes
+  with_items:
+  - nomad/jobs/webapp.nomad
+  notify: restart-nomad
+
+- name: Plan all jobs
+  command: "nomad job plan {{ item }}"
+  with_items:
+  - /nomad/jobs/webapp.nomad

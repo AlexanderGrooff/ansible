@@ -1,5 +1,3 @@
-# {{ ansible_managed }}
-
 job "demo-webapp" {
   datacenters = ["mvps"]
 
