@@ -1,8 +1,0 @@
-[nomad_clients]
-
-[nomad_servers]
-zeta
-
-[nomad:children]
-nomad_clients
-nomad_servers

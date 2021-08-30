@@ -1,0 +1,8 @@
+nomad:
+  hosts:
+    zeta:
+      ansible_host: 100.108.145.81
+  children:
+    nomad_servers:
+      zeta:
+    nomad_clients:

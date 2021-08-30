@@ -8,7 +8,7 @@ ChallengeResponseAuthentication no
 UsePAM yes
 
 # override default of no subsystems
-Subsystem       sftp    /usr/lib/ssh/sftp-server
+Subsystem sftp internal-sftp
 
 # Only allow SSH over tailscale subnet
 Match User alex Address 100.64.0.0/10

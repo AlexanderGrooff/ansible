@@ -1,0 +1,15 @@
+---
+- name: Set hostname to {{ inventory_hostname }}
+  hostname:
+    name: "{{ inventory_hostname }}"
+  become: true
+
+- name: Set {{ inventory_hostname }} in /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^127\.0\.1\.1'
+    line: "127.0.1.1 {{ inventory_hostname }}"
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
