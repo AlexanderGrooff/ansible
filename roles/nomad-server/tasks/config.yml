@@ -1,0 +1,40 @@
+---
+- name: Ensure data dir exists
+  file:
+    path: /data
+    owner: nomad
+    group: nomad
+    state: directory
+    mode: 0775
+  become: yes
+
+- name: Ensure config dir exists
+  file:
+    path: /etc/nomad.d
+    owner: nomad
+    group: nomad
+    state: directory
+    mode: 0775
+  become: yes
+
+- name: Place root config files
+  template:
+    src: "{{ item }}.j2"
+    dest: "/{{ item }}"
+  become: yes
+  with_items:
+  - etc/systemd/system/nomad.service
+  notify: restart-nomad
+
+- name: Place nomad config files
+  template:
+    src: "{{ item }}.j2"
+    dest: "/{{ item }}"
+    owner: nomad
+    group: nomad
+    mode: 0644
+  become: yes
+  with_items:
+  - etc/nomad.d/nomad.hcl
+  - etc/nomad.d/server.hcl
+  notify: restart-nomad

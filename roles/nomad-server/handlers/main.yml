@@ -1,0 +1,7 @@
+---
+- name: restart-nomad
+  service:
+    name: nomad
+    state: restarted
+  become: yes
+  become_user: root

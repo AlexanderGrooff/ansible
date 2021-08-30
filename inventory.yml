@@ -2,6 +2,7 @@ nomad:
   hosts:
     zeta:
       ansible_host: 100.108.145.81
+      datacenter: mvps
   children:
     nomad_servers:
       hosts:
