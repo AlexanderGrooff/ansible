@@ -20,21 +20,30 @@ storage_clients:
     theta:
       remote_mounts:
       - src: "localhost:/nomad_data"
-        dest: "/data/nomad"
+        dest: "/data/shared/nomad"
     zeta:
       remote_mounts:
       - src: "theta:/nomad_data"
-        dest: "/data/nomad"
+        dest: "/data/shared/nomad"
 
 nomad:
   hosts:
     zeta:
-      datacenter: mvps
+      datacenter: dc1
     theta:
-      datacenter: hetzner
+      datacenter: dc1
   children:
     nomad_servers:
       hosts:
         zeta:
         theta:
     nomad_clients:
+  vars:
+    consul_secret_key: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          35643833323765643863356136663337663961646264633539656338626130356131346433363133
+          6237653338616634313166653633626138636435633865610a333366623131323536616631656664
+          37313033646666333761353235626465666531666334363263313133306330356538353962393762
+          3831626361393836320a343265623466653233633735316162306138383339646665383733386136
+          63333230643361653736356131393064373631616261326261643464343434303565396231653431
+          3239346561373565353231386139383530376135616262633362
