@@ -18,21 +18,10 @@
   become: yes
 
 # CA
-- name: Check if CA exists
-  stat:
-    path: "/etc/consul.d/consul-agent-ca.pem"
-  register: ca_cert
-
-- name: Ensure CA exists
-  command: consul tls ca create
-  args:
-    chdir: /etc/consul.d
-  become: yes
-  when: not ca_cert.stat.exists
-
-- name: Set permissions for CA
-  file:
-    path: "/etc/consul.d/consul-agent-ca.pem"
+- name: Place CA file
+  copy:
+    src: "etc/consul.d/consul-agent-ca.pem"
+    dest: "/etc/consul.d/consul-agent-ca.pem"
     owner: consul
     group: consul
     mode: 0640

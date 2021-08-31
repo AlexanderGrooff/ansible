@@ -9,8 +9,6 @@
   file:
     path: "{{ item.dest }}"
     state: directory
-    owner: alex
-    group: alex
   become: yes
   with_items: "{{ remote_mounts }}"
 

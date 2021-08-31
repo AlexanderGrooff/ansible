@@ -18,7 +18,7 @@ server = true
 # Advertise addr - if you want to point clients to a different address than bind or LB.
 advertise_addr = "{{ tailscale_ip }}"
 bind_addr = "{{ tailscale_ip }}"
-retry_join = ["{{ tailscale_ip }}"]
+retry_join = ["{{ groups['nomad_servers'] | join('", "') }}"]
 client_addr = "0.0.0.0"
 
 bootstrap_expect={{ groups['nomad_servers'] | length }}
