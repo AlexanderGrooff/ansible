@@ -1,4 +1,8 @@
 ---
-- include: install.yml
-- include: config.yml
+- include: firewall.yml
+- include: setup-apt.yml
+- include: install-consul.yml
+- include: configure-consul.yml
+- include: install-nomad.yml
+- include: configure-nomad.yml
 - include: jobs.yml

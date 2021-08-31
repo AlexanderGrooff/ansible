@@ -21,6 +21,7 @@
       keychain,
       unzip,
       apparmor,
+      ufw
     ]
     state: present
     update_cache: yes

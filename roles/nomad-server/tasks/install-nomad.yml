@@ -1,0 +1,24 @@
+---
+- name: Install nomad
+  apt:
+    package: nomad
+    update_cache: yes
+  become: yes
+
+- name: Add user to group nomad
+  user:
+    name: alex
+    groups:
+      - nomad
+    append: yes
+    state: present
+  become: yes
+
+- name: Add nomad user to docker group
+  user:
+    name: nomad
+    groups:
+      - docker
+    append: yes
+    state: present
+  become: yes

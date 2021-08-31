@@ -11,7 +11,7 @@
   - nomad/jobs/webapp.nomad
   notify: restart-nomad
 
-- name: Plan all jobs
-  command: "nomad job plan {{ item }}"
-  with_items:
-  - /nomad/jobs/webapp.nomad
+# - name: Plan all jobs
+#   command: "nomad job plan {{ item }}"
+#   with_items:
+#   - /nomad/jobs/webapp.nomad

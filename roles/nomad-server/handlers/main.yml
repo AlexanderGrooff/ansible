@@ -5,3 +5,16 @@
     state: restarted
   become: yes
   become_user: root
+
+- name: restart-consul
+  service:
+    name: consul
+    state: restarted
+  become: yes
+  become_user: root
+
+- name: reload-systemd
+  systemd:
+    daemon_reload: yes
+  become: yes
+  become_user: root
