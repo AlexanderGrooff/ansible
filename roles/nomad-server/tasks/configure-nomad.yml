@@ -54,7 +54,6 @@
   become: yes
   with_items:
   - etc/nomad.d/nomad.hcl
-  - etc/nomad.d/server.hcl
   notify: restart-nomad
 
 - name: Place root config files

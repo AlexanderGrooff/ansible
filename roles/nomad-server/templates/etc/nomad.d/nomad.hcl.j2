@@ -2,3 +2,19 @@
 
 datacenter = "{{ datacenter }}"
 data_dir = "/data/nomad"
+
+advertise {
+  http = "{{ tailscale_ip }}"
+  rpc  = "{{ tailscale_ip }}"
+  serf = "{{ tailscale_ip }}"
+}
+
+server {
+  enabled = true
+  bootstrap_expect = {{ groups['nomad_servers'] | length }}
+}
+
+client {
+  enabled = true
+  network_interface = "tailscale0"
+}

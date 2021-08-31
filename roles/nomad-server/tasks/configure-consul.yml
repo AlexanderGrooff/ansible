@@ -112,7 +112,6 @@
   become: yes
   with_items:
   - etc/consul.d/consul.hcl
-  - etc/consul.d/server.hcl
   notify: restart-consul
 
 - name: Place root config files
