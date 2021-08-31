@@ -6,7 +6,7 @@ job "nginx" {
 
     network {
       port "http" {
-        static = 8080
+        static = 80
       }
     }
 
@@ -38,7 +38,7 @@ upstream backend {
 }
 
 server {
-   listen 8080;
+   listen 80;
 
    location / {
       proxy_pass http://backend;

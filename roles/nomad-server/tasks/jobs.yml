@@ -7,9 +7,11 @@
     group: nomad
     mode: 0644
   become: yes
+  register: job_placed
 
 - name: Validate job {{ item }}
   command: "nomad job validate /{{ item }}"
 
 - name: Run job {{ item }}
   command: "nomad job run /{{ item }}"
+  when: job_placed.changed
