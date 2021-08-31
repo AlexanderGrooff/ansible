@@ -125,6 +125,7 @@
   notify:
   - reload-systemd
   - restart-consul
+  - restart-nomad
 
 - name: Start consul service
   systemd:

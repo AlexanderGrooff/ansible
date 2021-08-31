@@ -1,28 +1,37 @@
 ---
-- name: Allow traffic on tailscale
-  community.general.ufw:
-    rule: allow
-    src: "100.64.0.0/10"
-  become: true
 
+# FROM
 - name: Allow all access from RFC1918 networks to this host
   community.general.ufw:
     rule: allow
-    src: '{{ item }}'
+    from: '{{ item }}'
   loop:
     - 10.0.0.0/8
     - 172.16.0.0/12
     - 192.168.0.0/16
+    - 100.64.0.0/10
+    - 127.0.0.1/32
   become: true
+  notify: reload-ufw
 
-- name: Allow everything on loopback
+# TO
+- name: Allow access to trusted hosts
   community.general.ufw:
     rule: allow
-    src: "127.0.0.1/32"
+    to: '{{ item }}'
+  loop:
+    - 10.0.0.0/8
+    - 172.16.0.0/12
+    - 192.168.0.0/16
+    - 100.64.0.0/10
+    - 127.0.0.1/32
   become: true
+  notify: reload-ufw
 
+# DEFAULT
 - name: Default to deny all traffic
   community.general.ufw:
     state: enabled
     policy: deny
   become: true
+  notify: reload-ufw
