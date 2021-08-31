@@ -9,6 +9,23 @@ all:
       tailscale_ip: 100.67.199.75
       external_ip: 116.203.149.177
 
+storage_servers:
+  hosts:
+    theta:
+      bricks:
+      - /bricks/brick1
+
+storage_clients:
+  hosts:
+    theta:
+      remote_mounts:
+      - src: "localhost:/nomad_data"
+        dest: "/data/nomad"
+    zeta:
+      remote_mounts:
+      - src: "theta:/nomad_data"
+        dest: "/data/nomad"
+
 nomad:
   hosts:
     zeta:

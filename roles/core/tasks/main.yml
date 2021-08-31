@@ -21,7 +21,7 @@
       ufw,
       unzip,
       vim,
-      virtualenv
+      virtualenv,
       virtualenvwrapper,
       zsh,
     ]
