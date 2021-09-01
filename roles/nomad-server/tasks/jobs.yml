@@ -9,9 +9,10 @@
   become: yes
   with_items:
   - nomad/jobs/webapp.nomad
-  notify: restart-nomad
+  - nomad/jobs/nginx.nomad
 
-# - name: Plan all jobs
-#   command: "nomad job plan {{ item }}"
-#   with_items:
-#   - /nomad/jobs/webapp.nomad
+- name: Run all jobs
+  command: "nomad job run {{ item }}"
+  with_items:
+  - /nomad/jobs/nginx.nomad
+  - /nomad/jobs/webapp.nomad
