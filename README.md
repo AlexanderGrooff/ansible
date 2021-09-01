@@ -9,3 +9,11 @@ After that, you run `./bootstrap <ipaddress>` to make sure the default user exis
 You can then use `ansible-playbook -i <ipaddr>, core.yaml -v` to set up the basics.
 
 At this point the node is ready for any of the ansible playbooks.
+
+## Dev
+
+```shell
+mkv
+ansible-galaxy collection install -r requirements-ansible.yml
+ansible-playbook nomad.yml -v
+```

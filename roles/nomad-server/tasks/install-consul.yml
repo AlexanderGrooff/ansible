@@ -1,0 +1,6 @@
+---
+- name: Install consul
+  apt:
+    package: consul
+    update_cache: yes
+  become: yes

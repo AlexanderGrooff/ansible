@@ -21,6 +21,7 @@
       keychain,
       unzip,
       apparmor,
+      ufw
     ]
     state: present
     update_cache: yes
@@ -36,7 +37,6 @@
   become: yes
   become_user: root
   failed_when: false
-
 
 - name: Symlink python to python3
   command: update-alternatives --install /usr/bin/python python /usr/bin/python3 1
@@ -54,6 +54,9 @@
     ]
   register: pip_installs
 
+- include: hostname.yml
+- include: docker.yml
 - include: users.yml
 - include: ssh.yml
+- include: tailscale.yml
 - include: dotfiles.yml

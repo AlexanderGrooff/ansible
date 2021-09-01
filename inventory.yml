@@ -1,0 +1,12 @@
+nomad:
+  hosts:
+    zeta:
+      ansible_host: 100.108.145.81
+      tailscale_ip: 100.108.145.81
+      external_ip: 2.56.214.72
+      datacenter: mvps
+  children:
+    nomad_servers:
+      hosts:
+        zeta:
+    nomad_clients:

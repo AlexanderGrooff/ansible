@@ -1,0 +1,76 @@
+---
+- name: Ensure data dir exists
+  file:
+    path: /data
+    owner: root
+    group: root
+    state: directory
+    mode: 0755
+  become: yes
+
+- name: Ensure data dir for nomad exists
+  file:
+    path: /data/nomad
+    owner: nomad
+    group: nomad
+    state: directory
+    mode: 0775
+  become: yes
+
+- name: Ensure data dir for consul exists
+  file:
+    path: /data/consul
+    owner: consul
+    group: consul
+    state: directory
+    mode: 0775
+  become: yes
+
+- name: Ensure nomad dir exists
+  file:
+    path: /nomad
+    owner: nomad
+    group: nomad
+    state: directory
+    mode: 0775
+  become: yes
+
+- name: Ensure nomad job dir exists
+  file:
+    path: /nomad/jobs
+    owner: nomad
+    group: nomad
+    state: directory
+    mode: 0775
+  become: yes
+
+- name: Place nomad config files
+  template:
+    src: "{{ item }}.j2"
+    dest: "/{{ item }}"
+    owner: nomad
+    group: nomad
+    mode: 0644
+  become: yes
+  with_items:
+  - etc/nomad.d/nomad.hcl
+  notify: restart-nomad
+
+- name: Place root config files
+  template:
+    src: "{{ item }}.j2"
+    dest: "/{{ item }}"
+  become: yes
+  with_items:
+  - etc/systemd/system/nomad.service
+  notify:
+  - reload-systemd
+  - restart-nomad
+
+- name: Start nomad service
+  systemd:
+    name: nomad
+    enabled: yes
+    state: started
+    daemon_reload: yes
+  become: yes
