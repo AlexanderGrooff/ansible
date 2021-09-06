@@ -1,5 +1,5 @@
 ---
-- name: Place nomad job files
+- name: Place nomad job {{ item }}
   copy:
     src: "{{ item }}"
     dest: "/{{ item }}"
@@ -7,12 +7,9 @@
     group: nomad
     mode: 0644
   become: yes
-  with_items:
-  - nomad/jobs/webapp.nomad
-  - nomad/jobs/nginx.nomad
 
-- name: Run all jobs
-  command: "nomad job run {{ item }}"
-  with_items:
-  - /nomad/jobs/nginx.nomad
-  - /nomad/jobs/webapp.nomad
+- name: Validate job {{ item }}
+  command: "nomad job validate /{{ item }}"
+
+- name: Run job {{ item }}
+  command: "nomad job run /{{ item }}"

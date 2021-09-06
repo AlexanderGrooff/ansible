@@ -6,3 +6,6 @@
 - include: install-nomad.yml
 - include: configure-nomad.yml
 - include: jobs.yml
+  with_items:
+  - nomad/jobs/webapp.nomad
+  - nomad/jobs/nginx.nomad
