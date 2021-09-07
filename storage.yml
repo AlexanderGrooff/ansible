@@ -1,0 +1,9 @@
+- name: Manage storage servers
+  hosts: storage_servers
+  tasks:
+    - include_role: name=storage-server
+
+- name: Manage storage clients
+  hosts: storage_clients
+  tasks:
+    - include_role: name=storage-client

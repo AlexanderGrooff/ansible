@@ -1,0 +1,55 @@
+---
+- name: Install GlusterFS
+  apt:
+    name: glusterfs-server
+    state: present
+  become: yes
+
+- name: Add user to gluster group
+  user:
+    name: alex
+    groups:
+      - gluster
+    append: yes
+    state: present
+  become: yes
+
+- name: Start gluster daemon
+  service:
+    name: glusterd
+    state: started
+    enabled: yes
+  become: yes
+
+- name: Create all bricks
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: gluster
+    group: gluster
+  with_items: "{{ bricks }}"
+  become: yes
+
+# - name: Create a trusted storage pool
+#   gluster_peer:
+#     state: present
+#     nodes: "{{ groups['storage_servers'] }}"
+#   become: true
+
+- name: Create gluster volume
+  gluster_volume:
+    name: nomad_data
+    state: present
+    bricks: "{{ bricks | join(',') }}"
+    # rebalance: yes
+    # replicas: 2
+    cluster: "{{ groups['storage_servers'] }}"
+    force: yes  # We need to add force because we're placing it on the root volume
+  run_once: true
+  become: true
+
+- name: Start gluster volume
+  gluster_volume:
+    name: nomad_data
+    state: started
+  become: true

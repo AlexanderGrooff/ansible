@@ -1,0 +1,22 @@
+---
+- name: Install GlusterFS
+  apt:
+    name: glusterfs-client
+    state: present
+  become: yes
+
+- name: Create destination directories
+  file:
+    path: "{{ item.dest }}"
+    state: directory
+  become: yes
+  with_items: "{{ remote_mounts }}"
+
+- name: Mount all remote volumes
+  mount:
+    src: "{{ item.src }}"
+    path: "{{ item.dest }}"
+    state: mounted
+    fstype: glusterfs
+  with_items: "{{ remote_mounts }}"
+  become: yes

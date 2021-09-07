@@ -17,90 +17,18 @@
     mode: 0775
   become: yes
 
-# CA
-- name: Check if CA exists
-  stat:
-    path: "/etc/consul.d/consul-agent-ca.pem"
-  register: ca_cert
-
-- name: Ensure CA exists
-  command: consul tls ca create
-  args:
-    chdir: /etc/consul.d
-  become: yes
-  when: not ca_cert.stat.exists
-
-- name: Set permissions for CA
-  file:
-    path: "/etc/consul.d/consul-agent-ca.pem"
+- name: Place certificate files
+  copy:
+    src: "{{ item }}"
+    dest: "/{{ item }}"
     owner: consul
     group: consul
     mode: 0640
   become: yes
-
-# Server
-- name: Check if server cert exists
-  stat:
-    path: "/etc/consul.d/{{ datacenter }}-server-consul-0.pem"
-  register: server_cert
-
-- name: Ensure server certificate exists
-  command: "consul tls cert create -server -dc {{ datacenter }}"
-  args:
-    chdir: /etc/consul.d
-  become: yes
-  when: not server_cert.stat.exists
-
-- name: Set permissions for server certificate
-  file:
-    path: "/etc/consul.d/{{ datacenter }}-server-consul-0.pem"
-    owner: consul
-    group: consul
-    mode: 0640
-  become: yes
-
-# Client
-- name: Check if client cert exists
-  stat:
-    path: "/etc/consul.d/{{ datacenter }}-client-consul-0.pem"
-  register: client_cert
-
-- name: Ensure client certificate exists
-  command: "consul tls cert create -client -dc {{ datacenter }}"
-  args:
-    chdir: /etc/consul.d
-  become: yes
-  when: not client_cert.stat.exists
-
-- name: Set permissions for client certificate
-  file:
-    path: "/etc/consul.d/{{ datacenter }}-client-consul-0.pem"
-    owner: consul
-    group: consul
-    mode: 0640
-  become: yes
-
-# Check if the default secret key is present in the config
-# That means it isn't generated yet
-- name: Check if secret key is placed in consul config
-  command: grep -Fxq '#encrypt = "..."' /etc/consul.d/consul.hcl
-  register: default_secret_key_present
-  failed_when: false
-  changed_when: no
-
-- name: Generate new secret key
-  command: consul keygen
-  register: new_secret_key
-  when: default_secret_key_present.rc == 0
-
-- name: Retrieve current secret key
-  shell: grep 'encrypt = "' /etc/consul.d/consul.hcl | cut -d\" -f2
-  register: existing_secret_key
-  when: default_secret_key_present.rc != 0
-
-- name: Get the actual secret key
-  set_fact:
-    consul_secret_key: "{{ new_secret_key.stdout if default_secret_key_present.rc == 0 else existing_secret_key.stdout | trim }}"
+  with_items:
+  - "etc/consul.d/consul-agent-ca.pem"
+  - "etc/consul.d/{{ inventory_hostname }}.pem"
+  - "etc/consul.d/{{ inventory_hostname }}-key.pem"
 
 - name: Place consul config files
   template:

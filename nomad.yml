@@ -1,11 +1,17 @@
+# - name: Apply core role
+#   hosts: nomad_servers nomad_clients
+#   tasks:
+#     - include_role: name=core
+
+- name: Manage storage
+  include: storage.yml
+
 - name: Manage nomad servers
   hosts: nomad_servers
   tasks:
-    - include_role: name=core
     - include_role: name=nomad-server
 
 - name: Manage nomad clients
   hosts: nomad_clients
   tasks:
-    - include_role: name=core
     - include_role: name=nomad-client
