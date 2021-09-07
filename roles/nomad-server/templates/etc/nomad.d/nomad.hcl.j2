@@ -17,4 +17,11 @@ server {
 client {
   enabled = true
   network_interface = "tailscale0"
+
+  {% for volume in nomad_volumes %}
+  host_volume "{{ volume.name }}" {
+    path      = "{{ volume.dir }}"
+    read_only = {{ volume.read_only | default('false') }}
+  }
+  {% endfor %}
 }
