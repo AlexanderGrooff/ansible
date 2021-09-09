@@ -1,64 +1,54 @@
-job "postgres-server" {
+job "postgres" {
   datacenters = ["dc1"]
   type        = "service"
 
-  group "postgres-server" {
-    count = 1
+  group "postgres" {
+
+    network {
+      port "db" { static = 5432 }
+    }
 
     volume "postgres" {
-      type      = "host"
-      read_only = false
-      source    = "postgres"
+        type = "host"
+        read_only = false
+        source = "postgres"
     }
 
-    restart {
-      attempts = 10
-      interval = "5m"
-      delay    = "25s"
-      mode     = "delay"
-    }
-
-    task "postgres-server" {
+    task "postgres" {
       driver = "docker"
 
-      volume_mount {
-        volume      = "postgres"
-        destination = "/var/lib/postgres"
-        read_only   = false
-      }
-
-      env = {
-        "MYSQL_ROOT_PASSWORD" = "password"
-      }
-
       config {
-        image = "postgres"
+        image        = "postgres:13.4"
+        network_mode = "host"
+        ports        = ["db"]
+      }
 
-        port_map {
-          db = 5432
+      volume_mount {
+          volume = "postgres"
+          read_only = false
+          destination = "/var/lib/postgresql/data"
+      }
+
+      env {
+        POSTGRES_DB       = "postgres"
+        POSTGRES_USER     = "postgres"
+        POSTGRES_PASSWORD = "postgres"
+      }
+
+      service {
+        name = "postgres"
+        port = "db"
+        check {
+          type     = "tcp"
+          port     = "db"
+          interval = "30s"
+          timeout  = "60s"
         }
       }
 
       resources {
-        cpu    = 500
+        cpu    = 1024
         memory = 1024
-
-        network {
-          port "db" {
-            static = 5432
-          }
-        }
-      }
-
-      service {
-        name = "postgres-server"
-        port = "db"
-
-        check {
-          type     = "tcp"
-          interval = "10s"
-          timeout  = "2s"
-        }
       }
     }
   }
