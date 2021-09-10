@@ -6,7 +6,7 @@ job "nginx" {
 
     network {
       port "http" {
-        static = 80
+        static = 8080
       }
     }
 
@@ -31,15 +31,16 @@ job "nginx" {
       template {
         data = <<EOF
 upstream backend {
-{{ range service "demo-webapp" }}
+{% raw %}{{ range service "demo-webapp" }}
   server {{ .Address }}:{{ .Port }};
 {{ else }}
   server 127.0.0.1:65535; # force a 502
-{{ end }}
+{{ end }}{% endraw %}
 }
 
 server {
    listen 80;
+   server_name app.home;
 
    location / {
       proxy_pass http://backend;
