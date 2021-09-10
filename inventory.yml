@@ -51,3 +51,6 @@ nomad:
     - name: postgres
       dir: "/data/shared/nomad/postgres"
       read_only: "false"  # Quotes are important, otherwise it fills in Python's False
+    - name: registry
+      dir: "/data/shared/nomad/registry"
+      read_only: "false"
