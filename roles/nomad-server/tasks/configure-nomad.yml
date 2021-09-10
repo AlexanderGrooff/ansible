@@ -44,6 +44,15 @@
     mode: 0775
   become: yes
 
+- name: Ensure shared nomad volume dirs exist
+  file:
+    path: "{{ item.dir }}"
+    owner: nomad
+    group: nomad
+    state: directory
+  with_items: "{{ nomad_volumes }}"
+  become: true
+
 - name: Place nomad config files
   template:
     src: "{{ item }}.j2"

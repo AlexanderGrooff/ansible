@@ -33,7 +33,8 @@ job "nginx" {
 upstream backend {
 {{ range service "demo-webapp" }}
   server {{ .Address }}:{{ .Port }};
-{{ else }}server 127.0.0.1:65535; # force a 502
+{{ else }}
+  server 127.0.0.1:65535; # force a 502
 {{ end }}
 }
 

@@ -12,6 +12,20 @@
 - name: Validate job {{ item }}
   command: "nomad job validate /{{ item }}"
 
+- name: Get job info of {{ item }}
+  shell: "nomad job plan /{{ item }} | grep 'Job: ' | cut -d\\\" -f2"
+  register: job_info
+  failed_when: false  # This seems to always returns rc 1. Idk why?
+
+- name: Get job ID
+  set_fact:
+    job_id: "{{ job_info.stdout | trim }}"
+
+- name: Check current job status
+  command: "nomad job status {{ job_id }}"
+  register: job_status
+  failed_when: false  # Never fail because we want to see the exitcode
+
 - name: Run job {{ item }}
   command: "nomad job run /{{ item }}"
-  when: job_placed.changed
+  when: job_placed.changed or job_status.rc != 0

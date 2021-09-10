@@ -5,7 +5,12 @@
 - include: configure-consul.yml
 - include: install-nomad.yml
 - include: configure-nomad.yml
+
+- name: Flush handlers before starting jobs
+  meta: flush_handlers
+
 - include: jobs.yml
   with_items:
+  - nomad/jobs/postgres.nomad
   - nomad/jobs/webapp.nomad
   - nomad/jobs/nginx.nomad
