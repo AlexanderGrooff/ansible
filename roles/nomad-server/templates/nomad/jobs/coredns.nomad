@@ -7,7 +7,7 @@ job "coredns" {
 
     network {
       port "http" { static = "53" }
-      port "health" { static = "8080" }
+      port "health" { static = "8081" }
     }
 
     task "coredns" {
@@ -47,7 +47,7 @@ data = <<EOH
   }
   loadbalance
   forward . 1.1.1.1
-  health :8080
+  health :8081
   log
   errors
 }
