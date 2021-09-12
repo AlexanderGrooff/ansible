@@ -39,10 +39,13 @@ job "coredns" {
 data = <<EOH
 . {
   hosts {
-    100.108.145.81 alex.home
+    {% for tailscale_ip in nomad_tailscale_ips %}
+    {{ tailscale_ip}} alex.home
+    {% endfor %}
     reload 1s
     fallthrough
   }
+  loadbalance
   forward . 1.1.1.1
   health :8080
   log
