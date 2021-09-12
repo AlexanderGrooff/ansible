@@ -6,7 +6,7 @@ job "nginx" {
 
     network {
       port "http" {
-        static = 80
+        static = 8080
       }
     }
 
