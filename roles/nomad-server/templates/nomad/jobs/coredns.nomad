@@ -7,6 +7,7 @@ job "coredns" {
 
     network {
       port "http" { static = "53" }
+      port "health" { static = "8080" }
     }
 
     task "coredns" {
@@ -20,6 +21,13 @@ job "coredns" {
       service {
         port = "http"
         name = "coredns"
+        check {
+          type = "http"
+          port = "health"
+          path = "/health"
+          interval = "5s"
+          timeout = "30s"
+        }
       }
 
       resources {
@@ -36,6 +44,7 @@ data = <<EOH
     fallthrough
   }
   forward . 1.1.1.1
+  health :8080
   log
   errors
 }
