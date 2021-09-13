@@ -55,3 +55,6 @@ nomad:
     - name: registry
       dir: "/data/shared/nomad/registry"
       read_only: "false"
+    nginx_domains:
+    - "alex.home"
+    - "docker.alex.home"

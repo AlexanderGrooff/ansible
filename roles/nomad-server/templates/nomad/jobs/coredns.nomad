@@ -40,7 +40,9 @@ data = <<EOH
 . {
   hosts {
     {% for tailscale_ip in nomad_tailscale_ips %}
-    {{ tailscale_ip}} alex.home
+      {% for nginx_domain in nginx_domains %}
+        {{ tailscale_ip}} {{ nginx_domain }}
+      {% endfor %}
     {% endfor %}
     reload 1s
     fallthrough
