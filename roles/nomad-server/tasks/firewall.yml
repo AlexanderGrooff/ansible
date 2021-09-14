@@ -28,6 +28,17 @@
   become: true
   notify: reload-ufw
 
+- name: Allow port 53, 80, 443
+  community.general.ufw:
+    rule: allow
+    port: '{{ item }}'
+  loop:
+    - 53
+    - 80
+    - 443
+  become: true
+  notify: reload-ufw
+
 # DEFAULT
 - name: Default to deny all traffic
   community.general.ufw:

@@ -48,8 +48,10 @@ upstream registry_backend {
 
 server {
   listen 80;
-  listen 443;
   server_name alex.home;
+
+  allow 100.64.0.0/10;
+  deny all;
 
   location / {
     proxy_pass http://app_backend;
@@ -58,8 +60,10 @@ server {
 
 server {
   listen 80;
-  listen 443;
   server_name docker.alex.home;
+
+  allow 100.64.0.0/10;
+  deny all;
 
   # disable any limits to avoid HTTP 413 for large image uploads
   client_max_body_size 0;
