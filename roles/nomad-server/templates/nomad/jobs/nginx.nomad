@@ -73,6 +73,9 @@ server {
   listen 443 ssl default_server;
   server_name agrooff.com alex.home;
 
+  allow 100.64.0.0/10;
+  deny all;
+
   ssl_certificate /etc/letsencrypt/live/agrooff.com/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/agrooff.com/privkey.pem;
 
@@ -80,6 +83,11 @@ server {
 
   location / {
     proxy_pass http://app_backend;
+    proxy_set_header  Host              $http_host;   # required for docker client's sake
+    proxy_set_header  X-Real-IP         $remote_addr; # pass on real client's IP
+    proxy_set_header  X-Forwarded-For   $proxy_add_x_forwarded_for;
+    proxy_set_header  X-Forwarded-Proto $scheme;
+    proxy_read_timeout                  900;
   }
 }
 

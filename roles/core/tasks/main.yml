@@ -19,6 +19,7 @@
       python3-setuptools,
       python3,
       sudo,
+      traceroute,
       ufw,
       unzip,
       vim,
