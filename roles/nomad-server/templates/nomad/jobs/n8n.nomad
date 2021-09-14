@@ -88,7 +88,7 @@ job "n8n" {
       env {
         DB_TYPE = "postgresdb"
         DB_POSTGRESDB_DATABASE = "n8n"
-        DB_POSTGRESDB_HOST = "psql://${NOMAD_UPSTREAM_ADDR_postgres}"
+        DB_POSTGRESDB_HOST = "localhost"
         DB_POSTGRESDB_PORT = 5432
         DB_POSTGRESDB_USER = "postgres"
         DB_POSTGRESDB_PASSWORD = "postgres"
