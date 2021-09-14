@@ -1,6 +1,7 @@
 ---
 - include: firewall.yml
 - include: setup-apt.yml
+- include: networking.yml
 - include: install-consul.yml
 - include: configure-consul.yml
 - include: install-nomad.yml
@@ -8,6 +9,9 @@
 
 - name: Flush handlers before starting jobs
   meta: flush_handlers
+
+- name: Wait for nomad/consul to restart
+  pause: seconds=5
 
 - include: jobs.yml
   with_items:
@@ -17,3 +21,5 @@
   - nomad/jobs/nginx.nomad
   - nomad/jobs/certbot.nomad
   - nomad/jobs/webapp.nomad
+  - nomad/jobs/connect.nomad
+  # - nomad/jobs/n8n.nomad

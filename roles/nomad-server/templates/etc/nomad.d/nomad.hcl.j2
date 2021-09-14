@@ -25,6 +25,9 @@ client {
     interface = "tailscale0"
     reserved_ports = "80,443"
   }
+  host_network "default" {
+    interface = "tailscale0"
+  }
 
   {% for volume in nomad_volumes %}
   host_volume "{{ volume.name }}" {

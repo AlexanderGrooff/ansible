@@ -27,3 +27,10 @@ retry_join = ["{{ nomad_tailscale_ips | join ('", "') }}"]
 
 bootstrap_expect={{ groups['nomad_servers'] | length }}
 encrypt = "{{ consul_secret_key | trim }}"
+
+ports {
+  grpc = 8502
+}
+connect {
+  enabled = true
+}
