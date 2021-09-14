@@ -7,7 +7,6 @@
       'software-properties-common',
     ]
     state: latest
-    update_cache: yes
   become: yes
 
 - name: Add Docker GPG apt Key

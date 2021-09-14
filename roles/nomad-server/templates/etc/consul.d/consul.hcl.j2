@@ -13,9 +13,9 @@ datacenter = "{{ datacenter }}"
 data_dir = "/data/consul"
 server = true
 
-#ui_config{
-#  enabled = true
-#}
+ui_config{
+  enabled = true
+}
 
 # Advertise addr - if you want to point clients to a different address than bind or LB.
 advertise_addr = "{{ tailscale_ip }}"
@@ -23,7 +23,7 @@ bind_addr = "{{ tailscale_ip }}"
 client_addr = "0.0.0.0"
 
 # List all servers, extract tailscale_ip from its hostvars and join em up
-retry_join = ["{{ groups['nomad_servers'] | map('extract', hostvars) | map(attribute='tailscale_ip') | join('", "') }}"]
+retry_join = ["{{ nomad_tailscale_ips | join ('", "') }}"]
 
 bootstrap_expect={{ groups['nomad_servers'] | length }}
 encrypt = "{{ consul_secret_key | trim }}"

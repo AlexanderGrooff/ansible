@@ -5,6 +5,7 @@
       apparmor,
       cmake,
       curl,
+      dnsutils,
       git,
       gpg-agent,  # Required for apt-key
       gpg,
@@ -18,6 +19,7 @@
       python3-setuptools,
       python3,
       sudo,
+      traceroute,
       ufw,
       unzip,
       vim,
@@ -61,4 +63,5 @@
 - include: users.yml
 - include: ssh.yml
 - include: tailscale.yml
+- include: firewall.yml
 - include: dotfiles.yml

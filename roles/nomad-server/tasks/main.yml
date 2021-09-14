@@ -12,6 +12,8 @@
 - include: jobs.yml
   with_items:
   - nomad/jobs/docker-registry.nomad
+  - nomad/jobs/coredns.nomad
   - nomad/jobs/postgres.nomad
-  - nomad/jobs/webapp.nomad
   - nomad/jobs/nginx.nomad
+  - nomad/jobs/certbot.nomad
+  - nomad/jobs/webapp.nomad

@@ -1,6 +1,6 @@
 ---
 - name: Place nomad job {{ item }}
-  copy:
+  template:
     src: "{{ item }}"
     dest: "/{{ item }}"
     owner: nomad

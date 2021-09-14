@@ -17,6 +17,14 @@ server {
 client {
   enabled = true
   network_interface = "tailscale0"
+  host_network "public" {
+    interface = "{{ external_interface }}"
+    reserved_ports = "80,443"
+  }
+  host_network "private" {
+    interface = "tailscale0"
+    reserved_ports = "80,443"
+  }
 
   {% for volume in nomad_volumes %}
   host_volume "{{ volume.name }}" {

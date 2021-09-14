@@ -19,3 +19,7 @@
     state: reloaded
   become: yes
   become_user: root
+
+- name: reload-ufw
+  command: ufw reload
+  become: yes
