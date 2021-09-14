@@ -13,9 +13,9 @@ datacenter = "{{ datacenter }}"
 data_dir = "/data/consul"
 server = true
 
-#ui_config{
-#  enabled = true
-#}
+ui_config{
+  enabled = true
+}
 
 # Advertise addr - if you want to point clients to a different address than bind or LB.
 advertise_addr = "{{ tailscale_ip }}"
