@@ -22,14 +22,6 @@
   become: true
   when: make_dir.changed
 
-- name: Allow bridge networking
-  shell: "{{ item }}"
-  become: yes
-  with_items:
-  - "echo 1 | sudo tee /proc/sys/net/bridge/bridge-nf-call-arptables"
-  - "echo 1 | sudo tee /proc/sys/net/bridge/bridge-nf-call-ip6tables"
-  - "echo 1 | sudo tee /proc/sys/net/bridge/bridge-nf-call-iptables"
-
 - name: Persistent bridge networking
   lineinfile: 
     path: /etc/sysctl.d/bridge-networking.conf
@@ -37,8 +29,17 @@
     create: yes
     state: present
   become: yes
+  register: set_persistent_networking
   with_items:
   - "net.bridge.bridge-nf-call-arptables = 1"
   - "net.bridge.bridge-nf-call-ip6tables = 1"
   - "net.bridge.bridge-nf-call-iptables = 1"
 
+- name: Allow bridge networking
+  shell: "{{ item }}"
+  become: yes
+  when: set_persistent_networking.changed
+  with_items:
+  - "echo 1 | sudo tee /proc/sys/net/bridge/bridge-nf-call-arptables"
+  - "echo 1 | sudo tee /proc/sys/net/bridge/bridge-nf-call-ip6tables"
+  - "echo 1 | sudo tee /proc/sys/net/bridge/bridge-nf-call-iptables"

@@ -63,6 +63,7 @@ nomad:
     nginx_domains:
     - "alex.home"
     - "docker.alex.home"
+    - "n8n.alex.home"
     letsencrypt:
       email: !vault |
           $ANSIBLE_VAULT;1.1;AES256
