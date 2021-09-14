@@ -15,4 +15,5 @@
   - nomad/jobs/coredns.nomad
   - nomad/jobs/postgres.nomad
   - nomad/jobs/nginx.nomad
+  - nomad/jobs/certbot.nomad
   - nomad/jobs/webapp.nomad
