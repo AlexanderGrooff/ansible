@@ -7,12 +7,28 @@ job "nginx" {
     network {
       port "http" {
         static = 80
+        host_network = "private"
+      }
+      port "https" {
+        static = 443
+        host_network = "public"
       }
     }
 
     service {
-      name = "nginx"
+      name = "nginxhttp"
       port = "http"
+    }
+
+    service {
+      name = "nginxhttps"
+      port = "https"
+    }
+
+    volume "certbot" {
+        type = "host"
+        read_only = true
+        source = "certbot"
     }
 
     task "nginx" {
@@ -21,11 +37,17 @@ job "nginx" {
       config {
         image = "nginx"
 
-        ports = ["http"]
+        ports = ["http", "https"]
 
         volumes = [
           "local:/etc/nginx/conf.d",
         ]
+      }
+
+      volume_mount {
+          volume = "certbot"
+          read_only = true
+          destination = "/etc/letsencrypt"
       }
 
       template {
@@ -47,11 +69,14 @@ upstream registry_backend {
 }
 
 server {
-  listen 80;
-  server_name alex.home;
+  listen 80 default_server;
+  listen 443 ssl default_server;
+  server_name agrooff.com alex.home;
 
-  allow 100.64.0.0/10;
-  deny all;
+  ssl_certificate /etc/letsencrypt/live/agrooff.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/agrooff.com/privkey.pem;
+
+  include /etc/nginx/conf.d/ssl-options.conf;
 
   location / {
     proxy_pass http://app_backend;
@@ -83,6 +108,22 @@ server {
 EOF
 
         destination   = "local/load-balancer.conf"
+        change_mode   = "signal"
+        change_signal = "SIGHUP"
+      }
+
+      template {
+        data = <<EOF
+ssl_session_cache shared:le_nginx_SSL:10m;
+ssl_session_timeout 1440m;
+ssl_session_tickets off;
+
+ssl_protocols TLSv1.2 TLSv1.3;
+ssl_prefer_server_ciphers off;
+
+ssl_ciphers "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384";
+EOF
+        destination   = "local/ssl-options.conf"
         change_mode   = "signal"
         change_signal = "SIGHUP"
       }

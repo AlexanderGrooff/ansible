@@ -1,3 +1,4 @@
+---
 # - name: Apply core role
 #   hosts: nomad_servers nomad_clients
 #   tasks:

@@ -1,0 +1,54 @@
+---
+- name: Install fail2ban
+  apt:
+      name: fail2ban
+      state: present
+  become: true
+  notify: restart-fail2ban
+
+- name: ensure that fail2ban is running and enabled
+  service: name=fail2ban enabled=yes state=started
+  become: true
+
+- name: Set jail.local
+  template:
+    src: fail2ban/jail.local
+    dest: /etc/fail2ban/jail.local
+  become: true
+  notify: restart-fail2ban
+
+# FROM
+- name: Allow all access from RFC1918 networks to this host
+  community.general.ufw:
+    rule: allow
+    from: '{{ item }}'
+  loop:
+    - 10.0.0.0/8
+    - 172.16.0.0/12
+    - 192.168.0.0/16
+    - 100.64.0.0/10
+    - 127.0.0.1/32
+  become: true
+  notify: reload-ufw
+
+# TO
+- name: Allow access to trusted hosts
+  community.general.ufw:
+    rule: allow
+    to: '{{ item }}'
+  loop:
+    - 10.0.0.0/8
+    - 172.16.0.0/12
+    - 192.168.0.0/16
+    - 100.64.0.0/10
+    - 127.0.0.1/32
+  become: true
+  notify: reload-ufw
+
+# DEFAULT
+- name: Default to deny all traffic
+  community.general.ufw:
+    state: enabled
+    policy: deny
+  become: true
+  notify: reload-ufw

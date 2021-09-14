@@ -4,10 +4,12 @@ all:
       ansible_host: 100.108.145.81
       tailscale_ip: 100.108.145.81
       external_ip: 2.56.214.72
+      external_interface: eth0
     theta:
       ansible_host: 100.67.199.75
       tailscale_ip: 100.67.199.75
       external_ip: 116.203.149.177
+      external_interface: eth0
 
 storage_servers:
   hosts:

@@ -2,7 +2,6 @@
 - name: Install nomad
   apt:
     package: nomad
-    update_cache: yes
   become: yes
 
 - name: Add user to group nomad
