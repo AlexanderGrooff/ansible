@@ -31,8 +31,8 @@ job "coredns" {
       }
 
       resources {
-        cpu    = 100
-        memory = 128
+        cpu    = 300
+        memory = 300
       }
 
       template {
@@ -45,7 +45,6 @@ data = <<EOH
       {% endfor %}
     {% endfor %}
     reload 1s
-    fallthrough
   }
   loadbalance
   forward . 1.1.1.1
