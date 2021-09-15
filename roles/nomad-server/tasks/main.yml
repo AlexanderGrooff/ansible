@@ -20,5 +20,4 @@
   - nomad/jobs/nginx.nomad
   - nomad/jobs/certbot.nomad
   - nomad/jobs/webapp.nomad
-  - nomad/jobs/connect.nomad
   - nomad/jobs/n8n.nomad
