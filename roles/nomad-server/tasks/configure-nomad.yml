@@ -47,8 +47,6 @@
 - name: Ensure shared nomad volume dirs exist
   file:
     path: "{{ item.dir }}"
-    owner: nomad
-    group: nomad
     state: directory
   with_items: "{{ nomad_volumes }}"
   become: true

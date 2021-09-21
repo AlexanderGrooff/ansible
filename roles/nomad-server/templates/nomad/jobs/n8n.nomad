@@ -38,7 +38,7 @@ job "n8n" {
       }
 
       env {
-        POSTGRES_DB       = "postgres"
+        POSTGRES_DB       = "n8n"
         POSTGRES_USER     = "postgres"
         POSTGRES_PASSWORD = "postgres"
       }
@@ -56,7 +56,7 @@ job "n8n" {
       mode = "bridge"
 
       port "http" {
-        static = 5678
+        static = -1
       }
     }
 
@@ -79,7 +79,7 @@ job "n8n" {
         type     = "http"
         path     = "/"
         interval = "5s"
-        timeout = "30s"
+        timeout = "120s"
       }
     }
 
@@ -92,6 +92,17 @@ job "n8n" {
         DB_POSTGRESDB_PORT = 5432
         DB_POSTGRESDB_USER = "postgres"
         DB_POSTGRESDB_PASSWORD = "postgres"
+        DOMAIN_NAME = "alex.home"
+        SUBDOMAIN = "n8n"
+        N8N_HOST = "n8n.alex.home"
+        N8N_PORT = "${NOMAD_PORT_http}"
+        WEBHOOK_TUNNEL_URL = "http://n8n.alex.home/"
+        VUE_APP_URL_BASE_API="http://n8n.alex.home/"
+        GENERIC_TIMEZONE = "Europe/Amsterdam"
+        SSL_EMAIL = "{{ letsencrypt.email }}"
+        N8N_PROTOCOL = "http"
+        N8N_LOG_LEVEL = "verbose"
+        NODE_ENV = "production"
       }
 
       config {
