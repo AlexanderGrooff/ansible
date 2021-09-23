@@ -21,3 +21,4 @@
   - nomad/jobs/certbot.nomad
   - nomad/jobs/webapp.nomad
   - nomad/jobs/n8n.nomad
+  - nomad/jobs/fingerprint.nomad

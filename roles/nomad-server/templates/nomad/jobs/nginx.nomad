@@ -104,6 +104,7 @@ server {
 }
 
 upstream n8n_backend {
+  ip_hash;
 {% raw %}{{ range service "n8n" }}
   server {{ .Address }}:{{ .Port }};
 {{ else }}
@@ -130,9 +131,31 @@ server {
     proxy_cache off;
   }
 }
+
+upstream fingerprint_backend {
+  ip_hash;
+{% raw %}{{ range service "fingerprint" }}
+  server {{ .Address }}:{{ .Port }};
+{{ else }}
+  server 127.0.0.1:65535; # force a 502
+{{ end }}{% endraw %}
+}
+
+server {
+  listen 80;
+  listen 443 ssl;
+  server_name fingerprint.agrooff.com fingerprint.alex.home;
+
+  include /etc/nginx/conf.d/ssl-options.conf;
+
+  location / {
+    proxy_pass http://fingerprint_backend;
+    include /etc/nginx/conf.d/proxy-options.conf;
+  }
+}
 EOF
 
-        destination   = "local/load-balancer.conf"
+        destination   = "local/default.conf"
         change_mode   = "signal"
         change_signal = "SIGHUP"
       }

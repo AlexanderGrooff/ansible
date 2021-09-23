@@ -1,4 +1,4 @@
-job "n8n" {
+job "fingerprint" {
   datacenters = ["dc1"]
   group "postgres" {
 
@@ -11,7 +11,7 @@ job "n8n" {
     volume "postgres" {
         type = "host"
         read_only = false
-        source = "n8n"
+        source = "fingerprint"
     }
 
     service {
@@ -38,7 +38,7 @@ job "n8n" {
       }
 
       env {
-        POSTGRES_DB       = "n8n"
+        POSTGRES_DB       = "postgres"
         POSTGRES_USER     = "postgres"
         POSTGRES_PASSWORD = "postgres"
       }
@@ -50,18 +50,19 @@ job "n8n" {
     }
   }
 
-  group "n8n" {
-    count = 1
+  group "fingerprint" {
+    count = 2
     network {
       mode = "bridge"
 
       port "http" {
         static = -1
+        to = 3000
       }
     }
 
     service {
-      name = "n8n"
+      name = "fingerprint"
       port = "http"
 
       connect {
@@ -74,39 +75,23 @@ job "n8n" {
           }
         }
       }
-
-      check {
-        type     = "http"
-        path     = "/"
-        interval = "5s"
-        timeout = "120s"
-      }
     }
 
-    task "n8n" {
+    task "fingerprint" {
       driver = "docker"
       env {
-        DB_TYPE = "postgresdb"
-        DB_POSTGRESDB_DATABASE = "n8n"
-        DB_POSTGRESDB_HOST = "localhost"
-        DB_POSTGRESDB_PORT = 5432
-        DB_POSTGRESDB_USER = "postgres"
-        DB_POSTGRESDB_PASSWORD = "postgres"
-        DOMAIN_NAME = "alex.home"
-        SUBDOMAIN = "n8n"
-        N8N_HOST = "n8n.alex.home"
-        N8N_PORT = "${NOMAD_PORT_http}"
-        WEBHOOK_TUNNEL_URL = "http://n8n.alex.home/"
-        VUE_APP_URL_BASE_API="http://n8n.alex.home/"
-        GENERIC_TIMEZONE = "Europe/Amsterdam"
-        SSL_EMAIL = "{{ letsencrypt.email }}"
-        N8N_PROTOCOL = "http"
-        N8N_LOG_LEVEL = "verbose"
-        NODE_ENV = "production"
+        POSTGRES_DATABASE       = "postgres"
+        POSTGRES_HOST           = "localhost"
+        POSTGRES_PORT           = 5432
+        POSTGRES_USER           = "postgres"
+        POSTGRES_PASSWORD       = "postgres"
+        SECRET_KEY              = "{{ fingerprint.secret_key }}"
+        DJANGO_SETTINGS_MODULE  = "fingerprint_api.settings.production"
+        DJANGO_DEBUG            = false
       }
 
       config {
-        image = "n8nio/n8n:0.137.0"
+        image = "ghcr.io/alexandergrooff/fingerprint-api:0.1.1"
         ports = ["http"]
       }
     }
