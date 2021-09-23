@@ -71,6 +71,7 @@ job "fingerprint" {
             upstreams {
               destination_name = "postgres"
               local_bind_port  = 5432
+              local_bind_address = "0.0.0.0"
             }
           }
         }
@@ -81,8 +82,8 @@ job "fingerprint" {
       driver = "docker"
       env {
         POSTGRES_DATABASE       = "postgres"
-        POSTGRES_HOST           = "localhost"
-        POSTGRES_PORT           = 5432
+        POSTGRES_HOST           = "${NOMAD_UPSTREAM_IP_postgres}"
+        POSTGRES_PORT           = "${NOMAD_UPSTREAM_PORT_postgres}"
         POSTGRES_USER           = "postgres"
         POSTGRES_PASSWORD       = "postgres"
         SECRET_KEY              = "{{ fingerprint.secret_key }}"
