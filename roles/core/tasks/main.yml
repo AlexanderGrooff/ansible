@@ -64,4 +64,5 @@
 - include: ssh.yml
 - include: tailscale.yml
 - include: firewall.yml
+- include: nix.yml
 - include: dotfiles.yml
