@@ -3,3 +3,12 @@
   apt:
     package: consul
   become: yes
+
+- name: Add user to group consul
+  user:
+    name: alex
+    groups:
+      - consul
+    append: yes
+    state: present
+  become: yes
