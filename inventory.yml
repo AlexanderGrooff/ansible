@@ -63,6 +63,9 @@ nomad:
     - name: certbot
       dir: "/data/shared/nomad/certbot"
       read_only: "false"
+    - name: static
+      dir: "/data/shared/nomad/static"
+      read_only: "false"
     nginx_domains:
     - "alex.home"
     - "docker.alex.home"

@@ -13,6 +13,8 @@
 - name: Wait for nomad/consul to restart
   pause: seconds=5
 
+- include: static.yml
+
 - include: jobs.yml
   with_items:
   - nomad/jobs/docker-registry.nomad

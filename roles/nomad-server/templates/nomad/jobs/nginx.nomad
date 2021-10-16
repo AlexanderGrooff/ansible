@@ -31,6 +31,12 @@ job "nginx" {
         source = "certbot"
     }
 
+    volume "static" {
+        type = "host"
+        read_only = true
+        source = "static"
+    }
+
     task "nginx" {
       driver = "docker"
 
@@ -48,6 +54,12 @@ job "nginx" {
           volume = "certbot"
           read_only = true
           destination = "/etc/letsencrypt"
+      }
+
+      volume_mount {
+          volume = "static"
+          read_only = true
+          destination = "/static"
       }
 
       template {
@@ -151,6 +163,20 @@ server {
   location / {
     proxy_pass http://fingerprint_backend;
     include /etc/nginx/conf.d/proxy-options.conf;
+  }
+}
+
+server {
+  listen 80;
+  listen 443 ssl;
+  server_name static.agrooff.com static.alex.home;
+
+  include /etc/nginx/conf.d/ssl-options.conf;
+
+  location / {
+    root               /static;
+    sendfile           on;
+    sendfile_max_chunk 1m;
   }
 }
 EOF
