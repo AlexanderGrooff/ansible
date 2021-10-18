@@ -1,4 +1,11 @@
 all:
+  # Default values
+  vars:
+    tailscale:
+      enable: true
+    firewall:
+      enable: true
+
   hosts:
     zeta:
       ansible_host: 100.108.145.81

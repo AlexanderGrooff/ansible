@@ -8,10 +8,11 @@
     state: directory
   become: true
 
-- name: Check if nix command is available
-  command: which nix
+- name: Check if nix is installed
+  stat:
+    path: /nix
   register: nix_installed
 
 - name: Install nix
   shell: "curl -L https://nixos.org/nix/install | sh"
-  when: nix_installed.rc != 0
+  when: not nix_installed.stat.exists

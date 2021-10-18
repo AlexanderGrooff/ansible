@@ -63,6 +63,8 @@
 - include: users.yml
 - include: ssh.yml
 - include: tailscale.yml
+  when: tailscale.enable
 - include: firewall.yml
-- include: nix.yml
+  when: firewall.enable
 - include: dotfiles.yml
+- include: nix.yml
