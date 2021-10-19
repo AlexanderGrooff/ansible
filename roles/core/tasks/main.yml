@@ -19,8 +19,8 @@
 - include: users.yml
 - include: ssh.yml
 - include: tailscale.yml
-  when: tailscale.enable
+  when: tailscale is defined and tailscale.enable
 - include: firewall.yml
-  when: firewall.enable
+  when: firewall is defined and firewall.enable
 - include: dotfiles.yml
 - include: nix.yml
