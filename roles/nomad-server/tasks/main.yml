@@ -14,6 +14,8 @@
   pause: seconds=5
 
 - include: static.yml
+  tags:
+  - static
 
 - include: jobs.yml
   with_items:

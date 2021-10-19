@@ -1,8 +1,8 @@
 ---
 - name: Place files into static volume
   template:
-    src: "static/{{ item }}"
-    dest: "/data/shared/nomad/static/{{ item }}"
-  with_items:
-  - bootstrap.sh
+    src: "static/{{ item | basename }}"
+    dest: "/data/shared/nomad/static/{{ item | basename }}"
+  with_fileglob:
+  - templates/static/*
   become: yes

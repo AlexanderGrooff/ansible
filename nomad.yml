@@ -11,8 +11,12 @@
   hosts: nomad_servers
   tasks:
     - include_role: name=nomad-server
+      tags:
+      - always
 
 - name: Manage nomad clients
   hosts: nomad_clients
   tasks:
     - include_role: name=nomad-client
+      tags:
+      - always
