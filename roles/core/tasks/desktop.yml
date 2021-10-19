@@ -1,0 +1,9 @@
+---
+- name: Install desktop packages for Arch
+  kewlfft.aur.aur:
+    name: [
+      py3status,
+      i3-wm
+    ]
+    state: present
+  when: ansible_distribution == "Archlinux"

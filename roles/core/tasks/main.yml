@@ -24,3 +24,6 @@
   when: firewall is defined and firewall.enable
 - include: dotfiles.yml
 - include: nix.yml
+
+- include: desktop.yml
+  when: desktop.enable
