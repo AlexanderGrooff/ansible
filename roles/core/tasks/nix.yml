@@ -1,13 +1,4 @@
 ---
-- name: Create /nix
-  file:
-    path: /nix
-    owner: alex
-    group: alex
-    mode: 0755
-    state: directory
-  become: true
-
 - name: Check if nix is installed
   stat:
     path: /nix
