@@ -15,6 +15,7 @@
 
 - include: hostname.yml
 - include: docker.yml
+  when: ansible_distribution == "Debian"
 - include: users.yml
 - include: ssh.yml
 - include: tailscale.yml

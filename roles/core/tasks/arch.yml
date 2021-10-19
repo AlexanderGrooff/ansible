@@ -11,25 +11,23 @@
       cmake,
       curl,
       dnsutils,
+      docker
       git,
-      gpg-agent,  # Required for apt-key
-      gpg,
       htop,
       keychain,
       net-tools,  # Contains netstat
       nodejs,
       npm,
-      python-distutils,
       python-pip,
       python-setuptools,
+      python-virtualenv,
+      python-virtualenvwrapper,
       python,
       sudo,
       traceroute,
       ufw,
       unzip,
       vim,
-      python-virtualenv,
-      python-virtualenvwrapper,
       zsh,
     ]
     state: present

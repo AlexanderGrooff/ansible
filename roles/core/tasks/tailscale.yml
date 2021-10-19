@@ -1,23 +1,32 @@
 ---
-# See https://tailscale.com/kb/1041/install-debian-buster
-- name: Add apt key for tailscale
-  apt_key:
-    url: "https://pkgs.tailscale.com/stable/debian/{{ ansible_distribution_release }}.gpg"
-    state: present
-  become: true
+- name: Install Tailscale for Debian
+  block:
+    # See https://tailscale.com/kb/1041/install-debian-buster
+    - name: Add apt key for tailscale
+      apt_key:
+        url: "https://pkgs.tailscale.com/stable/debian/{{ ansible_distribution_release }}.gpg"
+        state: present
+      become: true
 
-- name: Add tailscale repo
-  apt_repository:
-    repo: "deb https://pkgs.tailscale.com/stable/debian {{ ansible_distribution_release }} main"
-    state: present
-  become: true
+    - name: Add tailscale repo
+      apt_repository:
+        repo: "deb https://pkgs.tailscale.com/stable/debian {{ ansible_distribution_release }} main"
+        state: present
+      become: true
 
-- name: Install tailscale
-  apt:
+    - name: Install tailscale
+      apt:
+        name: tailscale
+        update_cache: yes
+      become: yes
+      notify: restart-tailscaled
+  when: ansible_distribution == "Debian"
+
+- name: Install Tailscale for Arch
+  kewlfft.aur.aur:
     name: tailscale
-    update_cache: yes
-  become: yes
-  notify: restart-tailscaled
+    state: present
+  when: ansible_distribution == "Archlinux"
 
 - name: Start tailscaled
   service:
