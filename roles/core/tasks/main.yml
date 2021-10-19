@@ -1,54 +1,9 @@
 ---
-- name: Install core packages
-  apt:
-    name: [
-      apparmor,
-      cmake,
-      curl,
-      dnsutils,
-      git,
-      gpg-agent,  # Required for apt-key
-      gpg,
-      htop,
-      keychain,
-      net-tools,  # Contains netstat
-      nodejs,
-      npm,
-      python3-distutils,
-      python3-pip,
-      python3-setuptools,
-      python3,
-      sudo,
-      traceroute,
-      ufw,
-      unzip,
-      vim,
-      virtualenv,
-      virtualenvwrapper,
-      zsh,
-    ]
-    state: latest
-    update_cache: yes
-  become: yes
-  become_user: root
+- include: debian.yml
+  when: ansible_distribution == "Debian"
 
-  # TODO: only try to install on buster
-  # TODO: install 'fd' on distros other than buster
-- name: Install debian buster core packages
-  apt:
-    name: [fd-find]
-    state: present
-  become: yes
-  become_user: root
-  failed_when: false
-
-- name: Symlink python to python3
-  command: update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-  become: yes
-
-- name: Symlink pip to pip3
-  command: update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
-  become: yes
+- include: arch.yml
+  when: ansible_distribution == "Archlinux"
 
 - name: Install Python packages
   pip:

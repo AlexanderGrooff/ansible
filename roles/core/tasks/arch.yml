@@ -1,0 +1,35 @@
+---
+- name: Install yay
+  kewlfft.aur.aur:
+    name: yay
+    use: makepkg
+    state: present
+
+- name: Install core packages
+  kewlfft.aur.aur:
+    name: [
+      cmake,
+      curl,
+      dnsutils,
+      git,
+      gpg-agent,  # Required for apt-key
+      gpg,
+      htop,
+      keychain,
+      net-tools,  # Contains netstat
+      nodejs,
+      npm,
+      python-distutils,
+      python-pip,
+      python-setuptools,
+      python,
+      sudo,
+      traceroute,
+      ufw,
+      unzip,
+      vim,
+      python-virtualenv,
+      python-virtualenvwrapper,
+      zsh,
+    ]
+    state: present

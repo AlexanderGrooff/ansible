@@ -2,3 +2,4 @@
 collections:
 - community.general  # Contains ufw
 - gluster.gluster
+- kewlfft.aur  # Contains AUR installers like yay
