@@ -8,7 +8,7 @@ echo '%alex ALL=(ALL:ALL) NOPASSWD:ALL' | sudo tee /etc/sudoers.d/0pw4alex
 
 if [[ $(command -v apt-get) ]]; then
     sudo apt-get update
-    sudo apt-get install -y python3-pip virtualenvwrapper
+    sudo apt-get install -y python3-pip virtualenvwrapper git curl
 elif [[ $(command -v pacman) ]]; then
     git clone https://aur.archlinux.org/yay.git
     pushd yay
@@ -26,7 +26,7 @@ fi
 pushd ansible
 
 echo "Creating environment"
-if [ -d .venv ]; then
+if [ ! -d .venv ]; then
     virtualenv .venv
 fi
 . .venv/bin/activate
