@@ -10,6 +10,7 @@
       gpg-agent,  # Required for apt-key
       gpg,
       htop,
+      iperf3,
       keychain,
       net-tools,  # Contains netstat
       nodejs,
