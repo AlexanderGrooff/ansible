@@ -10,11 +10,11 @@
   when: ansible_distribution == "Archlinux"
 
 - name: Install desktop packages for Debian
-  kewlfft.aur.aur:
+  apt:
     name: [
       py3status,
       i3-wm,
       sakura
     ]
-    state: present
+    state: latest
   when: ansible_distribution in ["Debian", "Ubuntu"]
