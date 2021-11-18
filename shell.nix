@@ -17,7 +17,6 @@ in
 
     shellHook = ''
       VENV_DIR=$(pwd)/.venv
-      if [ -d $VENV_DIR ]; then rm -rf $VENV_DIR; fi
       python -m venv $VENV_DIR
       . $VENV_DIR/bin/activate
       export LD_LIBRARY_PATH=${pkgs.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH
