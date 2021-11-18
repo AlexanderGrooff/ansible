@@ -43,12 +43,12 @@
 - name: Connect tailscale via browser
   command: tailscale up
   become: yes
-  when: '"Connected" not in tailscale_status.stdout' and tailscale.auth_key is not defined
+  when: '"Connected" not in tailscale_status.stdout and tailscale.auth_key is not defined'
 
 - name: Connect tailscale with authtoken
   command: "tailscale up --authkey {{ tailscale.auth_key }}"
   become: yes
-  when: '"Connected" not in tailscale_status.stdout' and tailscale.auth_key is defined
+  when: '"Connected" not in tailscale_status.stdout and tailscale.auth_key is defined'
 
 - name: Place sshd config
   template:
