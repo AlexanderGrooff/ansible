@@ -2,8 +2,9 @@
 - name: Install desktop packages for Arch
   kewlfft.aur.aur:
     name: [
-      py3status,
       i3-wm,
+      py3status,
+      rofi,
       sakura
     ]
     state: present
@@ -13,8 +14,9 @@
 - name: Install desktop packages for Debian
   apt:
     name: [
-      py3status,
       i3-wm,
+      py3status,
+      rofi,
       sakura
     ]
     state: latest
