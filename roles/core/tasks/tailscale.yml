@@ -4,13 +4,13 @@
     # See https://tailscale.com/kb/1041/install-debian-buster
     - name: Add apt key for tailscale
       apt_key:
-        url: "https://pkgs.tailscale.com/stable/{{ ansible_distribution }}/{{ ansible_distribution_release }}.gpg"
+        url: "https://pkgs.tailscale.com/stable/{{ ansible_distribution | lower }}/{{ ansible_distribution_release }}.gpg"
         state: present
       become: true
 
     - name: Add tailscale repo
       apt_repository:
-        repo: "deb https://pkgs.tailscale.com/stable/{{ ansible_distribution }} {{ ansible_distribution_release }} main"
+        repo: "deb https://pkgs.tailscale.com/stable/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
         state: present
       become: true
 
