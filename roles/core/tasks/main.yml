@@ -14,6 +14,7 @@
   register: pip_installs
 
 - include: hostname.yml
+  when: inventory_hostname != "localhost"
 - include: docker.yml
   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
 - include: users.yml
