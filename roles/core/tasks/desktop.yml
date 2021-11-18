@@ -9,7 +9,7 @@
     state: present
   when: ansible_distribution == "Archlinux"
 
-- name: Install desktop packages for Arch
+- name: Install desktop packages for Debian
   kewlfft.aur.aur:
     name: [
       py3status,
@@ -17,4 +17,4 @@
       sakura
     ]
     state: present
-  when: ansible_distribution == "Archlinux"
+  when: ansible_distribution in ["Debian", "ubuntu"]
