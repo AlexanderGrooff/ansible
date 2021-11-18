@@ -17,4 +17,4 @@
       sakura
     ]
     state: present
-  when: ansible_distribution in ["Debian", "ubuntu"]
+  when: ansible_distribution in ["Debian", "Ubuntu"]
