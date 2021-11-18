@@ -7,6 +7,7 @@
       sakura
     ]
     state: present
+  become: true
   when: ansible_distribution == "Archlinux"
 
 - name: Install desktop packages for Debian
@@ -17,4 +18,5 @@
       sakura
     ]
     state: latest
+  become: true
   when: ansible_distribution in ["Debian", "Ubuntu"]
