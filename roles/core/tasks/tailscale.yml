@@ -56,3 +56,11 @@
     dest: /etc/ssh/sshd_config
   become: yes
   notify: reload-ssh
+
+- name: Enable sshd
+  service:
+    name: sshd
+    enabled: yes
+    state: started
+  become: yes
+  notify: reload-ssh
