@@ -1,24 +1,48 @@
 ---
-- name: Install desktop packages for Arch
-  kewlfft.aur.aur:
-    name: [
-      i3-wm,
-      py3status,
-      rofi,
-      sakura
-    ]
-    state: present
-  become: true
-  when: ansible_distribution == "Archlinux"
-
-- name: Install desktop packages for Debian
+- name: Install generic desktop packages for Debian
   apt:
     name: [
-      i3-wm,
+      flameshot,
       py3status,
       rofi,
-      sakura
+      sakura,
     ]
-    state: latest
   become: true
   when: ansible_distribution in ["Debian", "Ubuntu"]
+
+- name: Manage i3wm
+  block:
+    - name: Install desktop packages for Arch
+      kewlfft.aur.aur:
+        name: [
+          i3-wm,
+          i3lock,
+        ]
+        state: present
+      become: true
+      when: ansible_distribution == "Archlinux"
+
+    - name: Install desktop packages for Debian
+      apt:
+        name: [
+          i3-wm,
+          i3lock,
+        ]
+        state: latest
+      become: true
+      when: ansible_distribution in ["Debian", "Ubuntu"]
+  when: desktop.wm == "i3"
+
+- name: Manage Sway
+  block:
+    - name: Install sway
+      apt:
+        name: [
+          sway,
+          swaylock,
+          wdisplays,
+        ]
+        state: latest
+      become: true
+      when: ansible_distribution in ["Debian", "Ubuntu"]
+  when: desktop.wm == "sway"
