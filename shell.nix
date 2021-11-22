@@ -1,24 +1,8 @@
-{ pkgs ? import <nixpkgs> {}}:
-
-let
-  pyEnv = pkgs.python39.withPackages(ps: with ps; [
-    # Venv packages
-    pip
-    pre-commit
-    setuptools
-    virtualenv
-    wheel
-  ]);
-in
+{ pkgs ? import <nixpkgs> {} }:
   pkgs.mkShell {
-    buildInputs = with pkgs; [
-      pyEnv
+    # nativeBuildInputs is usually what you want -- tools you need to run
+    nativeBuildInputs = [
+        pkgs.python37
     ];
+}
 
-    shellHook = ''
-      VENV_DIR=$(pwd)/.venv
-      python -m venv $VENV_DIR
-      . $VENV_DIR/bin/activate
-      export LD_LIBRARY_PATH=${pkgs.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH
-    '';
-  }
