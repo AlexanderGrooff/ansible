@@ -21,6 +21,8 @@ all:
       external_ip: 116.203.149.177
       external_interface: eth0
     delta:
+      ansible_host: 100.72.69.31
+      tailscale_ip: 100.72.69.31
       desktop:
         enable: true
         wm: sway
@@ -35,6 +37,8 @@ all:
           63656435646635343838313038313766663137353330653436343835323336303239653962623030
           3432626465383166663930326662626431643030656265656331
     omega:
+      ansible_host: 100.97.50.92
+      tailscale_ip: 100.97.50.92
       tailscale:
         auth_key: !vault |
           $ANSIBLE_VAULT;1.1;AES256
