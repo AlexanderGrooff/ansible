@@ -51,6 +51,12 @@
   become: yes
   when: '"Connected" not in tailscale_status.stdout and tailscale.auth_key is defined'
 
+- name: Install sshd
+  apt:
+    name: openssh-server
+    state: latest
+  become: true
+
 - name: Place sshd config
   template:
     src: etc/ssh/sshd_config.j2
