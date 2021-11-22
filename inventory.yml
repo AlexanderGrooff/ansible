@@ -19,6 +19,11 @@ all:
       tailscale_ip: 100.67.199.75
       external_ip: 116.203.149.177
       external_interface: eth0
+    delta:
+      desktop:
+        enable: true
+      tailscale:
+        enable: false
     omega:
       tailscale:
         auth_key: !vault |
