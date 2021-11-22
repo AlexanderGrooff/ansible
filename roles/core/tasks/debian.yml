@@ -5,6 +5,7 @@
       apparmor,
       cmake,
       curl,
+      direnv,
       dnsutils,
       git,
       gpg-agent,  # Required for apt-key
