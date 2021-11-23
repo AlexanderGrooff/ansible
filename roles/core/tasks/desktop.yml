@@ -38,9 +38,11 @@
     - name: Install sway
       apt:
         name: [
+          grimshot,  # Screenshot tool
           sway,
           swaylock,
           wdisplays,
+          weston,  # Compositor
         ]
         state: latest
       become: true
