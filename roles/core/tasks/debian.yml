@@ -12,6 +12,7 @@
       gpg,
       htop,
       iperf3,
+      jq,
       keychain,
       net-tools,  # Contains netstat
       nodejs,

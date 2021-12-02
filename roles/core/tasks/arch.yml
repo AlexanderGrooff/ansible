@@ -15,6 +15,7 @@
       docker,
       git,
       htop,
+      jq,
       keychain,
       net-tools,  # Contains netstat
       nodejs,
