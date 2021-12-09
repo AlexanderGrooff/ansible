@@ -3,6 +3,7 @@
   apt:
     name: [
       flameshot,
+      fonts-font-awesome,
       py3status,
       rofi,
       sakura,
