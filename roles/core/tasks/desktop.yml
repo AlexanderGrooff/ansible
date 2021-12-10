@@ -1,9 +1,11 @@
 ---
+# TODO: Make generic list and install on both OSes
 - name: Install generic desktop packages for Debian
   apt:
     name: [
       flameshot,
       fonts-font-awesome,
+      pavucontrol,
       py3status,
       rofi,
       sakura,
