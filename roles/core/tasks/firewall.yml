@@ -5,7 +5,7 @@
       state: present
   become: true
   notify: restart-fail2ban
-  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+  when: ansible_os_family == "Debian"
 
 - name: Install fail2ban for Archlinux
   kewlfft.aur.aur:

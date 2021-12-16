@@ -1,6 +1,6 @@
 ---
 - include: debian.yml
-  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+  when: ansible_os_family == "Debian"
 
 - include: arch.yml
   when: ansible_distribution == "Archlinux"
@@ -16,7 +16,7 @@
 - include: hostname.yml
   when: inventory_hostname != "localhost"
 - include: docker.yml
-  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+  when: ansible_os_family == "Debian"
 - include: users.yml
 - include: ssh.yml
 - include: tailscale.yml

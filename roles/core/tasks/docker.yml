@@ -7,20 +7,24 @@
       'software-properties-common',
     ]
     state: latest
+  when: ansible_os_family == "Debian"
   become: yes
 
 - name: Add Docker GPG apt Key
   apt_key:
     url: https://download.docker.com/linux/debian/gpg
     state: present
+  when: ansible_os_family == "Debian"
   become: yes
 
 - name: Add Docker Repository
   apt_repository:
     repo: "deb https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
     state: present
+  when: ansible_os_family == "Debian"
   become: yes
 
 - name: Update apt and install docker-ce
   apt: update_cache=yes name=docker-ce state=latest
+  when: ansible_os_family == "Debian"
   become: yes

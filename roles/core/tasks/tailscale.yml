@@ -21,7 +21,7 @@
         state: latest
       become: yes
       notify: restart-tailscaled
-  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+  when: ansible_os_family == "Debian"
 
 - name: Install Tailscale for Arch
   kewlfft.aur.aur:
