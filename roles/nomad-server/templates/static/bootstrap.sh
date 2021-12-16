@@ -27,7 +27,7 @@ pushd ansible
 
 echo "Creating environment"
 if [ ! -d .venv ]; then
-    virtualenv .venv
+    virtualenv -p python3 .venv
 fi
 . .venv/bin/activate
 pip install -r requirements.txt
