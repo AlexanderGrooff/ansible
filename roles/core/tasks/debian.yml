@@ -15,6 +15,7 @@
       jq,
       keychain,
       net-tools,  # Contains netstat
+      nmap,
       nodejs,
       npm,
       python3-distutils,
