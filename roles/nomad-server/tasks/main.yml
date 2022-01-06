@@ -18,6 +18,7 @@
   - static
 
 - include: jobs.yml
+  tags: ["jobs"]
   with_items:
   - nomad/jobs/docker-registry.nomad
   - nomad/jobs/coredns.nomad
