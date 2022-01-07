@@ -51,3 +51,26 @@
       become: true
       when: ansible_os_family == "Debian"
   when: desktop.wm == "sway"
+
+- name: Create user service directory
+  file:
+    path: /home/alex/.config/systemd/user/
+    state: directory
+    recurse: yes
+    owner: alex
+    group: alex
+
+- name: Place user service files
+  template:
+    src: config/systemd/user/hnproxy.service
+    dest: /home/alex/.config/systemd/user/hnproxy.service
+    owner: alex
+    group: alex
+
+- name: Start hnproxy service
+  systemd:
+    name: hnproxy
+    state: started
+    enabled: yes
+    scope: user
+    daemon_reload: yes

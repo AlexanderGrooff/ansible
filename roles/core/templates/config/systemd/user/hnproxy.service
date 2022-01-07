@@ -1,0 +1,12 @@
+[Unit]
+Description=HypernodeProxy
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Restart=on-failure
+RestartSec=5s
+ExecStart=/usr/bin/ssh jh -N -D 5000
+
+[Install]
+WantedBy=multi-user.target
