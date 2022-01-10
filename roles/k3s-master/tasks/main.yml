@@ -4,7 +4,7 @@
     name: k3s
     state: started
   register: start_k3s
-  failed_when: false  # Will error if not installed, that's fine
+  ignore_errors: true  # Will error if not installed, that's fine
 
 - include: install.yml
   when: not start_k3s is succeeded

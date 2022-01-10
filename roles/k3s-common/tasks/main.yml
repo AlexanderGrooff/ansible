@@ -1,27 +1,43 @@
 ---
+- name: Enable IPv4 forwarding
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: "1"
+    state: present
+    reload: yes
+  become: yes
+
+- name: Enable IPv6 forwarding
+  sysctl:
+    name: net.ipv6.conf.all.forwarding
+    value: "1"
+    state: present
+    reload: yes
+  become: yes
+  when: ansible_all_ipv6_addresses
+
 - name: Create k3s group
   group:
-    name: "{{k3s_username}}"
+    name: "{{ k3s_username }}"
     system: yes
     state: present
   become: yes
 
 - name: Make k3s group sudoer
   copy:
-    content: '%{{k3s_username}} ALL=(ALL:ALL) NOPASSWD:ALL'
-    dest: '/etc/sudoers.d/0pw4{{k3s_username}}'
+    content: '%{{ k3s_username }} ALL=(ALL:ALL) NOPASSWD:ALL'
+    dest: '/etc/sudoers.d/0pw4{{ k3s_username }}'
     mode: 0440
     validate: 'visudo -cf %s'
   become: yes
 
 - name: Create k3s user
   user:
-    name: "{{k3s_username}}"
-    group: "{{k3s_username}}"
+    name: "{{ k3s_username }}"
+    group: "{{ k3s_username }}"
     system: yes
     password: '!'
     state: present
   become: yes
 
 - include: packages.yml
-- include: k3sup.yml

@@ -5,3 +5,4 @@
       package: [
           'open-iscsi', # Required for longhorn
       ]
+  become: yes

@@ -5,12 +5,18 @@
     argv:
       - k3sup
       - install
-      - --local
+      - --cluster
+      - --ip
+      - "{{ tailscale_ip }}"
       - --user
       - "{{k3s_username}}"
+      - --no-extras
+      - --ssh-key
+      - ~/.ssh/id_ed25519
+      - --user
+      - alex
+  delegate_to: localhost
   register: master_created
-  become: true
-  notify: reboot
 
 - name: Debug report of master creation
   debug: var=master_created
@@ -18,7 +24,7 @@
 
 - name: Check API availability of master servers
   uri:
-    url: "https://{{ansible_facts.eth0.ipv4.address}}:6443"
+    url: "https://{{ tailscale_ip }}:6443"
     method: GET
     validate_certs: False
     status_code: 401
