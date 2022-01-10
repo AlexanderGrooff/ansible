@@ -6,16 +6,15 @@
       - k3sup
       - join
       - --ip
-      - localhost
+      - "{{ tailscale_ip }}"
       - --server-ip
-      - "{{ k3s_masters.0.tailscale_ip }}"
+      - "{{ k3s_servers.0.tailscale_ip }}"
       - --user
-      - "{{k3s_username}}"
+      - alex
       - --ssh-key
-      - "{{ssh_key}}"
+      - .ssh/id_ed25519
   register: slave_created
-  become: true
-  notify: reboot
+  delegate_to: localhost
 
 - name: Debug report of slave creation
   debug: var=slave_created
@@ -23,7 +22,7 @@
 
 - name: Check API availability of slave servers
   uri:
-    url: "https://{{hostvars[inventory_hostname].ansible_facts.eth0.ipv4.address}}:6443"
+    url: "https://{{ tailscale_ip }}:6443"
     method: GET
     validate_certs: False
     status_code: 401
