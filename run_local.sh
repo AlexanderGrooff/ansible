@@ -2,4 +2,4 @@
 
 PLAYBOOK=${PLAYBOOK:-core.yml}
 
-ansible-playbook $PLAYBOOK -v --connection=local --limit=$(hostname)
+ansible-playbook $PLAYBOOK -v --connection=local --limit=$(hostname) $@
