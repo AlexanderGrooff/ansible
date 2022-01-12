@@ -1,1 +1,10 @@
 ---
+- name: Get AWX operator config
+  get_url:
+    url: https://raw.githubusercontent.com/ansible/awx-operator/0.15.0/deploy/awx-operator.yaml
+    dest: /tmp/awx_operator.yml
+
+- name: Install AWX operator
+  k8s:
+    state: present
+    src: /tmp/awx_operator.yml
