@@ -14,6 +14,6 @@ At this point the node is ready for any of the ansible playbooks.
 
 ```shell
 mkv
-ansible-galaxy collection install -r requirements-ansible-collections.yml
+ansible-galaxy collection install -r requirements.yml
 ansible-playbook nomad.yml -v
 ```
