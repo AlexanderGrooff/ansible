@@ -40,4 +40,10 @@
     state: present
   become: yes
 
+- name: Create .kube dir
+  file: 
+    path: ~/.kube
+    recurse: true
+    state: directory
+
 - include: packages.yml

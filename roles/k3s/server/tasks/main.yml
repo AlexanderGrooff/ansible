@@ -9,13 +9,14 @@
 - include: install.yml
   when: not start_k3s is succeeded
 
-# TODO: FIGURE THIS OUT
-#- name: Accept keys of slaves
-#  authorized_key:
-#    user: "{{k3s_username}}"
-#    key: "{{item['ssh_pubkey']}}"
-#    state: present
-#  with_items:
-#  - "{{k3s_slaves}}"
+- name: Copy kubeconfig
+  copy:
+    src: /etc/rancher/k3s/k3s.yaml
+    dest: /home/alex/.kube/config
+    remote_src: true
+    owner: alex
+    group: alex
+    mode: 0600
+  become: true
 
 - include: helm.yml

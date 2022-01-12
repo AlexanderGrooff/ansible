@@ -6,3 +6,10 @@
           'open-iscsi', # Required for longhorn
       ]
   become: yes
+
+- name: Install Kubernetes Python packages
+  pip:
+    name: [
+        kubernetes==21.7.0  # Needed for the k8s galaxy collection
+    ]
+  register: pip_installs
