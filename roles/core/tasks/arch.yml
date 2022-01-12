@@ -17,6 +17,7 @@
       htop,
       jq,
       keychain,
+      make,
       net-tools,  # Contains netstat
       nmap,
       nodejs,
