@@ -1,0 +1,12 @@
+---
+- name: Place config file
+  template:
+    src: "{{ item }}"
+    dest: "/tmp/{{ item }}"
+    owner: alex
+    group: alex
+
+- name: Apply Kubernetes config file {{ item }}
+  k8s:
+    state: present
+    src: "/tmp/{{ item }}"

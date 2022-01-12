@@ -1,10 +1,19 @@
 ---
 - name: Get AWX operator config
-  get_url:
-    url: https://raw.githubusercontent.com/ansible/awx-operator/0.15.0/deploy/awx-operator.yaml
-    dest: /tmp/awx_operator.yml
+  git:
+    repo: https://github.com/ansible/awx-operator.git
+    version: 0.15.0
+    dest: ~/code/awx-operator
+    accept_hostkey: yes
+    update: no
+  register: awx_operator_code
 
-- name: Install AWX operator
-  k8s:
-    state: present
-    src: /tmp/awx_operator.yml
+- name: Deploy AWX operator
+  command: make deploy
+  args:
+    chdir: ~/code/awx-operator
+  when: awx_operator_code.changed
+
+- include: apply_config.yml
+  with_items:
+  - awx.yaml.j2
