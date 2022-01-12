@@ -53,3 +53,11 @@
 - name: Symlink pip to pip3
   command: update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
   become: yes
+
+- name: Download kubectl
+  get_url:
+    url: https://dl.k8s.io/release/v1.23.0/bin/linux/amd64/kubectl
+    dest: /usr/local/bin/kubectl
+    mode: 0755
+    owner: root
+  become: yes
