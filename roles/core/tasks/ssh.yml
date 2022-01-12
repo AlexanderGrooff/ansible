@@ -7,8 +7,12 @@
     group: alex
 
 - name: Authorize github ssh keys
-  get_url:
-    url: https://github.com/AlexanderGrooff.keys
-    dest: "/home/alex/.ssh/authorized_keys"
-    owner: alex
-    group: alex
+  authorized_key:
+    user: alex
+    key: https://github.com/AlexanderGrooff.keys
+
+- name: Authorize other ssh keys
+  authorized_key:
+    user: alex
+    key: |
+      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO3v6gah+p9r+QxVRCSudDXVDw6ZMnqBEB7v7Hw5ztaj awx.agrooff.com
