@@ -1,8 +1,7 @@
 ---
-# TODO: Make generic list and install on both OSes
-- name: Install generic desktop packages for Debian
-  apt:
-    name: [
+- name: Define desktop packages
+  set_fact:
+    desktop_packages: [
       flameshot,
       fonts-font-awesome,
       pavucontrol,
@@ -10,8 +9,18 @@
       rofi,
       sakura,
     ]
+
+- name: Install generic desktop packages for Debian
+  apt:
+    name: "{{ desktop_packages }}"
   become: true
   when: ansible_os_family == "Debian"
+
+- name: Install generic desktop packages for Arch
+  kewlfft.aur.aur:
+    name: "{{ desktop_packages }}"
+  become: true
+  when: ansible_distribution == "Archlinux"
 
 - name: Manage i3wm
   block:
