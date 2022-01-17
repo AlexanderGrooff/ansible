@@ -10,6 +10,7 @@
 - name: Install Kubernetes Python packages
   pip:
     name: [
-        kubernetes==21.7.0  # Needed for the k8s galaxy collection
+        kubernetes==21.7.0,  # Needed for the k8s galaxy collection
+        requests==2.27.1,
     ]
   register: pip_installs

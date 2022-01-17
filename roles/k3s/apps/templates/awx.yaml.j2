@@ -5,4 +5,10 @@ metadata:
   name: awx
   namespace: awx
 spec:
-  service_type: nodeport
+  service_type: ClusterIP
+
+  # Ingress settings
+  ingress_type: ingress
+  hostname: awx.agrooff.com
+  ingress_annotations: |
+    kubernetes.io/ingress.class: "nginx"  # Does this even work?

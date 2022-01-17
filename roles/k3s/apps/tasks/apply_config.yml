@@ -1,5 +1,5 @@
 ---
-- name: Place config file
+- name: Upload config file {{ item }}
   template:
     src: "{{ item }}"
     dest: "/tmp/{{ item }}"

@@ -188,4 +188,5 @@ k3s:
         theta:
     k3s_agents:
       hosts:
-        zeta:
+  vars:
+    floating_ip: 78.47.87.106

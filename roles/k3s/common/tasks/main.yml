@@ -47,3 +47,10 @@
     state: directory
 
 - include: packages.yml
+
+- name: Place floating IP networking config
+  template:
+    src: etc/network/interfaces.d/60-floating-ip.cfg
+    dest: /etc/network/interfaces.d/60-floating-ip.cfg
+  become: yes
+  notify: restart-networking

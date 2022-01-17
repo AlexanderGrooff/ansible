@@ -10,7 +10,8 @@
       - "{{ tailscale_ip }}"
       - --user
       - "{{k3s_username}}"
-      - --no-extras
+      - --k3s-extra-args
+      - '--no-deploy traefik'
       - --ssh-key
       - ~/.ssh/id_ed25519
       - --user

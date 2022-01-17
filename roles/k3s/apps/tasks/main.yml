@@ -1,4 +1,11 @@
 ---
+- include: apply_helm.yml
+  with_items:
+  - name: ingress-nginx
+    repo_url: https://kubernetes.github.io/ingress-nginx
+  # - name: metallb
+  #   repo_url: https://metallb.github.io/metallb
+
 - name: Get AWX operator config
   git:
     repo: https://github.com/ansible/awx-operator.git
@@ -17,3 +24,4 @@
 - include: apply_config.yml
   with_items:
   - awx.yaml.j2
+  # - metallb-config.yaml.j2
