@@ -1,3 +1,4 @@
+#jinja2: lstrip_blocks: "True"
 ## nginx configuration
 ## Ref: https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/index.md
 ##
@@ -26,10 +27,16 @@ controller:
     controllerValue: "k8s.io/ingress-nginx"
 
   service:
+    externalTrafficPolicy: Local
+    loadBalancerIP: {{ floating_ip }}
     externalIPs:
-    - {{ floating_ip}}
+    - {{ floating_ip }}
+    {# externalIPs:
+    {% for k3s_server in groups['k3s_servers'] %}
+    - {{ hostvars[k3s_server].external_ip }}
+    {% endfor %} #}
     loadBalancerSourceRanges:
-    - {{ floating_ip}}/32
+    - {{ floating_ip }}/32
 
 
   replicaCount: 1
