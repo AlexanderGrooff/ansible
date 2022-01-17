@@ -2,6 +2,7 @@
 - name: Define desktop packages
   set_fact:
     desktop_packages: [
+      autorandr,
       flameshot,
       fonts-font-awesome,
       pavucontrol,
