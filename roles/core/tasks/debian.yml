@@ -2,6 +2,7 @@
 - name: Install core packages
   apt:
     name: [
+      autossh,
       apparmor,
       cmake,
       curl,

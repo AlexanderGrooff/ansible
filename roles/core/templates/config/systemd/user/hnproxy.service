@@ -6,7 +6,7 @@ Wants=network-online.target
 [Service]
 Restart=on-failure
 RestartSec=5s
-ExecStart=/usr/bin/ssh jh -N -D 5000
+ExecStart=autossh jh -N -D 5000
 
 [Install]
 WantedBy=multi-user.target
