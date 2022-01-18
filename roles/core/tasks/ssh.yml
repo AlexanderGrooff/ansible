@@ -6,13 +6,23 @@
     owner: alex
     group: alex
 
-- name: Authorize github ssh keys
-  authorized_key:
-    user: alex
-    key: https://github.com/AlexanderGrooff.keys
+- name: Get Github ssh keys
+  uri:
+    url: https://github.com/AlexanderGrooff.keys
+    return_content: yes
+  register: github_ssh_keys
 
-- name: Authorize other ssh keys
+- name: Define list of other known SSH keys
+  set_fact:
+    misc_ssh_keys:
+    - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICxUS9/XrRGHBwta1NMwtFwH+uTkiqo06vXFz51PAJjd AWX
+
+- name: Define total list of SSH keys
+  set_fact:
+    ssh_keys: "{{ github_ssh_keys['content'].split('\n') + misc_ssh_keys }}"
+
+- name: Authorize ssh keys
   authorized_key:
     user: alex
-    key: |
-      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO3v6gah+p9r+QxVRCSudDXVDw6ZMnqBEB7v7Hw5ztaj awx.agrooff.com
+    exclusive: yes
+    key: "{{ '\n'.join(ssh_keys) }}"
