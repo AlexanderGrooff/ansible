@@ -11,6 +11,8 @@
 - include: apply_config.yml
   with_items:
   - metallb-config.yaml.j2
+  - cloudflare-secret.yaml.j2
+  - issuer.yaml.j2
 
 - name: Get AWX operator config
   git:
