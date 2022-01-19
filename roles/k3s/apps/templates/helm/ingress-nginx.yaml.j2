@@ -37,7 +37,14 @@ controller:
     {% endfor %} #}
     loadBalancerSourceRanges:
     - {{ floating_ip }}/32
-
+  
+  # Prometheus
+  metrics:
+    enabled: true
+    port: 10254  # Default value but just to be explicit
+  podAnnotations:
+    prometheus.io/scrape: true
+    prometheus.io/port: 10254
 
   replicaCount: 1
   minAvailable: 1
