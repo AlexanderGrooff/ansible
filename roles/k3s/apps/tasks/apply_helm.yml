@@ -15,6 +15,6 @@
   kubernetes.core.helm:
     name: "{{ item.name }}"
     chart_ref: "{{ item.name }}/{{ item.name}}"
-    release_namespace: "{{ item.name }}"
+    release_namespace: "{{ item.namespace | default(item.name) }}"
     create_namespace: true
     values_files: "/tmp/{{ item.name }}.yaml"
