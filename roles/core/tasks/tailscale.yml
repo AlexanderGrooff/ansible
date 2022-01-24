@@ -29,6 +29,15 @@
     state: present
   when: ansible_distribution == "Archlinux"
 
+- name: Place tailscale environment file
+  template:
+    src: etc/default/tailscaled.j2
+    dest: /etc/default/tailscaled
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+
 - name: Start tailscaled
   service:
     name: tailscaled
