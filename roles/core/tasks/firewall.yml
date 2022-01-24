@@ -25,35 +25,25 @@
   become: true
   notify: restart-fail2ban
 
-# FROM
-- name: Allow all access from RFC1918 networks to this host
+- name: Allow access from Tailscale
   community.general.ufw:
     rule: allow
-    from: '{{ item }}'
-  loop:
-    - 10.0.0.0/8
-    - 172.16.0.0/12
-    - 192.168.0.0/16
-    - 100.64.0.0/10
-    - 127.0.0.1/32
-  become: true
-  notify: reload-ufw
-
-# TO
-- name: Allow access to trusted hosts
-  community.general.ufw:
-    rule: allow
-    to: '{{ item }}'
-  loop:
-    - 10.0.0.0/8
-    - 172.16.0.0/12
-    - 192.168.0.0/16
-    - 100.64.0.0/10
-    - 127.0.0.1/32
+    from: '{{ tailscale_cidr }}'
+    interface: tailscale0
+    direction: in
   become: true
   notify: reload-ufw
 
 # DEFAULT
+- name: Default to deny all incoming traffic on Tailscale interface
+  community.general.ufw:
+    state: enabled
+    policy: deny
+    interface: tailscale0
+    direction: incoming
+  become: true
+  notify: reload-ufw
+
 - name: Default to deny all traffic
   community.general.ufw:
     state: enabled

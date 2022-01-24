@@ -1,6 +1,6 @@
 all:
-  # Default values
   vars:
+    # Default values
     tailscale:
       enable: true
     firewall:
@@ -8,6 +8,9 @@ all:
     desktop:
       enable: false
       wm: i3
+
+    # Constants used globally
+    tailscale_cidr: 100.64.0.0/10
     letsencrypt:
       email: !vault |
           $ANSIBLE_VAULT;1.1;AES256
