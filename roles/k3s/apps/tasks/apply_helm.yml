@@ -6,15 +6,15 @@
 
 - name: Upload helm values file {{ item.name }}
   template:
-    src: "helm/{{ item.name }}.yaml.j2"
-    dest: "/tmp/{{ item.name }}.yaml"
+    src: "helm/{{ item.values_file | default(item.name) }}.yaml.j2"
+    dest: "/tmp/{{ item.values_file | default(item.name) }}.yaml"
     owner: alex
     group: alex
 
 - name: Deploy {{ item.name }}
   kubernetes.core.helm:
-    name: "{{ item.name }}"
-    chart_ref: "{{ item.name }}/{{ item.name}}"
+    name: "{{ item.values_file | default(item.name) }}"
+    chart_ref: "{{ item.name }}/{{ item.name }}"
     release_namespace: "{{ item.namespace | default(item.name) }}"
     create_namespace: true
-    values_files: "/tmp/{{ item.name }}.yaml"
+    values_files: "/tmp/{{ item.values_file | default(item.name) }}.yaml"
