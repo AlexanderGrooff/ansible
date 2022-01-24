@@ -37,6 +37,7 @@
     group: root
     mode: 0644
   become: yes
+  notify: restart-tailscaled
 
 - name: Start tailscaled
   service:
