@@ -1,0 +1,11 @@
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/whitelist-source-range: {{ ",".join(trusted_ips) }}
+  hosts:
+  - grafana.alex.systems
+  tls:
+  - secretName: grafana-tls
+    hosts:
+    - grafana.alex.systems
