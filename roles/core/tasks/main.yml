@@ -26,5 +26,8 @@
 - include: dotfiles.yml
 - include: nix.yml
 
+- include: prometheus.yml
+  when: inventory_hostname not in groups["k3s"]
+
 - include: desktop.yml
   when: desktop is defined and desktop.enable

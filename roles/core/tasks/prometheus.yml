@@ -1,0 +1,6 @@
+---
+- name: Install prometheus node exporter
+  apt:
+    name: prometheus-node-exporter
+    state: present
+  become: yes
