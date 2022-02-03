@@ -13,6 +13,12 @@
   - name: grafana
     repo_url: https://grafana.github.io/helm-charts
     namespace: monitoring
+  - name: loki
+    repo_url: https://grafana.github.io/helm-charts
+    namespace: monitoring
+  - name: promtail
+    repo_url: https://grafana.github.io/helm-charts
+    namespace: monitoring
 
 - include: apply_config.yml
   with_items:
