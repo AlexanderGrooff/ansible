@@ -8,6 +8,8 @@ all:
     desktop:
       enable: false
       wm: i3
+    prometheus:
+      enable: true
 
     # Constants used globally
     tailscale_cidr: 100.64.0.0/10
@@ -77,6 +79,7 @@ all:
           61383162363465313063613666333131326165393536363061623031663364326536663939383230
           6632356164316436633333643630356634366435396334393963
     alpha:
+      tailscale_ip: 100.76.36.91
       tailscale:
         enable: true
         auth_key: !vault |
@@ -107,6 +110,7 @@ all:
           63656435646635343838313038313766663137353330653436343835323336303239653962623030
           3432626465383166663930326662626431643030656265656331
     phi:
+      tailscale_ip: 100.108.16.20
       desktop:
         enable: false
       tailscale:
@@ -220,3 +224,5 @@ k3s:
       hosts:
   vars:
     floating_ip: 78.47.87.106
+    prometheus:
+      enable: false  # Already have prometheus in the k3s cluster

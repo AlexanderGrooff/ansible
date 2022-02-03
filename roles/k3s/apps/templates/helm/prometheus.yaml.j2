@@ -1,0 +1,11 @@
+# adds additional scrape configs to prometheus.yml
+# must be a string so you have to add a | after extraScrapeConfigs:
+extraScrapeConfigs: |
+  - job_name: 'prometheus-tailscale'
+    static_configs:
+      - targets:
+{% for host in hostvars %}
+{% if hostvars[host].prometheus.enable %}
+        - {{ hostvars[host].tailscale_ip }}:9100
+{% endif %}
+{% endfor %}
