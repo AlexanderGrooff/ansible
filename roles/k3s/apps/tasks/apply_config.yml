@@ -1,12 +1,21 @@
 ---
-- name: Upload config file {{ item }}
+- name: Place config file {{ item }}
   template:
     src: "{{ item }}"
     dest: "/tmp/{{ item }}"
     owner: alex
     group: alex
+  when: item is not match("http.*")
+
+- name: Download config file {{ item }}
+  get_url:
+    url: "{{ item }}"
+    dest: "/tmp/{{ item | basename }}"
+    owner: alex
+    group: alex
+  when: item is match("http.*")
 
 - name: Apply Kubernetes config file {{ item }}
   k8s:
     state: present
-    src: "/tmp/{{ item }}"
+    src: "/tmp/{{ item | basename }}"
