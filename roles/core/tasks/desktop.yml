@@ -6,9 +6,16 @@
       flameshot,
       fonts-font-awesome,
       pavucontrol,
+      gdm3,
       py3status,
       rofi,
       sakura,
+    ]
+
+- name: Define redundant packages
+  set_fact:
+    redundant_desktop_packages: [
+      sddm,  # Replaced by gdm3
     ]
 
 - name: Install generic desktop packages for Debian
@@ -17,9 +24,22 @@
   become: true
   when: ansible_os_family == "Debian"
 
+- name: Remove redundant desktop packages for Debian
+  apt:
+    name: "{{ redundant_desktop_packages }}"
+    state: absent
+  become: true
+  when: ansible_os_family == "Debian"
+
 - name: Install generic desktop packages for Arch
   kewlfft.aur.aur:
     name: "{{ desktop_packages }}"
+  become: true
+  when: ansible_distribution == "Archlinux"
+
+- name: Remove redundant desktop packages for Arch
+  kewlfft.aur.aur:
+    name: "{{ redundant_desktop_packages }}"
   become: true
   when: ansible_distribution == "Archlinux"
 
@@ -61,6 +81,33 @@
       become: true
       when: ansible_os_family == "Debian"
   when: desktop.wm == "sway"
+
+- name: Manage KDE
+  block:
+  # Docs at https://volian.org/bismuth/
+  - name: Add Bismuth GPG apt Key
+    apt_key:
+      url: https://deb.volian.org/volian/scar.key
+      state: present
+    when: ansible_os_family == "Debian"
+    become: yes
+
+  - name: Add Bismuth Repository
+    apt_repository:
+      repo: "deb http://deb.volian.org/volian/ scar main"
+      state: present
+    when: ansible_os_family == "Debian"
+    become: yes
+
+  - name: Install Bismuth
+    apt:
+      name: [
+        kde-plasma-desktop,
+        kwin-bismuth,  # WM
+      ]
+      state: latest
+    become: yes
+  when: desktop.wm == "kde"
 
 - name: Create user service directory
   file:
