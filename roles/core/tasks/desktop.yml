@@ -2,20 +2,36 @@
 - name: Define desktop packages
   set_fact:
     desktop_packages: [
-      autorandr,
       flameshot,
       fonts-font-awesome,
       pavucontrol,
+      sakura,
+    ]
+
+- name: Define i3 packages
+  set_fact:
+    i3_packages: [
+      autorandr,
       gdm3,
+      gnome-desktop3-data,
+      gnome-shell,  # Not sure if this is the actual gnome package
+      i3-wm,
+      i3lock,
       py3status,
       rofi,
-      sakura,
+    ]
+
+- name: Define kdm packages
+  set_fact:
+    kde_packages: [
+      kde-plasma-desktop,
+      kwin-bismuth,  # WM
+      sddm,
     ]
 
 - name: Define redundant packages
   set_fact:
     redundant_desktop_packages: [
-      sddm,  # Replaced by gdm3
     ]
 
 - name: Install generic desktop packages for Debian
@@ -48,8 +64,6 @@
     - name: Install desktop packages for Arch
       kewlfft.aur.aur:
         name: [
-          i3-wm,
-          i3lock,
         ]
         state: present
       become: true
@@ -57,13 +71,16 @@
 
     - name: Install desktop packages for Debian
       apt:
-        name: [
-          i3-wm,
-          i3lock,
-        ]
+        name: "{{ i3_packages }}"
         state: latest
       become: true
       when: ansible_os_family == "Debian"
+
+    - name: Remove kde packages
+      apt:
+        name: "{{ kde_packages }}"
+        state: absent
+      become: yes
   when: desktop.wm == "i3"
 
 - name: Manage Sway
@@ -99,13 +116,16 @@
     when: ansible_os_family == "Debian"
     become: yes
 
-  - name: Install Bismuth
+  - name: Install kde packages
     apt:
-      name: [
-        kde-plasma-desktop,
-        kwin-bismuth,  # WM
-      ]
+      name: "{{ kde_packages }}"
       state: latest
+    become: yes
+
+  - name: Remove i3 packages
+    apt:
+      name: "{{ i3_packages }}"
+      state: absent
     become: yes
   when: desktop.wm == "kde"
 
