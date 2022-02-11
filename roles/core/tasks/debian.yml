@@ -38,6 +38,14 @@
   become: yes
   become_user: root
 
+- name: Remove redundant packages
+  apt:
+    name: [
+      snapd
+    ]
+    state: absent
+  become: yes
+
   # TODO: only try to install on buster
   # TODO: install 'fd' on distros other than buster
 - name: Install debian buster core packages
