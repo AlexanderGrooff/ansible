@@ -1,0 +1,41 @@
+## configure custom zone files as per https://coredns.io/2017/05/08/custom-dns-entries-for-kubernetes/
+#zoneFiles:
+#  - filename: alex_home.db
+#    domain: alex.home
+#    contents: |
+#      alex.home.   IN SOA dns.alex.home. alex.agrooff.com. 2022011821 7200 3600 1209600 3600
+#      alex.home.   IN A   {{ floating_ip }}
+#      *.alex.home. IN A   {{ floating_ip }}
+#
+# https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#coredns-configmap-options
+servers:
+- zones:
+  - zone: .
+  plugins:
+  # Serves a /health endpoint on :8080, required for livenessProbe
+  - name: health
+    configBlock: |-
+      lameduck 5s
+  # Serves a /ready endpoint on :8181, required for readinessProbe
+  - name: ready
+  # Serves a /metrics endpoint on :9153, required for serviceMonitor
+  - name: prometheus
+    parameters: 0.0.0.0:9153
+    # Required to query kubernetes API for data
+  - name: kubernetes
+    parameters: cluster.local in-addr.arpa ip6.arpa
+    configBlock: |-
+      pods insecure
+      fallthrough in-addr.arpa ip6.arpa
+      ttl 30
+  - name: forward
+    parameters: . /etc/resolv.conf
+  - name: reload
+  - name: log
+  - name: errors
+#  - zone: alex.home.
+#    plugins:
+#    - name: file
+#      parameters: alex_home.db
+#    - name: log
+#    - name: errors

@@ -2,10 +2,15 @@
 - name: Define desktop packages
   set_fact:
     desktop_packages: [
+      cmake,
       flameshot,
       fonts-font-awesome,
+      libfontconfig1-dev,
+      libfreetype6-dev,
+      libxcb-xfixes0-dev,
+      libxkbcommon-dev,
       pavucontrol,
-      sakura,
+      pkg-config,
     ]
 
 - name: Define i3 packages
@@ -151,3 +156,21 @@
     enabled: yes
     scope: user
     daemon_reload: yes
+
+- name: Clone alacritty
+  git:
+    repo: https://github.com/alacritty/alacritty.git
+    dest: /home/alex/.apps/alacritty
+  register: alacritty_clone
+
+- name: Build alacritty
+  command: cargo build --release
+  args:
+    chdir: /home/alex/.apps/alacritty
+  when: alacritty_clone.changed
+
+- name: Link alacritty to bin
+  file:
+    src: /home/alex/.apps/alacritty/target/release/alacritty
+    dest: /home/alex/.local/bin/alacritty
+    state: link
