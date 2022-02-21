@@ -1,7 +1,19 @@
 ---
+- name: Add alacritty repo GPG key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 5B7FC40A404FAD98548806028AC9B4BBBAB4900B
+  become: yes
+
+- name: Add alacritty apt repo
+  apt_repository:
+    repo: ppa:mmstick76/alacritty
+  become: yes
+
 - name: Define desktop packages
   set_fact:
     desktop_packages: [
+      alacritty,
       cmake,
       flameshot,
       fonts-font-awesome,
@@ -156,21 +168,3 @@
     enabled: yes
     scope: user
     daemon_reload: yes
-
-- name: Clone alacritty
-  git:
-    repo: https://github.com/alacritty/alacritty.git
-    dest: /home/alex/.apps/alacritty
-  register: alacritty_clone
-
-- name: Build alacritty
-  command: cargo build --release
-  args:
-    chdir: /home/alex/.apps/alacritty
-  when: alacritty_clone.changed
-
-- name: Link alacritty to bin
-  file:
-    src: /home/alex/.apps/alacritty/target/release/alacritty
-    dest: /home/alex/.local/bin/alacritty
-    state: link
