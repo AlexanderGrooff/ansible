@@ -23,13 +23,13 @@
       libxkbcommon-dev,
       pavucontrol,
       pkg-config,
+      sddm,
     ]
 
 - name: Define i3 packages
   set_fact:
     i3_packages: [
       autorandr,
-      gdm3,
       gnome-desktop3-data,
       gnome-shell,  # Not sure if this is the actual gnome package
       i3-wm,
@@ -43,12 +43,12 @@
     kde_packages: [
       kde-plasma-desktop,
       kwin-bismuth,  # WM
-      sddm,
     ]
 
 - name: Define redundant packages
   set_fact:
     redundant_desktop_packages: [
+      gdm3
     ]
 
 - name: Install generic desktop packages for Debian
