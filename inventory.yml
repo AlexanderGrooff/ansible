@@ -92,7 +92,7 @@ all:
           3434326364653563386535366234663234333738663733643237
       desktop:
         enable: true
-        wm: kde
+        wm: i3
     delta:
       ansible_host: 100.72.69.31
       tailscale_ip: 100.72.69.31
@@ -138,7 +138,7 @@ all:
         enable: true
       desktop:
         enable: true
-        wm: kde
+        wm: i3
 
 storage_servers:
   hosts:

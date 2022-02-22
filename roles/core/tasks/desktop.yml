@@ -14,9 +14,9 @@
   set_fact:
     desktop_packages: [
       alacritty,
-      cmake,
       flameshot,
       fonts-font-awesome,
+      kde-plasma-desktop,
       libfontconfig1-dev,
       libfreetype6-dev,
       libxcb-xfixes0-dev,
@@ -30,8 +30,6 @@
   set_fact:
     i3_packages: [
       autorandr,
-      gnome-desktop3-data,
-      gnome-shell,  # Not sure if this is the actual gnome package
       i3-wm,
       i3lock,
       py3status,
@@ -41,14 +39,15 @@
 - name: Define kdm packages
   set_fact:
     kde_packages: [
-      kde-plasma-desktop,
       kwin-bismuth,  # WM
     ]
 
 - name: Define redundant packages
   set_fact:
     redundant_desktop_packages: [
-      gdm3
+      gdm3,
+      gnome-desktop3-data,
+      gnome-shell,  # Not sure if this is the actual gnome package
     ]
 
 - name: Install generic desktop packages for Debian
