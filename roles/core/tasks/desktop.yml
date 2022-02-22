@@ -92,6 +92,13 @@
       become: true
       when: ansible_os_family == "Debian"
 
+    - name: Install i3 pip packages
+      pip:
+        name: [
+          i3-cycle
+        ]
+        state: latest
+
     - name: Remove kde packages
       apt:
         name: "{{ kde_packages }}"
