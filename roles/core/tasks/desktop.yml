@@ -30,6 +30,7 @@
   set_fact:
     i3_packages: [
       autorandr,
+      dunst,
       i3-wm,
       i3lock,
       py3status,
