@@ -24,6 +24,7 @@
 - include: firewall.yml
   when: firewall is defined and firewall.enable
 - include: dotfiles.yml
+- include: tmux.yml
 - include: nix.yml
 
 - include: prometheus.yml
