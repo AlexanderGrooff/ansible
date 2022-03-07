@@ -47,4 +47,3 @@ k3sup_os_map:
     suffix: ".exe"
   Darwin:
     suffix: "-darwin"
-

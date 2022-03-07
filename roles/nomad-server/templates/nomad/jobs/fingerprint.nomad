@@ -17,7 +17,7 @@ job "fingerprint" {
     service {
       name = "postgres"
       port = "db"
-    
+
       connect {
         sidecar_service {}
       }

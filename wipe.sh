@@ -8,5 +8,3 @@ for host in $HOSTS; do
     echo Wiping $host
     ssh $host 'bash -s' < wipe_host.sh
 done
-
-

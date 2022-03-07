@@ -17,7 +17,7 @@ job "n8n" {
     service {
       name = "postgres"
       port = "db"
-    
+
       connect {
         sidecar_service {}
       }

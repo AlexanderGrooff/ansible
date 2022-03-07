@@ -49,7 +49,7 @@
   become: yes
 
 - name: Create .kube dir
-  file: 
+  file:
     path: ~/.kube
     recurse: true
     state: directory

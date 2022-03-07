@@ -23,7 +23,7 @@
   when: make_dir.changed
 
 - name: Persistent bridge networking
-  lineinfile: 
+  lineinfile:
     path: /etc/sysctl.d/bridge-networking.conf
     line: "{{ item }}"
     create: yes

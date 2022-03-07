@@ -1,18 +1,20 @@
 #!/usr/bin/env python
 
-from argparse import ArgumentParser, Namespace
 import multiprocessing
+from argparse import ArgumentParser, Namespace
 from itertools import repeat
-from loguru import logger
 from subprocess import check_output
 from typing import List
-from ansible.parsing.dataloader import DataLoader
+
+from loguru import logger
+
 from ansible.inventory.manager import InventoryManager
+from ansible.parsing.dataloader import DataLoader
 
 
 def get_all_hosts() -> List[str]:
     data_loader = DataLoader()
-    inventory = InventoryManager(loader = data_loader, sources=["inventory.yml"])
+    inventory = InventoryManager(loader=data_loader, sources=["inventory.yml"])
     return inventory.get_hosts()
 
 
@@ -26,9 +28,9 @@ def parse_args() -> Namespace:
 
 def run_command_on_host(target: str, command: str):
     ssh_opts = [
-        "-T",                   # Disable interactivity
-        "-oConnectTimeout=3",   # Timeout after X seconds
-        "-oBatchMode=yes",      # Don't ask for passwords
+        "-T",  # Disable interactivity
+        "-oConnectTimeout=3",  # Timeout after X seconds
+        "-oBatchMode=yes",  # Don't ask for passwords
     ]
     ssh_cmd = f"ssh {' '.join(ssh_opts)} {target} {command}"
     try:
