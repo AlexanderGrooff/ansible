@@ -13,6 +13,7 @@
       direnv,
       dnsutils,
       docker,
+      fd,
       git,
       htop,
       jq,
