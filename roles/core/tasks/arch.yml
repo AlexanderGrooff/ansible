@@ -34,5 +34,6 @@
       unzip,
       vim,
       zsh,
+      xsel,
     ]
     state: present
