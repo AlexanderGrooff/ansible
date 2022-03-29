@@ -35,9 +35,9 @@
   set_fact:
     arch_desktop_packages: [
       aconfmgr-git,
-      code,
       slack-desktop,
       ttf-font-awesome,
+      visual-studio-code-bin,
     ]
 
 - name: Define i3 packages
