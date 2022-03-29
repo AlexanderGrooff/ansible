@@ -36,6 +36,7 @@
     arch_desktop_packages: [
       aconfmgr-git,
       gnome-keyring,  # https://github.com/MicrosoftDocs/live-share/issues/224#issuecomment-383324321
+      xaskpass,  # Places /usr/bin/xaskpass
       slack-desktop,
       ttf-font-awesome,
       visual-studio-code-bin,
@@ -179,6 +180,14 @@
     become: yes
     when: ansible_os_family == "Debian"
   when: desktop.wm == "kde"
+
+- name: Symlink xaskpass to ssh lib
+  file:
+    src: /usr/bin/xaskpass
+    dest: /usr/lib/ssh/ssh-askpass
+    state: link
+  become: yes
+  when: ansible_distribution == "Archlinux"
 
 - name: Create user service directory
   file:

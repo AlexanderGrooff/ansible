@@ -8,6 +8,7 @@
 - name: Install core packages
   kewlfft.aur.aur:
     name: [
+      autossh,
       cmake,
       curl,
       direnv,
@@ -19,6 +20,7 @@
       jq,
       keychain,
       make,
+      man-db,
       net-tools,  # Contains netstat
       nmap,
       nodejs,
