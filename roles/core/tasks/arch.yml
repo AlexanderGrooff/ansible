@@ -28,6 +28,7 @@
       python-virtualenvwrapper,
       python,
       sudo,
+      tmux,
       traceroute,
       ufw,
       unzip,

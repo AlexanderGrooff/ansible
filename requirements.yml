@@ -1,6 +1,6 @@
 ---
 collections:
-- community.general  # Contains ufw
+- community.general  # Contains ufw, pacman
 - gluster.gluster
 - kewlfft.aur  # Contains AUR installers like yay
 - kubernetes.core

@@ -6,7 +6,7 @@ PLAYBOOK=${PLAYBOOK:-core.yml}
 TARGETS=$1
 
 if [ -z $TARGETS ]; then
-    ansible-playbook $PLAYBOOK -v --connection=local --limit=$(hostname)
+    ansible-playbook $PLAYBOOK -v --connection=local --limit=$(hostnamectl hostname)
 else
     ansible-playbook $PLAYBOOK -v --limit=$TARGETS
 fi

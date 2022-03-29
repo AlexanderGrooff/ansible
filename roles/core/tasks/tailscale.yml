@@ -61,11 +61,12 @@
   become: yes
   when: '"Connected" not in tailscale_status.stdout and tailscale.auth_key is defined'
 
-- name: Install sshd
+- name: Install sshd on Debian
   apt:
     name: openssh-server
     state: latest
   become: true
+  when: ansible_os_family == "Debian"
 
 - name: Place sshd config
   template:

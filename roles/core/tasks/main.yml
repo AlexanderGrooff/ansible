@@ -25,7 +25,6 @@
   when: firewall is defined and firewall.enable
 - include: dotfiles.yml
 - include: tmux.yml
-- include: nix.yml
 
 - include: prometheus.yml
   when: inventory_hostname not in groups["k3s"]

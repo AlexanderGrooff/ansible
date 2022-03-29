@@ -4,26 +4,40 @@
     keyserver: keyserver.ubuntu.com
     id: 5B7FC40A404FAD98548806028AC9B4BBBAB4900B
   become: yes
+  when: ansible_os_family == "Debian"
 
 - name: Add alacritty apt repo
   apt_repository:
     repo: ppa:mmstick76/alacritty
   become: yes
+  when: ansible_os_family == "Debian"
 
 - name: Define desktop packages
   set_fact:
     desktop_packages: [
       alacritty,
       flameshot,
+      pavucontrol,
+      pkg-config,
+    ]
+
+- name: Define Debian specific desktop packages
+  set_fact:
+    debian_desktop_packages: [
       fonts-font-awesome,
-      kde-plasma-desktop,
       libfontconfig1-dev,
       libfreetype6-dev,
       libxcb-xfixes0-dev,
       libxkbcommon-dev,
-      pavucontrol,
-      pkg-config,
-      sddm,
+    ]
+
+- name: Define arch specific desktop packages
+  set_fact:
+    arch_desktop_packages: [
+      aconfmgr-git,
+      code,
+      slack,
+      ttf-font-awesome,
     ]
 
 - name: Define i3 packages
@@ -40,15 +54,22 @@
 - name: Define kdm packages
   set_fact:
     kde_packages: [
+      kde-plasma-desktop,
       kwin-bismuth,  # WM
     ]
 
-- name: Define redundant packages
+- name: Define redundant packages for Debian
   set_fact:
-    redundant_desktop_packages: [
-      gdm3,
+    debian_redundant_desktop_packages: [
       gnome-desktop3-data,
       gnome-shell,  # Not sure if this is the actual gnome package
+    ]
+
+
+- name: Define redundant packages for Arch
+  set_fact:
+    arch_redundant_desktop_packages: [
+      xterm,  # Default i3 terminal
     ]
 
 - name: Install generic desktop packages for Debian
@@ -57,33 +78,37 @@
   become: true
   when: ansible_os_family == "Debian"
 
+- name: Install specific desktop packages for Debian
+  apt:
+    name: "{{ debian_desktop_packages }}"
+  become: true
+  when: ansible_os_family == "Debian"
+
+- name: Install specific desktop packages for Arch
+  kewlfft.aur.aur:
+    name: "{{ arch_desktop_packages }}"
+  when: ansible_distribution == "Archlinux"
+
+
 - name: Remove redundant desktop packages for Debian
   apt:
-    name: "{{ redundant_desktop_packages }}"
+    name: "{{ debian_redundant_desktop_packages }}"
     state: absent
   become: true
   when: ansible_os_family == "Debian"
 
-- name: Install generic desktop packages for Arch
-  kewlfft.aur.aur:
-    name: "{{ desktop_packages }}"
-  become: true
-  when: ansible_distribution == "Archlinux"
-
 - name: Remove redundant desktop packages for Arch
-  kewlfft.aur.aur:
-    name: "{{ redundant_desktop_packages }}"
-  become: true
+  pacman:
+    name: "{{ arch_redundant_desktop_packages }}"
+    state: absent
+  become: yes
   when: ansible_distribution == "Archlinux"
 
 - name: Manage i3wm
   block:
-    - name: Install desktop packages for Arch
+    - name: Install i3 desktop packages for Arch
       kewlfft.aur.aur:
-        name: [
-        ]
-        state: present
-      become: true
+        name: "{{ i3_packages }}"
       when: ansible_distribution == "Archlinux"
 
     - name: Install desktop packages for Debian
@@ -105,6 +130,7 @@
         name: "{{ kde_packages }}"
         state: absent
       become: yes
+      when: ansible_os_family == "Debian"
   when: desktop.wm == "i3"
 
 - name: Manage Sway
@@ -144,6 +170,7 @@
     apt:
       name: "{{ kde_packages }}"
       state: latest
+    when: ansible_os_family == "Debian"
     become: yes
 
   - name: Remove i3 packages
@@ -151,6 +178,7 @@
       name: "{{ i3_packages }}"
       state: absent
     become: yes
+    when: ansible_os_family == "Debian"
   when: desktop.wm == "kde"
 
 - name: Create user service directory

@@ -1,6 +1,12 @@
 ---
-- name: Install prometheus node exporter
+- name: Install prometheus node exporter for Debian
   apt:
     name: prometheus-node-exporter
     state: present
   become: yes
+  when: ansible_os_family == "Debian"
+
+- name: Install prometheus node exporter for Arch
+  kewlfft.aur.aur:
+    name: prometheus-node-exporter
+  when: ansible_distribution == "Archlinux"
