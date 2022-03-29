@@ -35,6 +35,7 @@
   set_fact:
     arch_desktop_packages: [
       aconfmgr-git,
+      gnome-keyring,  # https://github.com/MicrosoftDocs/live-share/issues/224#issuecomment-383324321
       slack-desktop,
       ttf-font-awesome,
       visual-studio-code-bin,
@@ -65,7 +66,6 @@
       gnome-shell,  # Not sure if this is the actual gnome package
     ]
 
-
 - name: Define redundant packages for Arch
   set_fact:
     arch_redundant_desktop_packages: [
@@ -88,7 +88,6 @@
   kewlfft.aur.aur:
     name: "{{ arch_desktop_packages }}"
   when: ansible_distribution == "Archlinux"
-
 
 - name: Remove redundant desktop packages for Debian
   apt:
