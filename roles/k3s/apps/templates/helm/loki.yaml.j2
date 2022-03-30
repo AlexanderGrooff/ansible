@@ -1,0 +1,13 @@
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/whitelist-source-range: {{ ",".join(trusted_ips) }}
+  hosts:
+  - host: loki.alex.systems
+    paths:
+    - /
+  tls:
+  - secretName: loki-tls
+    hosts:
+      - loki.alex.systems
