@@ -3,6 +3,7 @@ ingress:
   ingressClassName: nginx
   annotations:
     nginx.ingress.kubernetes.io/whitelist-source-range: {{ ",".join(trusted_ips) }}
+    cert-manager.io/cluster-issuer: letsencrypt-prod
   hosts:
   - grafana.alex.systems
   tls:
