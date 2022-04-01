@@ -1,41 +1,50 @@
-## configure custom zone files as per https://coredns.io/2017/05/08/custom-dns-entries-for-kubernetes/
-#zoneFiles:
-#  - filename: alex_home.db
-#    domain: alex.home
-#    contents: |
-#      alex.home.   IN SOA dns.alex.home. alex.agrooff.com. 2022011821 7200 3600 1209600 3600
-#      alex.home.   IN A   {{ floating_ip }}
-#      *.alex.home. IN A   {{ floating_ip }}
-#
+#jinja2: lstrip_blocks: "True"
+# configure custom zone files as per https://coredns.io/2017/05/08/custom-dns-entries-for-kubernetes/
+zoneFiles:
+  - filename: alex_systems.db
+    domain: alex.systems
+    contents: |-
+      $ORIGIN alex.systems.  ; designates the start of this zone file in the namespace
+      $TTL 60s               ; default expiration time of all resource records without their own TTL value
+      @                 IN  SOA     ns.alex.systems. alex.systems. (
+                                        2022040114     ; Serial
+                                        1d             ; Refresh
+                                        2h             ; Retry
+                                        4w             ; Expire
+                                        1h)            ; Minimum TTL
+      @                 IN  A       {{ hostvars[groups['k3s_servers'][0]].tailscale_ip }}       ; Local IPv4 address for alex.systems.
+      @                 IN  NS      ns.alex.systems.   ; Name server for alex.systems.
+                        IN  NS      a.iana-servers.net.
+                        IN  NS      b.iana-servers.net.
+      *                 IN  CNAME   @                  ; Alias for name server (points to alex.systems.)
+
 # https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#coredns-configmap-options
+
+prometheus:
+  service:
+    enabled: true
+
+# We're exposing this as an external nameserver
+isClusterService: false
+service:
+  loadBalancerIP: {{ floating_ip }}
+  externalIPs:
+  - {{ floating_ip }}
+
 servers:
-- zones:
-  - zone: .
-  plugins:
-  # Serves a /health endpoint on :8080, required for livenessProbe
+- plugins:
+  - name: errors
   - name: health
-    configBlock: |-
-      lameduck 5s
-  # Serves a /ready endpoint on :8181, required for readinessProbe
+    configBlock: lameduck 5s
   - name: ready
-  # Serves a /metrics endpoint on :9153, required for serviceMonitor
   - name: prometheus
     parameters: 0.0.0.0:9153
-    # Required to query kubernetes API for data
-  - name: kubernetes
-    parameters: cluster.local in-addr.arpa ip6.arpa
-    configBlock: |-
-      pods insecure
-      fallthrough in-addr.arpa ip6.arpa
-      ttl 30
-  - name: forward
-    parameters: . /etc/resolv.conf
+  - name: file
+    parameters: /etc/coredns/alex_systems.db alex.systems
+  - name: loop
   - name: reload
+  - name: loadbalance
   - name: log
-  - name: errors
-#  - zone: alex.home.
-#    plugins:
-#    - name: file
-#      parameters: alex_home.db
-#    - name: log
-#    - name: errors
+  port: 53
+  zones:
+  - zone: alex.systems.
