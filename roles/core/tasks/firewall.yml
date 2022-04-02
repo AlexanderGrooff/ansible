@@ -34,6 +34,14 @@
   become: true
   notify: reload-ufw
 
+- name: Allow traffic on UDP port for Tailscale
+  community.general.ufw:
+    rule: allow
+    port: 41641
+    proto: udp
+  become: true
+  notify: reload-ufw
+
 # DEFAULT
 - name: Default to deny all incoming traffic on Tailscale interface
   community.general.ufw:
