@@ -58,3 +58,9 @@
     policy: deny
   become: true
   notify: reload-ufw
+
+- name: Allow users to read logs
+  file:
+    path: /var/log/fail2ban.log
+    mode: 0644
+  become: true
