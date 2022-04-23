@@ -1,4 +1,12 @@
 ---
+- name: Place main config dir
+  file:
+    path: /etc/alex
+    owner: alex
+    group: alex
+    state: directory
+  become: true
+
 - include: debian.yml
   when: ansible_os_family == "Debian"
 
@@ -9,7 +17,6 @@
   pip:
     name: [
         virtualenvwrapper,
-        speedtest-cli
     ]
   register: pip_installs
 
@@ -19,6 +26,7 @@
   when: ansible_os_family == "Debian"
 - include: users.yml
 - include: ssh.yml
+# - include: promtail.yml
 - include: tailscale.yml
   when: tailscale is defined and tailscale.enable
 - include: firewall.yml
@@ -31,3 +39,5 @@
 
 - include: desktop.yml
   when: desktop is defined and desktop.enable
+
+- include: ansible.yml

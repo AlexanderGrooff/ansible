@@ -37,7 +37,7 @@
     arch_desktop_packages: [
       aconfmgr-git,
       gnome-keyring,  # https://github.com/MicrosoftDocs/live-share/issues/224#issuecomment-383324321
-      nm-applet,  # Networkmanager GUI
+      nm-connection-editor,  # Networkmanager GUI
       slack-desktop,
       ttf-font-awesome,
       visual-studio-code-bin,

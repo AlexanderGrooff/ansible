@@ -10,12 +10,15 @@
     name: [
       autossh,
       cmake,
+      cronie,
+      cue,  # Configuration language
       curl,
       direnv,
       dnsutils,
       docker,
       fd,
       git,
+      go,
       htop,
       jq,
       keychain,

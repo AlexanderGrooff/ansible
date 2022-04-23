@@ -1,0 +1,19 @@
+- name: Place ansible cooldown script
+  copy:
+    src: etc/alex/run_ansible_on_cooldown.sh
+    dest: /etc/alex/run_ansible_on_cooldown.sh
+    owner: alex
+    group: alex
+    mode: 0755
+
+- name: Place ansible roles config
+  template:
+    src: etc/alex/ansible_roles.cue
+    dest: /etc/alex/ansible_roles.cue
+
+- name: Run ansible on cron
+  cron:
+    name: Run ansible periodically
+    minute: 0
+    job: /etc/alex/run_ansible_on_cooldown.sh
+    user: alex

@@ -1,4 +1,18 @@
 ---
+- name: Download go
+  get_url:
+    url: https://go.dev/dl/go1.18.1.linux-amd64.tar.gz
+    dest: /tmp/go.tar.gz
+
+- name: Unarchive go
+  unarchive:
+    src: /tmp/go.tar.gz
+    dest: /usr/local
+    remote_src: yes
+  args:
+    creates: /usr/local/go
+  become: true
+
 - name: Install core packages
   apt:
     name: [
@@ -38,6 +52,11 @@
     update_cache: yes
   become: yes
   become_user: root
+
+- name: Install binaries with go
+  command: /usr/local/go/bin/go install cuelang.org/go/cmd/cue@latest
+  args:
+    creates: /home/alex/go/bin/cue
 
 - name: Remove redundant packages
   apt:
