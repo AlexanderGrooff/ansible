@@ -20,7 +20,7 @@
       git,
       go,
       htop,
-      inetutils,
+      inetutils,  # Contains telnet
       jq,
       keychain,
       make,
