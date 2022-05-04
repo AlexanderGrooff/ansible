@@ -1,0 +1,15 @@
+---
+- name: Check if rust is installed
+  stat: path=/home/alex/.cargo
+  register: cargo_path
+
+- name: Download rust installer
+  get_url:
+    url: https://sh.rustup.rs
+    dest: /tmp/rustup.sh
+    mode: 0755
+  when: not cargo_path.stat.exists
+
+- name: Install rust
+  command: /tmp/rustup.sh -y --profile minimal --no-modify-path
+  when: not cargo_path.stat.exists

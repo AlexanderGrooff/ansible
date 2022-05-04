@@ -1,0 +1,55 @@
+### ARCH
+- name: Install Promtail on Arch
+  kewlfft.aur.aur:
+    name: promtail
+    state: present
+  when: ansible_distribution == "Archlinux"
+
+### DEBIAN
+- name: Get Promtail on Debian
+  block:
+    - name: Get download link for Promtail
+      shell: 'curl -s https://api.github.com/repos/grafana/loki/releases/latest | grep "browser_download_url.*promtail-linux-amd64" | cut -d : -f 2,3 | tr -d \"'
+      register: promtail_download_link
+
+    - name: Download Promtail binary
+      unarchive:
+        src: "{{ promtail_download_link.stdout.strip() }}"
+        dest: /tmp
+        remote_src: yes
+        creates: /tmp/promtail-linux-amd64
+
+    - name: Move Promtail to bin
+      copy:
+        src: /tmp/promtail-linux-amd64
+        dest: /usr/bin/promtail
+        remote_src: yes
+        mode: 0755
+      become: true
+  when: ansible_os_family == "Debian"
+
+# Place config
+- name: Create Promtail config directory
+  file:
+    path: /etc/promtail
+    state: directory
+    owner: root
+    group: root
+  become: true
+
+- name: Create Promtail cache directory
+  file:
+    path: /var/cache/promtail
+    state: directory
+    owner: root
+    group: root
+  become: true
+
+- name: Place Promtail config
+  template:
+    src: etc/promtail/promtail.yaml.j2
+    dest: /etc/promtail/promtail.yaml
+    owner: root
+    group: root
+
+# Enable and start promtail service

@@ -22,9 +22,8 @@
 
 - include: hostname.yml
   when: inventory_hostname != "localhost"
-- include: docker.yml
-  when: ansible_os_family == "Debian"
 - include: users.yml
+- include: systemd.yml
 - include: ssh.yml
 # - include: promtail.yml
 - include: tailscale.yml

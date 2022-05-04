@@ -1,0 +1,21 @@
+---
+- name: Add apt key for syncthing
+  apt_key:
+    url: "https://syncthing.net/release-key.gpg"
+    state: present
+  become: true
+
+- name: Add syncthing repo
+  apt_repository:
+    repo: "deb https://apt.syncthing.net/ syncthing stable"
+    state: present
+    filename: syncthing
+  become: true
+
+- name: Install syncthing
+  apt:
+    name: syncthing
+    update_cache: yes
+    state: latest
+  become: yes
+  notify: restart-syncthing

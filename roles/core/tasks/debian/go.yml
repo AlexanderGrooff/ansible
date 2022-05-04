@@ -1,0 +1,20 @@
+---
+- name: Check if Go tarball exists
+  stat:
+    path: /tmp/go.tar.gz
+  register: go_tarball
+
+- name: Download go
+  get_url:
+    url: https://go.dev/dl/go1.18.1.linux-amd64.tar.gz
+    dest: /tmp/go.tar.gz
+  when: not go_tarball.stat.exists
+
+- name: Unarchive go
+  unarchive:
+    src: /tmp/go.tar.gz
+    dest: /usr/local
+    remote_src: yes
+  args:
+    creates: /usr/local/go
+  become: true

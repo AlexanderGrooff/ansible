@@ -35,6 +35,7 @@
       python-virtualenvwrapper,
       python,
       sudo,
+      syncthing,
       tmux,
       traceroute,
       ufw,

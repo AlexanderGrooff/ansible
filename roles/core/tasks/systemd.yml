@@ -1,0 +1,9 @@
+---
+- name: Create user service directory
+  file:
+    path: /home/alex/.config/systemd/user/
+    state: directory
+    recurse: yes
+    owner: alex
+    group: alex
+  become: true

@@ -191,14 +191,6 @@
   become: yes
   when: ansible_distribution == "Archlinux"
 
-- name: Create user service directory
-  file:
-    path: /home/alex/.config/systemd/user/
-    state: directory
-    recurse: yes
-    owner: alex
-    group: alex
-
 - name: Place user service files
   template:
     src: config/systemd/user/hnproxy.service

@@ -23,3 +23,11 @@
 - name: reload-ufw
   command: ufw reload
   become: yes
+
+- name: restart-syncthing
+  systemd:
+    name: syncthing
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+    scope: user
