@@ -15,7 +15,7 @@
 
 - name: reload-ssh
   service:
-    name: ssh
+    name: sshd
     state: reloaded
   become: yes
   become_user: root
