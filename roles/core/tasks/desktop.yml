@@ -47,6 +47,7 @@
 - name: Define i3 packages
   set_fact:
     i3_packages: [
+      arandr,
       autorandr,
       dunst,
       i3-wm,
@@ -86,6 +87,12 @@
     name: "{{ debian_desktop_packages }}"
   become: true
   when: ansible_os_family == "Debian"
+
+- name: Install generic desktop packages for Debian
+  kewlfft.aur.aur:
+    name: "{{ desktop_packages }}"
+  become: true
+  when: ansible_os_family == "Archlinux"
 
 - name: Install specific desktop packages for Arch
   kewlfft.aur.aur:

@@ -23,20 +23,22 @@
       inetutils,  # Contains telnet
       jq,
       keychain,
+      lshw,
       make,
       man-db,
       net-tools,  # Contains netstat
       nmap,
       nodejs,
       npm,
-      podman,
       podman-dnsname,
       podman-docker,
+      podman,
       python-pip,
       python-setuptools,
       python-virtualenv,
       python-virtualenvwrapper,
       python,
+      rsync,
       sudo,
       syncthing,
       tmux,
@@ -44,8 +46,8 @@
       ufw,
       unzip,
       vim,
-      zsh,
       xsel,
+      zsh,
     ]
     state: present
 

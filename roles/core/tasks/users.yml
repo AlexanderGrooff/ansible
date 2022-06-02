@@ -18,7 +18,6 @@
     name: alex
     groups:
       - alex
-      - docker
       - adm
     state: present
   become: yes
