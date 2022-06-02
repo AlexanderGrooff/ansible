@@ -30,6 +30,7 @@
       nmap,
       nodejs,
       npm,
+      openvpn,
       podman-dnsname,
       podman-docker,
       podman,
