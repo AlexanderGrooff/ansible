@@ -8,6 +8,7 @@
 - name: Install core packages
   kewlfft.aur.aur:
     name: [
+      aardvark-dns,  # Required for DNS between podman-compose containers
       autossh,
       cmake,
       cronie,
@@ -15,7 +16,6 @@
       curl,
       direnv,
       dnsutils,
-      docker,
       fd,
       git,
       go,
@@ -29,6 +29,9 @@
       nmap,
       nodejs,
       npm,
+      podman,
+      podman-dnsname,
+      podman-docker,
       python-pip,
       python-setuptools,
       python-virtualenv,
@@ -45,3 +48,5 @@
       xsel,
     ]
     state: present
+
+- include: podman.yml

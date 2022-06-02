@@ -1,0 +1,51 @@
+- name: Set subuid for alex
+  lineinfile:
+    path: /etc/subuid
+    line: alex:100000:65536
+    state: present
+    create: yes
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+
+- name: Set subgid for alex
+  lineinfile:
+    path: /etc/subgid
+    line: alex:100000:65536
+    state: present
+    create: yes
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+
+- name: Enable user podman
+  systemd:
+    name: podman
+    state: started
+    enabled: yes
+    scope: user
+
+- name: Enable user podman socket
+  systemd:
+    name: podman.socket
+    state: started
+    enabled: yes
+    scope: user
+
+- name: Disable system podman
+  systemd:
+    name: podman
+    state: stopped
+    enabled: no
+    scope: system
+  become: true
+
+- name: Disable system podman socket
+  systemd:
+    name: podman.socket
+    state: stopped
+    enabled: no
+    scope: system
+  become: true
