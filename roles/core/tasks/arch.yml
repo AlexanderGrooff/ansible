@@ -17,12 +17,14 @@
       direnv,
       dnsutils,
       fd,
+      fwupd,
       git,
       go,
       htop,
       inetutils,  # Contains telnet
       jq,
       keychain,
+      kubectl,
       lshw,
       make,
       man-db,
@@ -47,9 +49,21 @@
       ufw,
       unzip,
       vim,
+      xclip,
       xsel,
+      yq,
       zsh,
     ]
     state: present
+
+- name: Place fwupd config
+  copy:
+    src: etc/fwupd/uefi_capsule.conf
+    dest: /etc/fwupd/uefi_capsule.conf
+    mode: 0644
+    owner: root
+    group: root
+  become: true
+  notify: [restart-fwupd]
 
 - include: podman.yml

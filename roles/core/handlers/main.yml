@@ -31,3 +31,11 @@
     daemon_reload: yes
     enabled: yes
     scope: user
+
+- name: restart-fwupd
+  systemd:
+    name: fwupd
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+  become: true
