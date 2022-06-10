@@ -40,11 +40,13 @@
       aconfmgr-git,
       gnome-keyring,  # https://github.com/MicrosoftDocs/live-share/issues/224#issuecomment-383324321
       nm-connection-editor,  # Networkmanager GUI
+      obsidian,
       rofi-1pass,
       slack-desktop,
       ttf-font-awesome,
       visual-studio-code-bin,
       xaskpass,  # Places /usr/bin/xaskpass
+      zotero,
     ]
 
 - name: Define i3 packages
@@ -91,7 +93,19 @@
   become: true
   when: ansible_os_family == "Debian"
 
-- name: Install generic desktop packages for Debian
+# TODO: The concept works but somehow the keyserver is required.
+# I don't know what the fix is, but these keys need to be imported
+# for yay to accept the package.
+# - name: Accept AUR gpg keys
+#   community.general.pacman_key:
+#     id: "{{ item }}"
+#     keyserver: "https://keys.openpgp.org/"
+#     state: present
+#   become: true
+#   with_items:
+#   - 3FEF9748469ADBE15DA7CA80AC2D62742012EA22  # 1password
+
+- name: Install generic desktop packages for Arch
   kewlfft.aur.aur:
     name: "{{ desktop_packages }}"
   become: true
