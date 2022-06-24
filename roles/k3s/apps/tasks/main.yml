@@ -22,28 +22,11 @@
   - name: promtail
     repo_url: https://grafana.github.io/helm-charts
     namespace: monitoring
+  - name: freqtrade
+    repo_url: https://alexandergrooff.github.io/freqtrade-helm-chart
 
 - include: apply_config.yml
   with_items:
   - metallb-config.yaml.j2
   - cloudflare-secret.yaml.j2
   - issuer.yaml.j2
-
-- name: Get AWX operator config
-  git:
-    repo: https://github.com/ansible/awx-operator.git
-    version: 0.15.0
-    dest: ~/code/awx-operator
-    accept_hostkey: yes
-    update: no
-  register: awx_operator_code
-
-- name: Deploy AWX operator
-  command: make deploy
-  args:
-    chdir: ~/code/awx-operator
-  when: awx_operator_code.changed
-
-- include: apply_config.yml
-  with_items:
-  - awx.yaml.j2
