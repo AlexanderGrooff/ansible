@@ -6,7 +6,7 @@ Wants=network-online.target
 [Service]
 Restart=on-failure
 RestartSec=5s
-ExecStart=autossh jh -N -D 5000
+ExecStart=/home/alex/bin/jumphost.sh
 
 [Install]
 WantedBy=multi-user.target
