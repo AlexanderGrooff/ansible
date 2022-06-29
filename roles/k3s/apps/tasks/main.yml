@@ -1,4 +1,9 @@
 ---
+- name: Place freqtrade strategies
+  copy:
+    src: '../files/freqtrade/strategies'
+    dest: /tmp/
+
 - include: apply_helm.yml
   with_items:
   - name: prometheus
