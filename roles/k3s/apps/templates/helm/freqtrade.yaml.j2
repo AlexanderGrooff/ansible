@@ -5,12 +5,12 @@ config:
   tradable_balance_ratio: 0.99
   fiat_display_currency: EUR
   timeframe: 5m
-  dry_run: true
+  dry_run: false
 
   exchange:
     name: binance
-    key: ""
-    secret: ""
+    key: "{{ freqtrade.binance.key }}"
+    secret: "{{ freqtrade.binance.secret }}"
     ccxt_config:
       enableRateLimit: false
       rateLimit: 0
@@ -18,133 +18,133 @@ config:
       enableRateLimit: false
       rateLimit: 0
     pair_whitelist:
-      - AAVE/USDT
-      - ADA/USDT
-      - AION/USDT
-      - ALGO/USDT
-      - ALICE/USDT
-      - ALPHA/USDT
-      - ANKR/USDT
-      - AR/USDT
-      - ATM/USDT
-      - ATOM/USDT
-      - AUDIO/USDT
-      - AVA/USDT
-      - AVAX/USDT
-      - AXS/USDT
-      - BAKE/USDT
-      - BAT/USDT
-      - BCH/USDT
-      - BTC/USDT
-      - BTCST/USDT
-      - BTG/USDT
-      - BTT/USDT
-      - BURGER/USDT
-      - CAKE/USDT
-      - CELO/USDT
-      - CELR/USDT
-      - CHR/USDT
-      - CHZ/USDT
-      - CKB/USDT
-      - COCOS/USDT
-      - COMP/USDT
-      - CRV/USDT
-      - CTSI/USDT
-      - DASH/USDT
-      - DATA/USDT
-      - DEGO/USDT
-      - DENT/USDT
-      - DGB/USDT
-      - DNT/USDT
-      - DOCK/USDT
-      - DODO/USDT
-      - DOGE/USDT
-      - DOT/USDT
-      - EGLD/USDT
-      - ENJ/USDT
-      - EOS/USDT
-      - ETC/USDT
-      - ETH/USDT
-      - FIL/USDT
-      - FTM/USDT
-      - GRT/USDT
-      - GTO/USDT
-      - GXS/USDT
-      - HARD/USDT
-      - HBAR/USDT
-      - HNT/USDT
-      - HOT/USDT
-      - IOST/USDT
-      - IOTA/USDT
-      - IOTX/USDT
-      - KAVA/USDT
-      - KSM/USDT
-      - LINK/USDT
-      - LPT/USDT
-      - LTC/USDT
-      - LUNA/USDT
-      - MANA/USDT
-      - MASK/USDT
-      - MATIC/USDT
-      - MBL/USDT
-      - MKR/USDT
-      - MTL/USDT
-      - NEO/USDT
-      - NKN/USDT
-      - NMR/USDT
-      - OM/USDT
-      - OMG/USDT
-      - ONE/USDT
-      - ONG/USDT
-      - ONT/USDT
-      - OXT/USDT
-      - PERL/USDT
-      - PERP/USDT
-      - PNT/USDT
-      - POLS/USDT
-      - POND/USDT
-      - QTUM/USDT
-      - REEF/USDT
-      - RLC/USDT
-      - RUNE/USDT
-      - RVN/USDT
-      - SAND/USDT
-      - SC/USDT
-      - SKL/USDT
-      - SLP/USDT
-      - SNX/USDT
-      - SOL/USDT
-      - STMX/USDT
-      - STPT/USDT
-      - STRAX/USDT
-      - STX/USDT
-      - SUPER/USDT
-      - SUSHI/USDT
-      - SXP/USDT
-      - TFUEL/USDT
-      - THETA/USDT
-      - TKO/USDT
-      - TLM/USDT
-      - TRX/USDT
-      - TWT/USDT
-      - UNI/USDT
-      - VET/USDT
-      - WAVES/USDT
-      - WIN/USDT
-      - WING/USDT
-      - WRX/USDT
-      - XEM/USDT
-      - XLM/USDT
-      - XMR/USDT
-      - XRP/USDT
-      - XTZ/USDT
-      - XVS/USDT
-      - YFI/USDT
-      - ZEC/USDT
-      - ZEN/USDT
-      - ZIL/USDT
-      - ZRX/USDT
-      #- ".*/USDT"
+      # - AAVE/USDT
+      # - ADA/USDT
+      # - AION/USDT
+      # - ALGO/USDT
+      # - ALICE/USDT
+      # - ALPHA/USDT
+      # - ANKR/USDT
+      # - AR/USDT
+      # - ATM/USDT
+      # - ATOM/USDT
+      # - AUDIO/USDT
+      # - AVA/USDT
+      # - AVAX/USDT
+      # - AXS/USDT
+      # - BAKE/USDT
+      # - BAT/USDT
+      # - BCH/USDT
+      # - BTC/USDT
+      # - BTCST/USDT
+      # - BTG/USDT
+      # - BTT/USDT
+      # - BURGER/USDT
+      # - CAKE/USDT
+      # - CELO/USDT
+      # - CELR/USDT
+      # - CHR/USDT
+      # - CHZ/USDT
+      # - CKB/USDT
+      # - COCOS/USDT
+      # - COMP/USDT
+      # - CRV/USDT
+      # - CTSI/USDT
+      # - DASH/USDT
+      # - DATA/USDT
+      # - DEGO/USDT
+      # - DENT/USDT
+      # - DGB/USDT
+      # - DNT/USDT
+      # - DOCK/USDT
+      # - DODO/USDT
+      # - DOGE/USDT
+      # - DOT/USDT
+      # - EGLD/USDT
+      # - ENJ/USDT
+      # - EOS/USDT
+      # - ETC/USDT
+      # - ETH/USDT
+      # - FIL/USDT
+      # - FTM/USDT
+      # - GRT/USDT
+      # - GTO/USDT
+      # - GXS/USDT
+      # - HARD/USDT
+      # - HBAR/USDT
+      # - HNT/USDT
+      # - HOT/USDT
+      # - IOST/USDT
+      # - IOTA/USDT
+      # - IOTX/USDT
+      # - KAVA/USDT
+      # - KSM/USDT
+      # - LINK/USDT
+      # - LPT/USDT
+      # - LTC/USDT
+      # - LUNA/USDT
+      # - MANA/USDT
+      # - MASK/USDT
+      # - MATIC/USDT
+      # - MBL/USDT
+      # - MKR/USDT
+      # - MTL/USDT
+      # - NEO/USDT
+      # - NKN/USDT
+      # - NMR/USDT
+      # - OM/USDT
+      # - OMG/USDT
+      # - ONE/USDT
+      # - ONG/USDT
+      # - ONT/USDT
+      # - OXT/USDT
+      # - PERL/USDT
+      # - PERP/USDT
+      # - PNT/USDT
+      # - POLS/USDT
+      # - POND/USDT
+      # - QTUM/USDT
+      # - REEF/USDT
+      # - RLC/USDT
+      # - RUNE/USDT
+      # - RVN/USDT
+      # - SAND/USDT
+      # - SC/USDT
+      # - SKL/USDT
+      # - SLP/USDT
+      # - SNX/USDT
+      # - SOL/USDT
+      # - STMX/USDT
+      # - STPT/USDT
+      # - STRAX/USDT
+      # - STX/USDT
+      # - SUPER/USDT
+      # - SUSHI/USDT
+      # - SXP/USDT
+      # - TFUEL/USDT
+      # - THETA/USDT
+      # - TKO/USDT
+      # - TLM/USDT
+      # - TRX/USDT
+      # - TWT/USDT
+      # - UNI/USDT
+      # - VET/USDT
+      # - WAVES/USDT
+      # - WIN/USDT
+      # - WING/USDT
+      # - WRX/USDT
+      # - XEM/USDT
+      # - XLM/USDT
+      # - XMR/USDT
+      # - XRP/USDT
+      # - XTZ/USDT
+      # - XVS/USDT
+      # - YFI/USDT
+      # - ZEC/USDT
+      # - ZEN/USDT
+      # - ZIL/USDT
+      # - ZRX/USDT
+      - ".*/USDT"
     pair_blacklist:
       # Exchange
       - "(BNB)/.*"
@@ -159,11 +159,11 @@ config:
       # Others
       - "(1EARTH|ILA|BOBA|CTXC|CWAR|HBAR|NMR|OMG|ONG|ARDR|DMTR)/.*"
   pairlists:
-    - method: "StaticPairList"
-    # - method: "VolumePairList"
-    #   number_assets: 100
-    #   sort_key: "quoteVolume"
-    #   refresh_period: 1800
+    # - method: "StaticPairList"
+    - method: "VolumePairList"
+      number_assets: 100
+      sort_key: "quoteVolume"
+      refresh_period: 1800
     - method: "AgeFilter"
       min_days_listed: 2
     - method: "RangeStabilityFilter"
@@ -175,10 +175,10 @@ config:
       min_volatility: 0.02
       max_volatility: 0.75
       refresh_period: 43200
-    # - method: "VolumePairList"
-    #   number_assets: 80
-    #   sort_key: "quoteVolume"
-    # - method: "ShuffleFilter"
+    - method: "VolumePairList"
+      number_assets: 80
+      sort_key: "quoteVolume"
+    - method: "ShuffleFilter"
   edge:
     enabled: false
     process_throttle_secs: 3600
@@ -203,13 +203,13 @@ config:
     enabled: true
     listen_ip_address: 0.0.0.0
     listen_port: 8080
-    username: admin
-    password: secret123
+    username: "{{ freqtrade.ui.username }}"
+    password: "{{ freqtrade.ui.password }}"
   dataformat_ohlcv: "jsongz"
   dataformat_trades: "jsongz"
 image:
   image: freqtradeorg/freqtrade
-  tag: latest
+  tag: 2022.6
 backtesting:
   enabled: false
   download_data: true
