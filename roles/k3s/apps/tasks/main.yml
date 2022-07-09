@@ -1,9 +1,4 @@
 ---
-- name: Place freqtrade strategies
-  copy:
-    src: '../files/freqtrade/strategies'
-    dest: /tmp/
-
 - include: apply_helm.yml
   with_items:
   - name: prometheus
@@ -27,11 +22,11 @@
   - name: promtail
     repo_url: https://grafana.github.io/helm-charts
     namespace: monitoring
-  - name: freqtrade
-    repo_url: https://alexandergrooff.github.io/freqtrade-helm-chart
 
 - include: apply_config.yml
   with_items:
   - metallb-config.yaml.j2
   - cloudflare-secret.yaml.j2
   - issuer.yaml.j2
+
+- include: freqtrade.yml

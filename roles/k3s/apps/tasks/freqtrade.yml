@@ -1,0 +1,13 @@
+---
+- name: Place freqtrade strategies
+  file:
+    path: /tmp/strategies
+    state: directory
+
+- name: Download latest strategy
+  script: ../files/freqtrade/download_strategy.sh
+
+- include: apply_helm.yml
+  with_items:
+  - name: freqtrade
+    repo_url: https://alexandergrooff.github.io/freqtrade-helm-chart
