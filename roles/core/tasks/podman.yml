@@ -20,6 +20,13 @@
     mode: 0644
   become: true
 
+- name: Use docker.io shortname
+  lineinfile:
+    line: 'unqualified-search-registries = ["docker.io"]'
+    file: /etc/containers/registries.conf
+    state: present
+  become: true
+
 - name: Enable user podman
   systemd:
     name: podman
