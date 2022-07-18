@@ -23,7 +23,7 @@
 - name: Use docker.io shortname
   lineinfile:
     line: 'unqualified-search-registries = ["docker.io"]'
-    file: /etc/containers/registries.conf
+    path: /etc/containers/registries.conf
     state: present
   become: true
 
