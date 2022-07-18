@@ -38,6 +38,8 @@
       1password-cli,
       1password,
       aconfmgr-git,
+      bluez,
+      bluez-utils,
       gnome-keyring,  # https://github.com/MicrosoftDocs/live-share/issues/224#issuecomment-383324321
       nm-connection-editor,  # Networkmanager GUI
       obsidian,
