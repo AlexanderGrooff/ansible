@@ -67,4 +67,15 @@
   become: true
   notify: [restart-fwupd]
 
+- name: Enable services
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  become: true
+  with_items:
+    - cronie
+    - fwupd
+    - ufw
+
 - include: podman.yml
