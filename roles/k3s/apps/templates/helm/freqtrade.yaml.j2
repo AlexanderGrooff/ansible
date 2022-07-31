@@ -105,13 +105,13 @@ config:
     enabled: true
     listen_ip_address: 0.0.0.0
     listen_port: 8080
-    username: "{{ freqtrade.ui.username }}"
-    password: "{{ freqtrade.ui.password }}"
+    username: "{{ freqtrade.api.username }}"
+    password: "{{ freqtrade.api.password }}"
   dataformat_ohlcv: "jsongz"
   dataformat_trades: "jsongz"
 image:
   image: freqtradeorg/freqtrade
-  tag: 2022.6
+  tag: 2022.7
 backtesting:
   enabled: false
   download_data: true

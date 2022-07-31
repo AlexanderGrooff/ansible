@@ -1,0 +1,7 @@
+---
+- name: reload-freqtrade
+  uri:
+    url: https://freqtrade.alex.systems/api/v1/reload_config
+    method: POST
+    url_username: "{{ freqtrade.api.username }}"
+    url_password: "{{ freqtrade.api.password }}"

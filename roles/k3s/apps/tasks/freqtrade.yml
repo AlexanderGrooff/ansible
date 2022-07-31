@@ -6,8 +6,10 @@
 
 - name: Download latest strategy
   script: ../files/freqtrade/download_strategy.sh
+  notify: [reload-freqtrade]
 
 - include: apply_helm.yml
   with_items:
   - name: freqtrade
     repo_url: https://alexandergrooff.github.io/freqtrade-helm-chart
+  notify: [reload-freqtrade]
