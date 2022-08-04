@@ -67,7 +67,7 @@ config:
       sort_key: "quoteVolume"
       refresh_period: 1800
     - method: "AgeFilter"
-      min_days_listed: 2
+      min_days_listed: 20
     - method: "RangeStabilityFilter"
       lookback_days: 3
       min_rate_of_change: 0.03
@@ -126,7 +126,7 @@ backtesting:
     pvc_size: 2Gi
 bot:
   enabled: true
-  verbosity: debug
+  verbosity: info
   strategy_name: NostalgiaForInfinityX
   pvc_size: 10Gi
   volumeMounts:
