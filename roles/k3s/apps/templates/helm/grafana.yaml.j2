@@ -2,7 +2,7 @@ ingress:
   enabled: true
   ingressClassName: nginx
   annotations:
-    nginx.ingress.kubernetes.io/whitelist-source-range: {{ ",".join(trusted_ips) }}
+    nginx.ingress.kubernetes.io/whitelist-source-range: {{ ",".join(trusted_ips) | regex_replace("\n", "") }}
     cert-manager.io/cluster-issuer: letsencrypt-prod
   hosts:
   - grafana.alex.systems

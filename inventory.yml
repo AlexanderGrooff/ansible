@@ -27,10 +27,13 @@ all:
         62373162643233613130616133313134616664313164353637333834613034353862303033626662
         3032333066396163350a636432353030396263376165306336373832643463656534663766623132
         6134
+    floating_ip: "78.47.87.106"
     trusted_ips:
     - "{{ tailscale_cidr }}"
     - "{{ home_ip }}"
     - "{{ office_ip }}"
+    - "{{ floating_ip }}"
+    - "{{ groups['k3s'] | map('extract', hostvars) | map(attribute='external_ip') | join(',') }}"
     letsencrypt:
       email: !vault |
           $ANSIBLE_VAULT;1.1;AES256
@@ -239,7 +242,6 @@ k3s:
     k3s_agents:
       hosts:
   vars:
-    floating_ip: 78.47.87.106
     prometheus:
       enable: false  # Already have prometheus in the k3s cluster
     telegram:
