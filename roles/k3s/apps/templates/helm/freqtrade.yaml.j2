@@ -60,6 +60,8 @@ config:
       - "(ACM|AFA|ALA|ALL|APL|ASR|ATM|BAR|CAI|CITY|FOR|GAL|GOZ|IBFK|JUV|LAZIO|LEG|LOCK-1|NAVI|NMR|NOV|OG|PFL|PORTO|PSG|ROUSH|SANTOS|STV|TH|TRA|UCH|UFC|YBO)/.*"
       # Others
       - "(1EARTH|ILA|BOBA|CTXC|CWAR|HBAR|NMR|OMG|ONG|ARDR|DMTR)/.*"
+      # Alex
+      - "(ELF|TORN|MFT)/.*"
   pairlists:
     # - method: "StaticPairList"
     - method: "VolumePairList"
@@ -74,7 +76,7 @@ config:
       refresh_period: 1800
     - method: "VolatilityFilter"
       lookback_days: 3
-      min_volatility: 0.02
+      min_volatility: 0.01
       max_volatility: 0.75
       refresh_period: 43200
     - method: "VolumePairList"
