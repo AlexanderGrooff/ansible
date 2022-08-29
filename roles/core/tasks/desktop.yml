@@ -16,6 +16,7 @@
   set_fact:
     desktop_packages: [
       alacritty,
+      cups,
       flameshot,
       pavucontrol,
       pkg-config,
