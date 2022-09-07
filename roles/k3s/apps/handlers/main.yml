@@ -5,3 +5,4 @@
     method: POST
     url_username: "{{ freqtrade.api.username }}"
     url_password: "{{ freqtrade.api.password }}"
+  delegate_to: localhost
