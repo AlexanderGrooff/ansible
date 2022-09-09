@@ -137,7 +137,7 @@ bot:
   volumes:
   - name: strategydir
     hostPath:
-      path: /tmp/strategies
+      path: {{ strategy_dir }}
       type: DirectoryOrCreate
   resources:
     requests:
