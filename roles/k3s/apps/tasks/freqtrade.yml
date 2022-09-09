@@ -1,11 +1,30 @@
 ---
 - name: Place freqtrade strategies
   file:
-    path: /tmp/strategies
+    path: "{{ strategy_dir }}"
     state: directory
+
+- name: Get checksum of strategies
+  stat:
+    path: "{{ strategy_dir }}"
+    get_checksum: yes
+  register: strategy_dir_stat
 
 - name: Download latest strategy
   script: ../files/freqtrade/download_strategy.sh
+  changed_when: false
+
+- name: Check if the checksum of strategies has changed
+  stat:
+    path: "{{ strategy_dir }}"
+    get_checksum: yes
+  register: strategy_dir_stat_new
+
+# Not exactly a checksum, but close enough
+- name: Restart freqtrade if the checksum of strategies has changed
+  debug:
+    msg: "Found new strategies. Restarting freqtrade"
+  when: strategy_dir_stat.stat != strategy_dir_stat_new.stat
   notify: [reload-freqtrade]
 
 - include: apply_helm.yml
