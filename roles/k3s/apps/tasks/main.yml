@@ -22,6 +22,8 @@
   - name: promtail
     repo_url: https://grafana.github.io/helm-charts
     namespace: monitoring
+  - name: airflow
+    repo_url: https://airflow.apache.org/
 
 - include: apply_config.yml
   with_items:
