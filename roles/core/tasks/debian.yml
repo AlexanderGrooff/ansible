@@ -82,4 +82,4 @@
 
 - include: debian/rust.yml
 - include: debian/syncthing.yml
-- include: debian/docker.yml
+  #- include: debian/docker.yml
