@@ -31,4 +31,16 @@
   - cloudflare-secret.yaml.j2
   - issuer.yaml.j2
 
+# Bit of a hack: we copy the files to the PVC that was just created
+# Ideally we'd use git-sync, but that's too much work for now
+- name: Copy over DAGs to Airflow volume
+  kubernetes.core.k8s_cp:
+    namespace: airflow
+    pod: airflow-worker-0
+    remote_path: "/opt/airflow/dags/{{ item | basename }}"
+    local_path: "{{ item }}"
+    container: worker
+  with_fileglob:
+  - files/airflow/dags/*
+
 - include: freqtrade.yml

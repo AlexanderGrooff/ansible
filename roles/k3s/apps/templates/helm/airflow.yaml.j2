@@ -1,0 +1,23 @@
+webserverSecretKey: "{{ airflow.secretKey }}"
+ingress:
+  web:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/whitelist-source-range: {{ ",".join(trusted_ips) | regex_replace("\n", "") }}
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    hosts:
+      - name: airflow.alex.systems
+        tls:
+          enabled: true
+          secretName: airflow-tls
+
+workers:
+  replicas: 1
+  persistence:
+    enabled: true
+    size: 10Gi
+
+dags:
+  persistence:
+    enabled: true
+    size: 1Gi
