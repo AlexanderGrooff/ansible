@@ -248,3 +248,44 @@
     state: started
     enabled: yes
   become: true
+
+- name: Check if fingerprint reader is present
+  shell: lsusb | grep -i "Fingerprint Reader"
+  failed_when: false
+  changed_when: false
+  register: fingerprint_reader
+
+- name: Install Debian fingerprint reader packages
+  apt:
+    name: [
+      fprintd,
+      fprintd-gui,
+    ]
+    state: latest
+  become: true
+  when: fingerprint_reader.rc == 0 and ansible_os_family == "Debian"
+
+- name: Install Arch fingerprint reader packages
+  kewlfft.aur.aur:
+    name: [
+      fprintd,
+    ]
+    state: latest
+  become: true
+  when: fingerprint_reader.rc == 0 and ansible_distribution == "Archlinux"
+
+- name: Allow fingerprint as system login
+  lineinfile:
+    path: /etc/pam.d/system-local-login
+    line: "auth sufficient pam_fprintd.so"
+    insertbefore: "auth      include   system-login"
+  become: true
+  when: fingerprint_reader.rc == 0
+
+- name: Start fprintd
+  systemd:
+    name: fprintd
+    state: started
+    enabled: yes
+  become: true
+  when: fingerprint_reader.rc == 0
