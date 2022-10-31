@@ -240,3 +240,10 @@
     group: root
     mode: 0644
   become: true
+
+- name: Start cups service
+  systemd:
+    name: cups
+    state: started
+    enabled: yes
+  become: true
