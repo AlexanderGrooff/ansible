@@ -45,6 +45,7 @@
       obsidian,
       slack-desktop,
       ttf-font-awesome,
+      usbutils,  # lsusb
       visual-studio-code-bin,
       xaskpass,  # Places /usr/bin/xaskpass
       zotero,
