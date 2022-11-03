@@ -3,3 +3,7 @@ ansible>=2.9.20
 loguru>=0.6.0
 pre-commit
 ansible-lint
+
+# Airflow editor support
+apache-airflow
+kubernetes
