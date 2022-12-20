@@ -10,6 +10,9 @@
     repo_url: https://kubernetes.github.io/ingress-nginx
   - name: cert-manager
     repo_url: https://charts.jetstack.io
+  - name: harbor
+    repo_url: https://helm.goharbor.io
+    namespace: harbor
   - name: coredns
     repo_url: https://coredns.github.io/helm
     namespace: coredns
@@ -22,8 +25,6 @@
   - name: promtail
     repo_url: https://grafana.github.io/helm-charts
     namespace: monitoring
-    #- name: airflow
-    #  repo_url: https://airflow.apache.org/
 
 - include: apply_config.yml
   with_items:

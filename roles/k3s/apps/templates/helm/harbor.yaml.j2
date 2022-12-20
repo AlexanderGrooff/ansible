@@ -1,0 +1,15 @@
+harborAdminPassword: {{ harbor.password }}
+expose:
+  ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/whitelist-source-range: {{ ",".join(trusted_ips) | regex_replace("\n", "") }}
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    hosts:
+      core: harbor.alex.systems
+      notary: notary.harbor.alex.systems
+persistence:
+  persistentVolumeClaim:
+    registry:
+      size: 50Gi
+    chartmuseum:
+      size: 10Gi
