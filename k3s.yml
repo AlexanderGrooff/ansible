@@ -1,19 +1,20 @@
+---
 - name: Install generic component on whole cluster
   hosts: k3s
-  tasks:
-    - include_role: name=k3s/common
+  roles:
+    - k3s/common
 
 - name: Manage K3S servers
   hosts: k3s_servers
-  tasks:
-    - include_role: name=k3s/server
+  roles:
+    - k3s/server
 
 - name: Manage k3s agents
   hosts: k3s_agents
-  tasks:
-    - include_role: name=k3s/agent
+  roles:
+    - k3s/agent
 
 - name: Manage k3s apps
   hosts: "{{ groups['k3s_servers'].0 }}"
-  tasks:
-    - include_role: name=k3s/apps
+  roles:
+    - k3s/apps
