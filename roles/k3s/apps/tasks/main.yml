@@ -1,5 +1,9 @@
 ---
-- include: apply_helm.yml
+- include_tasks:
+    file: apply_helm.yml
+    apply:
+      tags: [apps]
+  tags: [apps]
   with_items:
   - name: prometheus
     repo_url: https://prometheus-community.github.io/helm-charts
@@ -26,7 +30,11 @@
     repo_url: https://grafana.github.io/helm-charts
     namespace: monitoring
 
-- include: apply_config.yml
+- include_tasks:
+    file: apply_config.yml
+    apply:
+      tags: [apps]
+  tags: [apps]
   with_items:
   - metallb-config.yaml.j2
   - cloudflare-secret.yaml.j2
@@ -46,3 +54,4 @@
 #  - files/airflow/dags/*
 
 - include: freqtrade.yml
+  tags: [apps]

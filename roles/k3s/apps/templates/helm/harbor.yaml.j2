@@ -1,5 +1,7 @@
 harborAdminPassword: {{ harbor.password }}
+externalURL: https://harbor.alex.systems
 expose:
+  type: ingress
   ingress:
     annotations:
       nginx.ingress.kubernetes.io/whitelist-source-range: {{ ",".join(trusted_ips) | regex_replace("\n", "") }}
@@ -7,6 +9,12 @@ expose:
     hosts:
       core: harbor.alex.systems
       notary: notary.harbor.alex.systems
+  tls:
+    enabled: true
+    certSource: secret  # Generate with certmanager
+    secret:
+      notarySecretName: "harbor-notary-ingress"
+      secretName: "harbor-ingress"
 persistence:
   persistentVolumeClaim:
     registry:
