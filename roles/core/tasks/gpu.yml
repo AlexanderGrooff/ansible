@@ -1,0 +1,15 @@
+- name: Check if there is an integrated Intel GPU
+  shell: "lshw | grep snd_hda_intel"
+  register: intel_gpu
+
+- name: Check if there is an NVIDIA GPU
+  shell: "lshw | grep NVIDIA"
+  register: nvidia_gpu
+
+# See https://wiki.archlinux.org/title/NVIDIA/Troubleshooting#Black_screen_on_systems_with_integrated_GPU
+- name: Blacklist the integrated Intel GPU
+  copy:
+    src: etc/modprobe.d/blacklist.conf
+    dest: /etc/modprobe.d/blacklist.conf
+  when: intel_gpu.stdout != "" and nvidia_gpu.stdout != ""
+  become: true

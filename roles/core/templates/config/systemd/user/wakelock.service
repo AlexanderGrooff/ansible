@@ -1,0 +1,13 @@
+# {{ ansible_managed }}
+# Inspired by https://gist.github.com/Raymo111/91ffd256b7aca6a85e8a99d6331d3b7b
+[Unit]
+Description=Lock the screen on resume from suspend
+Before=sleep.target suspend.target
+
+[Service]
+Type=simple
+#Environment=DISPLAY=:0
+ExecStart=/home/alex/bin/lock_on_sleep.sh
+
+[Install]
+WantedBy=sleep.target suspend.target

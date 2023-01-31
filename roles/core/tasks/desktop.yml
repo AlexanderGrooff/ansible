@@ -62,6 +62,7 @@
       i3lock,
       py3status,
       rofi,
+      xss-lock,  # Locks screen on suspend
     ]
 
 - name: Define kdm packages
@@ -219,20 +220,13 @@
   become: yes
   when: ansible_distribution == "Archlinux"
 
-- name: Place user service files
-  template:
-    src: config/systemd/user/hnproxy.service
-    dest: /home/alex/.config/systemd/user/hnproxy.service
-    owner: alex
-    group: alex
-
-- name: Start hnproxy service
-  systemd:
-    name: hnproxy
-    state: started
-    enabled: yes
-    scope: user
-    daemon_reload: yes
+- name: Activate user service files
+  include: includes/user_service.yml
+  loop:
+  - hnproxy
+  - wakelock
+  loop_control:
+    loop_var: service_name
 
 # Disable system beep
 - name: Blacklist pcspkr
