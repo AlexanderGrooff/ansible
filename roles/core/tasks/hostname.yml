@@ -1,6 +1,7 @@
 ---
 - name: Set hostname to {{ inventory_hostname }}
-  command: "hostnamectl set-hostname {{ inventory_hostname }}"
+  hostname:
+    name: "{{ inventory_hostname }}"
   become: true
 
 - name: Set {{ inventory_hostname }} in /etc/hosts

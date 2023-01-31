@@ -13,22 +13,22 @@
     validate: 'visudo -cf %s'
   become: yes
 
-- name: Create alex user
+- name: Manage user alex
   user:
     name: alex
     groups:
       - alex
       - adm
     state: present
+    shell: /usr/bin/zsh
+  become: yes
+
+- name: Manage user root
+  user:
+    name: root
+    state: present
+    shell: /usr/bin/zsh
   become: yes
 
 - name: Create local bin
   file: path=/home/alex/.local/bin state=directory owner=alex group=alex
-
-- name: Use ZSH for alex
-  command: chsh -s /usr/bin/zsh alex
-  become: yes
-
-- name: Use ZSH for root
-  command: chsh -s /usr/bin/zsh root
-  become: yes

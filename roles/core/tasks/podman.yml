@@ -30,7 +30,6 @@
 - name: Enable user podman
   systemd:
     name: podman
-    state: started
     enabled: yes
     scope: user
 
