@@ -37,6 +37,7 @@
   set_fact:
     arch_desktop_packages: [
       1password,
+      accountsservice,  # Fixes lightdm error
       aconfmgr-git,
       bluez,
       bluez-utils,

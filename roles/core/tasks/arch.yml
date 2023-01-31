@@ -10,6 +10,7 @@
     name: [
       aardvark-dns,  # Required for DNS between podman-compose containers
       autossh,
+      calc,  # CLI calculator
       cmake,
       cronie,
       cue,  # Configuration language
