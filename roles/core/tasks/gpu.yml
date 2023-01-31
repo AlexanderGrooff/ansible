@@ -1,10 +1,22 @@
 - name: Check if there is an integrated Intel GPU
   shell: "lshw | grep snd_hda_intel"
+  changed_when: false  # This never changes anything
   register: intel_gpu
 
 - name: Check if there is an NVIDIA GPU
   shell: "lshw | grep NVIDIA"
+  changed_when: false  # This never changes anything
   register: nvidia_gpu
+
+- name: Enable nvidia suspend services
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+  loop:
+    - nvidia-suspend.service
+    - nvidia-hibernate.service
+  when: nvidia_gpu.stdout != ""
+  become: true
 
 # See https://wiki.archlinux.org/title/NVIDIA/Troubleshooting#Black_screen_on_systems_with_integrated_GPU
 - name: Blacklist the integrated Intel GPU
