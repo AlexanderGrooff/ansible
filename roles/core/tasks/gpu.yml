@@ -1,11 +1,13 @@
 - name: Check if there is an integrated Intel GPU
   shell: "lshw | grep snd_hda_intel"
   changed_when: false  # This never changes anything
+  failed_when: false
   register: intel_gpu
 
 - name: Check if there is an NVIDIA GPU
   shell: "lshw | grep NVIDIA"
   changed_when: false  # This never changes anything
+  failed_when: false
   register: nvidia_gpu
 
 - name: Enable nvidia suspend services
