@@ -15,7 +15,6 @@
       cronie,
       cue,  # Configuration language
       curl,
-      difftastic,
       direnv,
       dnsutils,
       fd,
