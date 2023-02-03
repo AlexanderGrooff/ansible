@@ -1,0 +1,84 @@
+- name: create mutt directory
+  file:
+    path: ~/.mutt
+    owner: alex
+    group: alex
+    state: directory
+
+- name: place mutt config
+  template:
+    src: .mutt/muttrc
+    dest: ~/.mutt/muttrc
+    owner: alex
+    group: alex
+    mode: 0600
+
+- name: install mail packages for arch
+  kewlfft.aur.aur:
+    name: [
+      neomutt,
+      postfix,
+    ]
+  when: ansible_distribution == "Archlinux"
+
+- name: install mail packages for debian
+  apt:
+    name: [
+      neomutt,
+      postfix,
+    ]
+    state: latest
+  become: true
+  when: ansible_os_family == "Debian"
+
+- name: Add user to mail group
+  user:
+    name: alex
+    groups:
+      - mail
+    state: present
+  become: yes
+
+- name: set postfix password
+  copy:
+    content: "[{{ mail.smtp_server }}]:{{ mail.smtp_port }} {{ mail.username }}:{{ mail.password }}"
+    dest: /etc/postfix/sasl_passwd
+    owner: root
+    group: root
+    mode: 0600
+  become: yes
+  notify:
+  - generate sasl db
+
+- name: place postfix configs
+  lineinfile:
+    path: /etc/postfix/main.cf
+    line: '{{ item }}'
+    state: present
+  loop:
+  - "relayhost = [{{ mail.smtp_server }}]:{{ mail.smtp_port }}"
+  - "smtp_use_tls = yes"
+  - "smtp_sasl_auth_enable = yes"
+  - "smtp_sasl_security_options ="
+  - "smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd"
+  - "smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt"
+  become: yes
+  notify:
+  - restart postfix
+
+- name: change postfix incoming user
+  lineinfile:
+    path: /etc/postfix/aliases
+    regexp: '^#root:.*'
+    line: 'root: alex'
+    state: present
+  become: yes
+  notify:
+    - generate postfix aliases
+
+- name: enable postfix
+  systemd:
+    name: postfix
+    state: started
+    enabled: yes
+  become: yes

@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+set imap_user           = {{ mail.username }}
+set imap_pass           = {{ mail.password }}
+set folder              = {{ mail.default_folder }}
+set spoolfile           = +INBOX
+mailboxes               = +INBOX
+set header_cache        = ~/.cache/mutt
+set message_cachedir    = ~/.cache/mutt
+# Allow Mutt to open a new IMAP connection automatically
+unset imap_passive
+set imap_keepalive      = 300
+set mail_check          = 120

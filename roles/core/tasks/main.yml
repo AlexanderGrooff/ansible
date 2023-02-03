@@ -33,6 +33,9 @@
 - include: dotfiles.yml
 - include: tmux.yml
 
+- include: mail.yml
+  tags: [mail]
+
 - include: prometheus.yml
   when: inventory_hostname not in groups["k3s"]
 

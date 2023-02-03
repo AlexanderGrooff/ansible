@@ -39,3 +39,22 @@
     daemon_reload: yes
     enabled: yes
   become: true
+
+# https://serverfault.com/questions/240767/postmap-fatal-open-database-etc-postfix-sasl-passwd-db-permission-denied
+- name: generate postfix aliases
+  command: postalias /etc/postfix/aliases
+  become: yes
+  notify:
+    - restart postfix
+
+- name: generate sasl db
+  command: postmap /etc/postfix/sasl_passwd
+  become: yes
+  notify:
+    - restart postfix
+
+- name: restart postfix
+  systemd:
+    name: postfix
+    state: restarted
+  become: yes
