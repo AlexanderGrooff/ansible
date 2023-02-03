@@ -281,7 +281,6 @@
 - name: Start fprintd
   systemd:
     name: fprintd
-    state: started
     enabled: yes
   become: true
   when: fingerprint_reader.rc == 0
