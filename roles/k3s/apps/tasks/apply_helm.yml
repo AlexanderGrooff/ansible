@@ -3,6 +3,15 @@
   kubernetes.core.helm_repository:
     name: "{{ item.name }}"
     repo_url: "{{ item.repo_url }}"
+  when: item.repo_username is not defined
+
+- name: Add {{ item.name }} chart repo with credentials
+  kubernetes.core.helm_repository:
+    name: "{{ item.name }}"
+    repo_url: "{{ item.repo_url }}"
+    repo_username: "{{ item.repo_username }}"
+    repo_password: "{{ item.repo_password }}"
+  when: item.repo_username is defined
 
 - name: Upload helm values file {{ item.name }}
   template:
@@ -18,3 +27,18 @@
     release_namespace: "{{ item.namespace | default(item.name) }}"
     create_namespace: true
     values_files: "/tmp/{{ item.values_file | default(item.name) }}.yaml"
+    kubeconfig: "{{ lookup('env', 'KUBECONFIG') }}"
+    update_repo_cache: true
+  when: item.chart_version is not defined
+
+- name: Deploy {{ item.name }} with specific version
+  kubernetes.core.helm:
+    name: "{{ item.values_file | default(item.name) }}"
+    chart_ref: "{{ item.name }}/{{ item.name }}"
+    release_namespace: "{{ item.namespace | default(item.name) }}"
+    create_namespace: true
+    values_files: "/tmp/{{ item.values_file | default(item.name) }}.yaml"
+    kubeconfig: "{{ lookup('env', 'KUBECONFIG') }}"
+    chart_version: "{{ item.chart_version }}"
+    update_repo_cache: true
+  when: item.chart_version is defined

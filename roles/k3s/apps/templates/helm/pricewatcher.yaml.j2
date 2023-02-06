@@ -1,0 +1,14 @@
+pricewatcher:
+  registry:
+    username: "{{ harbor.robot.username }}"
+    password: "{{ harbor.robot.password }}"
+  djangoSecretKey: "{{ pricewatcher.djangoSecretKey }}"
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/whitelist-source-range: {{ ",".join(trusted_ips) | regex_replace("\n", "") }}
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  host: "pricewatcher.alex.systems"
+  tls:
+    enabled: true
+    secretName: "pricewatcher-tls"
