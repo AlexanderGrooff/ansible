@@ -23,6 +23,7 @@
       git,
       go,
       htop,
+      imagemagick,  # Contains convert
       inetutils,  # Contains telnet
       jq,
       keychain,
@@ -38,6 +39,7 @@
       podman-dnsname,
       podman-docker,
       podman,
+      potrace,  # Convert to svg
       python-pip,
       python-setuptools,
       python-virtualenv,
