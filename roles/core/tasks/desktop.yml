@@ -20,6 +20,7 @@
       flameshot,
       pavucontrol,
       pkg-config,
+      thunar,
     ]
 
 - name: Define Debian specific desktop packages
@@ -39,11 +40,12 @@
       1password,
       accountsservice,  # Fixes lightdm error
       aconfmgr-git,
-      bluez,
       bluez-utils,
+      bluez,
       gnome-keyring,  # https://github.com/MicrosoftDocs/live-share/issues/224#issuecomment-383324321
       nm-connection-editor,  # Networkmanager GUI
       obsidian,
+      rofi-emoji,
       slack-desktop,
       ttf-font-awesome,
       usbutils,  # lsusb
@@ -219,6 +221,18 @@
     state: link
   become: yes
   when: ansible_distribution == "Archlinux"
+
+- name: Set default applications for xdg-open
+  lineinfile:
+    path: ~/.config/mimeapps.list
+    line: "{{ item }}"
+    state: present
+    insertafter: "[Added Associations]"
+  loop:
+  - "text/html=firefox.desktop"
+  - "x-scheme-handler/http=firefox.desktop"
+  - "x-scheme-handler/https=firefox.desktop"
+  - "inode/directory=thunar.desktop"
 
 - name: Activate user service files
   include: includes/user_service.yml
