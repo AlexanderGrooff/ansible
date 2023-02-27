@@ -6,6 +6,7 @@
     name: [
       autossh,
       apparmor,
+      binutils,  # Commands like `strings`
       cmake,
       curl,
       direnv,
