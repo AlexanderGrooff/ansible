@@ -1,0 +1,22 @@
+- name: Install graphical packages
+  kewlfft.aur.aur:
+    name: [
+      gamescope,  # Compositor
+    ]
+    state: present
+  become: true
+  become_user: root
+
+- name: Get gamescope prio
+  command: getcap /usr/bin/gamescope
+  register: gamescope_prio
+  become: true
+  become_user: root
+  changed_when: false
+
+# Note: this causes this issue: https://github.com/Plagman/gamescope/issues/521
+- name: Set prio for gamescope
+  command: setcap 'CAP_SYS_NICE=eip' /usr/bin/gamescope
+  when: gamescope_prio.stdout != '/usr/bin/gamescope cap_sys_nice=eip'
+  become: true
+  become_user: root

@@ -1,0 +1,26 @@
+- name: Install development packages
+  kewlfft.aur.aur:
+    name: [
+      aardvark-dns,  # Required for DNS between podman-compose containers
+      cmake,
+      direnv,
+      github-cli,
+      go,
+      imagemagick,  # Contains convert
+      kubectl,
+      make,
+      nodejs,
+      npm,
+      pacman-contrib,  # Package build utils like updpkgsums
+      podman-dnsname,
+      podman-docker,
+      podman,
+      potrace,  # Convert to svg
+      python-pip,
+      python-setuptools,
+      python-virtualenv,
+      python-virtualenvwrapper,
+      python,
+      tmux,
+    ]
+    state: present

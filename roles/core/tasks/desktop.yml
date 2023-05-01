@@ -48,6 +48,7 @@
       rofi-emoji,
       slack-desktop,
       ttf-font-awesome,
+      ttf-jetbrains-mono-nerd,
       usbutils,  # lsusb
       visual-studio-code-bin,
       xaskpass,  # Places /usr/bin/xaskpass

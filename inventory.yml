@@ -10,6 +10,10 @@ all:
       wm: i3
     prometheus:
       enable: true
+    development:
+      enable: true
+    graphics:
+      enable: false
 
     # Constants used globally
     tailscale_cidr: 100.64.0.0/10
@@ -96,6 +100,8 @@ all:
       desktop:
         enable: true
         wm: i3
+        graphics:
+          enable: true
     delta:
       ansible_host: 100.72.69.31
       tailscale_ip: 100.72.69.31

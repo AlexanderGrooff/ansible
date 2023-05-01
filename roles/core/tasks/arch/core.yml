@@ -1,0 +1,62 @@
+- name: Install yay
+  kewlfft.aur.aur:
+    name: yay
+    use: makepkg
+    state: present
+
+- name: Install core packages
+  kewlfft.aur.aur:
+    name: [
+      autossh,
+      calc,  # CLI calculator
+      cronie,
+      cue,  # Configuration language
+      curl,
+      dnsutils,
+      fd,
+      fwupd,
+      git,
+      htop,
+      inetutils,  # Contains telnet
+      jq,
+      keychain,
+      lshw,
+      man-db,
+      net-tools,  # Contains netstat
+      nmap,
+      openvpn,
+      rsync,
+      ripgrep,
+      sudo,
+      syncthing,
+      traceroute,
+      ufw,
+      unzip,
+      vim,
+      xclip,
+      xsel,
+      yq,
+      zsh,
+    ]
+    state: present
+
+- name: Place fwupd config
+  copy:
+    src: etc/fwupd/uefi_capsule.conf
+    dest: /etc/fwupd/uefi_capsule.conf
+    mode: 0644
+    owner: root
+    group: root
+  become: true
+  notify: [restart-fwupd]
+
+- name: Enable services
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  become: true
+  with_items:
+    - cronie
+    - fwupd
+    - ufw
