@@ -43,6 +43,7 @@
       bluez-utils,
       bluez,
       gnome-keyring,  # https://github.com/MicrosoftDocs/live-share/issues/224#issuecomment-383324321
+      libimobiledevice,  # iPhone USB tethering
       nm-connection-editor,  # Networkmanager GUI
       obsidian,
       rofi-emoji,
@@ -50,6 +51,7 @@
       ttf-font-awesome,
       ttf-jetbrains-mono-nerd,
       usbutils,  # lsusb
+      usbmuxd,  # iPhone USB tethering
       visual-studio-code-bin,
       xaskpass,  # Places /usr/bin/xaskpass
       zotero,
