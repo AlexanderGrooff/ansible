@@ -53,15 +53,43 @@
 - name: place postfix configs
   lineinfile:
     path: /etc/postfix/main.cf
-    line: '{{ item }}'
+    regexp: '^{{ item[0] }}'
+    line: '{{ item[1] }}'
     state: present
   loop:
-  - "relayhost = [{{ mail.smtp_server }}]:{{ mail.smtp_port }}"
-  - "smtp_use_tls = yes"
-  - "smtp_sasl_auth_enable = yes"
-  - "smtp_sasl_security_options ="
-  - "smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd"
-  - "smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt"
+  - ["relayhost =.*",                  "relayhost = [{{ mail.smtp_server }}]:{{ mail.smtp_port }}"]
+  - ["smtp_use_tls =.*",               "smtp_use_tls = yes"]
+  - ["smtp_sasl_auth_enable =.*",      "smtp_sasl_auth_enable = yes"]
+  - ["smtp_sasl_security_options =.*", "smtp_sasl_security_options ="]
+  - ["smtp_sasl_password_maps =.*",    "smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd"]
+  - ["smtp_tls_CAfile =.*",            "smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt"]
+  - ["alias_maps =.*",                 "alias_maps = hash:/etc/postfix/aliases"]
+  - ["alias_database =.*",             "alias_database = $alias_maps"]
+  become: yes
+  notify:
+  - restart postfix
+
+- name: check if old aliases exists
+  stat:
+    path: /etc/aliases
+  register: postfix_old_aliases
+
+- name: check if postfix aliases exists
+  stat:
+    path: /etc/postfix/aliases
+  register: postfix_aliases
+
+- name: move old aliases to postfix aliases
+  command: mv /etc/aliases /etc/postfix/aliases
+  when: postfix_old_aliases.stat.exists and not postfix_aliases.stat.exists
+  become: yes
+  notify:
+  - generate postfix aliases
+
+# Needs to be run once before changing the user
+- name: generate postfix aliases
+  command: newaliases
+  when: not postfix_aliases.stat.exists
   become: yes
   notify:
   - restart postfix
