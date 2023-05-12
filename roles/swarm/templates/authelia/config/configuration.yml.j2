@@ -1,0 +1,36 @@
+---
+log:
+  level: debug
+
+totp:
+  issuer: {{ apex_domain }}
+
+authentication_backend:
+  file:
+    path: /config/users_database.yml
+
+access_control:
+  default_policy: deny
+  rules:
+    #- domain: public.example.com
+    #  policy: bypass
+    - domain: traefik.{{ apex_domain }}
+      policy: one_factor
+    #- domain: secure.example.com
+    #  policy: two_factor
+
+session:
+  domain: {{ apex_domain }}  # Should match whatever your root protected domain is
+
+regulation:
+  max_retries: 3
+  find_time: 120
+  ban_time: 300
+
+storage:
+  local:
+    path: /config/db.sqlite3
+
+notifier:
+  filesystem:
+    filename: /config/notification.txt

@@ -4,3 +4,4 @@ collections:
 - gluster.gluster
 - kewlfft.aur  # Contains AUR installers like yay
 - kubernetes.core
+- community.docker  # Contains swarm

@@ -1,0 +1,26 @@
+- name: Enable ip_vs kernel module
+  lineinfile:
+    path: /etc/modules
+    line: "modprobe ip_vs"
+    create: yes
+    state: present
+  become: true
+  register: ip_vs_module
+  tags: [keepalived]
+
+- name: Modprobe if needed
+  command: modprobe ip_vs
+  when: ip_vs_module.changed
+  become: true
+  tags: [keepalived]
+
+- name: Setup keepalived in container
+  shell: |
+    docker ps -a | grep keepalived || docker run -d --name keepalived --restart=always \
+    --cap-add=NET_ADMIN --cap-add=NET_BROADCAST --cap-add=NET_RAW --net=host \
+    -e KEEPALIVED_UNICAST_PEERS="#PYTHON2BASH:['{{ tailscale_ip }}']" \
+    -e KEEPALIVED_VIRTUAL_IPS={{ floating_ip }} \
+    -e KEEPALIVED_PRIORITY=200 \
+    osixia/keepalived:2.0.20
+  become: true
+  tags: [keepalived]

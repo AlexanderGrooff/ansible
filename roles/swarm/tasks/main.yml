@@ -1,0 +1,60 @@
+- name: Install pip libraries library
+  pip:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - docker==6.1.1
+  - jsondiff==2.0.0
+  become: true
+
+- include: keepalived.yml
+  tags: [keepalived]
+
+- name: Initialize Docker swarm
+  community.docker.docker_swarm:
+    state: present
+    advertise_addr: "{{ tailscale_ip }}"
+    labels: "{{ labels | default({}) }}"
+  become: true
+
+- name: Create public network
+  community.docker.docker_network:
+    state: present
+    name: traefik-public
+    driver: overlay
+    attachable: true
+  become: true
+
+- name: Ensure dirs exist before mounting in Docker
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: true
+  become: true
+  with_items:
+  - /data/swarm/traefik
+
+- name: Ensure files exist before mounting in Docker
+  file:
+    path: "{{ item }}"
+    state: touch
+  become: true
+  with_items:
+  - /data/swarm/traefik/acme.json
+  - /data/swarm/traefik/traefik.log
+  - /data/swarm/traefik/access.log
+
+- include_tasks:
+    file: setup_stack.yml
+    apply:
+      tags: [apps]
+  tags: [apps]
+  loop_control:
+    loop_var: stack
+  loop:
+  - name: "authelia"
+    secrets: "{{ authelia.secrets }}"
+    files:
+      - {src: authelia/config/configuration.yml.j2, dest: /data/swarm/authelia/config/configuration.yml}
+      - {src: authelia/config/users_database.yml.j2, dest: /data/swarm/authelia/config/users_database.yml}
+      - {src: traefik/config/traefik.toml.j2, dest: /data/swarm/traefik/config/traefik.toml}

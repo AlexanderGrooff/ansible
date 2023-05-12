@@ -1,0 +1,40 @@
+[global]
+  checkNewVersion = true
+  sendAnonymousUsage = false
+
+# Enable the Dashboard
+[api]
+  dashboard = true
+
+# Write out Traefik logs
+[log]
+  level = "INFO"
+  filePath = "/traefik.log"
+
+[accessLog]
+  filePath = "/access.log"
+
+[entryPoints.http]
+  address = ":80"
+  [entryPoints.http.http.redirections.entryPoint]
+    to = "https"
+    scheme = "https"
+
+[entryPoints.https]
+  address = ":443"
+  [entryPoints.https.http.tls]
+    certResolver = "main"
+
+# Let's Encrypt
+[certificatesResolvers.main.acme]
+  email = "{{ letsencrypt.email }}"
+  storage = "acme.json"
+  [certificatesResolvers.main.acme.dnsChallenge]
+    provider = "cloudflare"
+
+# Docker Traefik provider
+[providers.docker]
+  endpoint = "unix:///var/run/docker.sock"
+  swarmMode = true
+  watch = true
+  exposedbydefault = false

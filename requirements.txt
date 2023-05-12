@@ -8,3 +8,6 @@ ansible-lint
 # Airflow editor support
 apache-airflow
 kubernetes
+
+# Docker swarm
+docker==6.1.1

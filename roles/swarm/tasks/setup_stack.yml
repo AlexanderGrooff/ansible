@@ -1,0 +1,52 @@
+---
+- name: Create data dir
+  file:
+    path: "/data/swarm/{{ stack.name }}"
+    state: directory
+    owner: root
+    group: root
+    recurse: yes
+  become: true
+
+- name: Copy over docker-compose file
+  template:
+    src: "{{ stack.name }}/docker-compose.yaml.j2"
+    dest: "/data/swarm/{{ stack.name }}/docker-compose.yaml"
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+
+- include_tasks:
+    file: setup_secret.yml
+  loop_control:
+    loop_var: secret
+  with_dict: "{{ secrets | default({}) }}"
+
+- name: Create basedir before copy files
+  file:
+    path: "{{ item.dest | dirname }}"
+    state: directory
+    owner: root
+    group: root
+    recurse: yes
+  become: true
+  with_items: "{{ stack.files | default([]) }}"
+
+- name: Copy files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  with_items: "{{ stack.files | default([]) }}"
+
+- name: Manage stack {{ stack.name }}
+  community.docker.docker_stack:
+    state: present
+    name: "{{ stack.name }}"
+    compose:
+    - "/data/swarm/{{ stack.name }}/docker-compose.yaml"
+  become: true

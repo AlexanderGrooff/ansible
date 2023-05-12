@@ -1,0 +1,5 @@
+---
+- name: Manage swarm cluster
+  hosts: swarm
+  roles:
+    - swarm
