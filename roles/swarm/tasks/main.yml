@@ -40,9 +40,17 @@
     state: touch
   become: true
   with_items:
-  - /data/swarm/traefik/acme.json
   - /data/swarm/traefik/traefik.log
   - /data/swarm/traefik/access.log
+
+- name: Ensure secret files exist before mounting in Docker
+  file:
+    path: "{{ item }}"
+    state: touch
+    mode: 0600
+  become: true
+  with_items:
+  - /data/swarm/traefik/acme.json
 
 - include_tasks:
     file: setup_stack.yml
@@ -57,4 +65,6 @@
     files:
       - {src: authelia/config/configuration.yml.j2, dest: /data/swarm/authelia/config/configuration.yml}
       - {src: authelia/config/users_database.yml.j2, dest: /data/swarm/authelia/config/users_database.yml}
+  - name: "traefik"
+    files:
       - {src: traefik/config/traefik.toml.j2, dest: /data/swarm/traefik/config/traefik.toml}

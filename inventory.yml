@@ -353,7 +353,10 @@ swarm:
       labels:
         public: "true"
   vars:
+    traefik:
+      domain_name: "traefik.{{ apex_domain }}"
     authelia:
+      domain_name: "auth.{{ apex_domain }}"
       secrets:
         authelia_jwt_secret: null
         authelia_session_secret: null

@@ -1,0 +1,56 @@
+version: "3.9"
+services:
+  traefik:
+    image: traefik:v2.10
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+        mode: host
+      - target: 443
+        published: 443
+        protocol: tcp
+        mode: host
+      - target: 8080
+        published: 8080
+        protocol: tcp
+    deploy:
+      mode: global  # Every node 1x
+      labels:
+        # Enable Traefik for this service, to make it available in the public network
+        - traefik.enable=true
+        # Use the traefik-public network (declared below)
+        - traefik.docker.network=traefik-public
+        # Use the custom label "traefik.constraint-label=traefik-public"
+        # This public Traefik will only use services with this label
+        # That way you can add other internal Traefik instances per stack if needed
+        - traefik.constraint-label=traefik-public
+        # Define the port inside of the Docker service to use
+        - traefik.http.services.traefik-public.loadbalancer.server.port=8080
+
+        # Expose dashboard via Authelia
+        - 'traefik.http.routers.api.rule=Host(`{{ traefik.domain_name }}`)'
+        - 'traefik.http.routers.api.entryPoints=https'
+        - 'traefik.http.routers.api.tls=true'
+        - 'traefik.http.routers.api.tls.certresolver=main'
+        - 'traefik.http.routers.api.service=api@internal'
+        - 'traefik.http.routers.api.middlewares=authelia@docker'
+    volumes:
+      # Add Docker as a mounted volume, so that Traefik can read the labels of other services
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /data/swarm/traefik/config:/etc/traefik
+      - /data/swarm/traefik/traefik.log:/traefik.log
+      - /data/swarm/traefik/access.log:/access.log
+      - /data/swarm/traefik/acme.json:/acme.json
+    environment:
+      - CLOUDFLARE_EMAIL={{cloudflare.email}}
+      - CLOUDFLARE_DNS_API_TOKEN={{cloudflare.api_token}}
+    networks:
+      # Use the public network created to be shared between Traefik and
+      # any other service that needs to be publicly available with HTTPS
+      traefik-public: {}
+
+networks:
+  traefik-public:
+    # Communicate between Traefik and any other service that is in the public network
+    external: true
