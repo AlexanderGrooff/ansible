@@ -23,6 +23,7 @@
 - include: hostname.yml
   when: inventory_hostname != "localhost"
 - include: users.yml
+  tags: [users]
 - include: systemd.yml
 - include: ssh.yml
 # - include: promtail.yml

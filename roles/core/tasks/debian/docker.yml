@@ -24,3 +24,10 @@
 - name: Update apt and install docker-ce
   apt: update_cache=yes name=docker-ce state=latest
   become: yes
+
+- name: Add user to docker group
+  user:
+    name: alex
+    groups: docker
+    append: yes
+  become: yes

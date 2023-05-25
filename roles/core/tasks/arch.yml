@@ -7,4 +7,7 @@
   when: desktop.graphics.enable|default(false)
 
 - include: podman.yml
-  when: development.enable
+  when: development.enable and container_runtime == "podman"
+
+- include: docker.yml
+  when: development.enable and container_runtime == "docker"

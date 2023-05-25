@@ -8,6 +8,7 @@
     group: root
     mode: 0644
   become: true
+  tags: [users]
 
 - name: Set subgid for alex
   lineinfile:
@@ -19,6 +20,7 @@
     group: root
     mode: 0644
   become: true
+  tags: [users]
 
 - name: Use docker.io shortname
   lineinfile:

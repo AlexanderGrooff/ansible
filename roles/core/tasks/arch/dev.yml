@@ -1,7 +1,19 @@
+- set_fact:
+    podman_packages: [
+      aardvark-dns,  # Required for DNS between podman-compose containers
+      podman-dnsname,
+      podman-docker,
+      podman,
+    ]
+
+- set_fact:
+    docker_packages: [
+      docker,
+    ]
+
 - name: Install development packages
   kewlfft.aur.aur:
     name: [
-      aardvark-dns,  # Required for DNS between podman-compose containers
       cmake,
       direnv,
       github-cli,
@@ -12,9 +24,6 @@
       nodejs,
       npm,
       pacman-contrib,  # Package build utils like updpkgsums
-      podman-dnsname,
-      podman-docker,
-      podman,
       potrace,  # Convert to svg
       python-pip,
       python-setuptools,
@@ -24,3 +33,31 @@
       tmux,
     ]
     state: present
+
+- block:
+  - name: Remove podman packages
+    package:
+      name: "{{ podman_packages }}"
+      state: absent
+    become: true
+
+  - name: Install docker packages
+    kewlfft.aur.aur:
+      name: "{{ docker_packages }}"
+      state: present
+    become: true
+  when: container_runtime == "docker"
+
+- block:
+  - name: Remove docker packages
+    kewlfft.aur.aur:
+      name: "{{ docker_packages }}"
+      state: absent
+    become: true
+
+  - name: Install podman packages
+    kewlfft.aur.aur:
+      name: "{{ podman_packages }}"
+      state: present
+    become: true
+  when: container_runtime == "podman"

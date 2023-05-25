@@ -36,8 +36,9 @@
     name: alex
     groups:
       - mail
-    state: present
+    append: yes
   become: yes
+  tags: [users]
 
 - name: set postfix password
   copy:

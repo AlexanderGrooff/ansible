@@ -19,7 +19,7 @@
     groups:
       - alex
       - adm
-    state: present
+    append: yes
     shell: /usr/bin/zsh
   become: yes
 
