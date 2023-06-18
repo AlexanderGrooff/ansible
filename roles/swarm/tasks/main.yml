@@ -27,30 +27,35 @@
 
 - name: Ensure dirs exist before mounting in Docker
   file:
-    path: "{{ item }}"
+    path: "{{ item.path }}"
     state: directory
-    recurse: true
+    mode: 0755
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
   become: true
   with_items:
-  - /data/swarm/traefik
+  - {path: /data/swarm}
+  - {path: /data/swarm/authelia}
+  - {path: /data/swarm/authelia/config}
+  - {path: /data/swarm/traefik}
+  - {path: /data/swarm/traefik/config}
+  - {path: /data/swarm/vault}  # vault user in container
+  - {path: /data/swarm/vault/data, owner: "100"}  # vault user in container
+  - {path: /data/swarm/vault/config, owner: "100"}  # vault user in container
 
 - name: Ensure files exist before mounting in Docker
   file:
-    path: "{{ item }}"
+    path: "{{ item.path }}"
     state: touch
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0644') }}"
   become: true
-  with_items:
-  - /data/swarm/traefik/traefik.log
-  - /data/swarm/traefik/access.log
-
-- name: Ensure secret files exist before mounting in Docker
-  file:
-    path: "{{ item }}"
-    state: touch
-    mode: 0600
-  become: true
-  with_items:
-  - /data/swarm/traefik/acme.json
+  loop:
+  - {path: /data/swarm/traefik/traefik.log}
+  - {path: /data/swarm/traefik/access.log}
+  - {path: /data/swarm/traefik/acme.json, mode: "0600"}
+  - {path: /data/swarm/vault/data/vault.db, mode: "0600", owner: "100"}
 
 - include_tasks:
     file: setup_stack.yml
@@ -60,6 +65,9 @@
   loop_control:
     loop_var: stack
   loop:
+  - name: "vault"
+    files:
+      - {src: vault/config/config.hcl.j2, dest: /data/swarm/vault/config/config.hcl}
   - name: "authelia"
     secrets: "{{ authelia.secrets }}"
     files:

@@ -14,7 +14,7 @@ access_control:
   rules:
     #- domain: public.example.com
     #  policy: bypass
-    - domain: {{ traefik.domain_name }}
+    - domain: "*.{{ apex_domain }}"
       policy: two_factor
 
 session:

@@ -5,7 +5,6 @@
     state: directory
     owner: root
     group: root
-    recurse: yes
   become: true
 
 - name: Copy over docker-compose file
@@ -29,7 +28,6 @@
     state: directory
     owner: root
     group: root
-    recurse: yes
   become: true
   with_items: "{{ stack.files | default([]) }}"
 
@@ -39,7 +37,7 @@
     dest: "{{ item.dest }}"
     owner: root
     group: root
-    mode: 0644
+    mode: "{{ item.mode | default('0644') }}"
   become: true
   with_items: "{{ stack.files | default([]) }}"
 

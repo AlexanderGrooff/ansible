@@ -362,3 +362,5 @@ swarm:
         authelia_session_secret: null
         authelia_storage_postgres_password: null
         authelia_storage_encryption_key: null
+    vault:
+      domain_name: "vault.{{ apex_domain }}"

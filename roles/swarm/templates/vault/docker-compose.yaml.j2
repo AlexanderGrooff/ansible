@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  vault:
+    image: hashicorp/vault:latest
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_ADDR: "0.0.0.0:8200"
+    volumes:
+      - /data/swarm/vault/config:/vault/config:rw
+      - /data/swarm/vault/data:/vault/data:rw
+    cap_add:
+      - IPC_LOCK
+    networks:
+      traefik-public: {}
+    entrypoint: "vault server -config=/vault/config"
+    deploy:
+      labels:
+        - 'traefik.enable=true'
+        - 'traefik.docker.network=traefik-public'
+        - 'traefik.http.routers.vault.tls=true'
+        - 'traefik.http.routers.vault.tls.certresolver=main'
+        - 'traefik.http.routers.vault.rule=Host(`{{ vault.domain_name }}`)'
+        - 'traefik.http.routers.vault.entrypoints=https'
+        - 'traefik.http.services.vault.loadbalancer.server.port=8200'
+        - 'traefik.http.routers.vault.middlewares=authelia'
+networks:
+  traefik-public:
+    # Communicate between Traefik and any other service that is in the public network
+    external: true
