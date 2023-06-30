@@ -1,3 +1,12 @@
+- name: Manage pacman config
+  template:
+    src: etc/pacman.conf.j2
+    dest: /etc/pacman.conf
+    mode: 0644
+    owner: root
+    group: root
+  become: true
+
 - name: Install yay
   kewlfft.aur.aur:
     name: yay
