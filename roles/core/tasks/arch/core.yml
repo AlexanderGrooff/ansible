@@ -22,6 +22,7 @@
       keychain,
       lshw,
       man-db,
+      ncdu,
       net-tools,  # Contains netstat
       nmap,
       openvpn,
