@@ -18,7 +18,7 @@ client {
   enabled = true
   network_interface = "tailscale0"
   host_network "public" {
-    interface = "{{ external_interface }}"
+    interface = "{{ hardware.external_interface }}"
     reserved_ports = "80,443"
   }
   host_network "private" {
