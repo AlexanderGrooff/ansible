@@ -47,13 +47,13 @@
       nm-connection-editor,  # Networkmanager GUI
       obsidian,
       rofi-emoji,
+      seahorse,  # Gnome keyring GUI
       slack-desktop,
       ttf-font-awesome,
       ttf-jetbrains-mono-nerd,
       usbutils,  # lsusb
       usbmuxd,  # iPhone USB tethering
       visual-studio-code-bin,
-      xaskpass,  # Places /usr/bin/xaskpass
       zotero,
     ]
 
@@ -217,9 +217,9 @@
     when: ansible_os_family == "Debian"
   when: desktop.wm == "kde"
 
-- name: Symlink xaskpass to ssh lib
+- name: Symlink ssh-askpass
   file:
-    src: /usr/bin/xaskpass
+    src: /usr/bin/seahorse
     dest: /usr/lib/ssh/ssh-askpass
     state: link
   become: yes
