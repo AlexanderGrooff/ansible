@@ -8,12 +8,12 @@ all:
     desktop:
       enable: false
       wm: i3
+      graphics:
+        enable: false
     prometheus:
       enable: true
     development:
       enable: true
-    graphics:
-      enable: false
 
     # Constants used globally
     tailscale_cidr: 100.64.0.0/10
@@ -124,35 +124,13 @@ all:
           63656435646635343838313038313766663137353330653436343835323336303239653962623030
           3432626465383166663930326662626431643030656265656331
     phi:
-      tailscale_ip: 100.108.16.20
+      ansible_host: 100.78.134.137
       desktop:
         enable: false
       tailscale:
         enable: true
-        auth_key: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          32376635653732656235363963316161383366623561626332353537623538306632306639386266
-          3762656630646461323662616338363138636465343737330a336364613937376466303139373861
-          37626265396234646165383831633331366462646561393836333135336231313137616630333366
-          3363383265346338320a356463643034306333633362613131656335643166383335636530653639
-          63336366303932643063393365656264653765623037333963336664643037343530613836656463
-          3436383935343835666562336662373165303163666663623636
-    omega:
-      ansible_host: 100.97.50.92
-      tailscale_ip: 100.97.50.92
-      tailscale:
-        auth_key: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          65386634626337353734636336623564326531386163326332623233396465613165396337336463
-          6435343334313437353133633763303563393163333639660a353662636533376336313630336630
-          31333931343433383736343036623833396465636461326532626535306265643065353061383739
-          3261373230616636320a313762646230383761396661333834646137623035336462636136626335
-          62313139306565623834363638393133656333663037303266666132306231386331333931346531
-          6237336665653565336431363066373336396462653464613032
-        enable: true
-      desktop:
-        enable: true
-        wm: i3
+      development:
+        enable: false
     mu:
       ansible_host: localhost
       tailscale_ip: localhost
@@ -169,6 +147,8 @@ all:
       desktop:
         enable: true
         wm: i3
+        graphics:
+          enable: false
 
 storage_servers:
   hosts:
@@ -356,6 +336,10 @@ swarm:
     theta:
       labels:
         public: "true"
+        worker: "true"
+    # phi:
+    #   labels:
+    #     home_assistant: "true"
   vars:
     traefik:
       domain_name: "traefik.{{ apex_domain }}"
@@ -368,3 +352,5 @@ swarm:
         authelia_storage_encryption_key: null
     vault:
       domain_name: "vault.{{ apex_domain }}"
+    home_assistant:
+      domain_name: "home-assistant.{{ apex_domain }}"

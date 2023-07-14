@@ -2,7 +2,7 @@
 - name: Ensure /var/log/ansible.log is writable
   file:
     path: /var/log/ansible.log
-    state: file
+    state: touch
     mode: 0640
     owner: alex
     group: alex

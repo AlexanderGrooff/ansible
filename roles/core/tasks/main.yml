@@ -18,6 +18,7 @@
     name: [
         virtualenvwrapper,
     ]
+  when: development.enable
   register: pip_installs
 
 - include: hostname.yml
@@ -36,6 +37,7 @@
 
 - include: mail.yml
   tags: [mail]
+  when: development.enable
 
 - include: prometheus.yml
   when: inventory_hostname not in groups["k3s"]
