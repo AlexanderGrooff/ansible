@@ -219,7 +219,7 @@
 
 - name: Symlink ssh-askpass
   file:
-    src: /usr/bin/seahorse
+    src: /usr/lib/seahorse/ssh-askpass
     dest: /usr/lib/ssh/ssh-askpass
     state: link
   become: yes
