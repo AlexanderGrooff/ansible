@@ -26,6 +26,7 @@
       pacman-contrib,  # Package build utils like updpkgsums
       potrace,  # Convert to svg
       python-pip,
+      python-poetry,
       python-setuptools,
       python-virtualenv,
       python-virtualenvwrapper,
