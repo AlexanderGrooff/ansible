@@ -26,6 +26,8 @@
 - include: users.yml
   tags: [users]
 - include: systemd.yml
+- include: nix.yml
+  when: development.enable
 - include: ssh.yml
 # - include: promtail.yml
 - include: tailscale.yml

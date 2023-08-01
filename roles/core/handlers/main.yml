@@ -58,3 +58,9 @@
     name: postfix
     state: restarted
   become: yes
+
+- name: restart nix daemon
+  systemd:
+    name: nix-daemon
+    state: restarted
+  become: true
