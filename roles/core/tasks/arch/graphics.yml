@@ -2,10 +2,20 @@
   kewlfft.aur.aur:
     name: [
       gamescope,  # Compositor
+      lutris,
     ]
     state: present
   become: true
   become_user: root
+
+- name: Install wine and dependencies
+  kewlfft.aur.aur:
+    name: [
+      # Wine dependencies
+      # See this: https://github.com/lutris/docs/blob/master/WineDependencies.md
+      wine-mono,
+      wine-staging,
+    ]
 
 - name: Get gamescope prio
   command: getcap /usr/bin/gamescope
