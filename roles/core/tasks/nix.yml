@@ -8,9 +8,9 @@
   shell: "curl -L https://nixos.org/nix/install | sh"
   when: not nix_installed.stat.exists
 
-- name: Install cachix
-  command: nix profile install nixpkgs#cachix
-  notify: restart nix daemon
+# - name: Install cachix
+#   command: nix profile install nixpkgs#cachix
+#   notify: restart nix daemon
 
 - name: Place nix.conf
   template:
@@ -29,10 +29,10 @@
   become: true
   when: nix_conf.changed
 
-- name: Add cachix binary cache for devenv
-  command: cachix use devenv
-  notify: restart nix daemon
+# - name: Add cachix binary cache for devenv
+#   command: cachix use devenv
+#   notify: restart nix daemon
 
-- name: Install profile-wide packages
-  command: nix profile install --accept-flake-config tarball+https://install.devenv.sh/latest
-  notify: restart nix daemon
+# - name: Install profile-wide packages
+#   command: nix profile install --accept-flake-config tarball+https://install.devenv.sh/latest
+#   notify: restart nix daemon
