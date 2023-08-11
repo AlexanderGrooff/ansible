@@ -1,0 +1,28 @@
+# Docs at https://volian.org/bismuth/
+- name: Add Bismuth GPG apt Key
+  apt_key:
+    url: https://deb.volian.org/volian/scar.key
+    state: present
+  when: ansible_os_family == "Debian"
+  become: yes
+
+- name: Add Bismuth Repository
+  apt_repository:
+    repo: "deb http://deb.volian.org/volian/ scar main"
+    state: present
+  when: ansible_os_family == "Debian"
+  become: yes
+
+- name: Install kde packages
+  apt:
+    name: "{{ kde_packages }}"
+    state: latest
+  when: ansible_os_family == "Debian"
+  become: yes
+
+- name: Remove i3 packages
+  apt:
+    name: "{{ i3_packages }}"
+    state: absent
+  become: yes
+  when: ansible_os_family == "Debian"

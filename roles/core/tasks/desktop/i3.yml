@@ -1,0 +1,26 @@
+- name: Install i3 desktop packages for Arch
+  kewlfft.aur.aur:
+    name: "{{ i3_packages }}"
+  when: ansible_distribution == "Archlinux"
+
+- name: Install desktop packages for Debian
+  apt:
+    name: "{{ i3_packages }}"
+    state: latest
+  become: true
+  when: ansible_os_family == "Debian"
+
+- name: Install i3 pip packages
+  pip:
+    name: [
+      dbus-python,
+      i3-cycle,
+    ]
+    state: latest
+
+- name: Remove kde packages
+  apt:
+    name: "{{ kde_packages }}"
+    state: absent
+  become: yes
+  when: ansible_os_family == "Debian"

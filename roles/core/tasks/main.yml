@@ -46,7 +46,9 @@
 
 - include: desktop.yml
   when: desktop is defined and desktop.enable
+  tags: [desktop]
 - include: gpu.yml
   when: desktop is defined and desktop.enable
+  tags: [desktop]
 
 - include: ansible.yml
