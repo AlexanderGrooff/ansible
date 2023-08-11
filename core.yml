@@ -1,4 +1,4 @@
 - name: Core playbook
   hosts: all
-  tasks:
-  - include_role: name=core
+  roles:
+    - core
