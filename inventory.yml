@@ -102,7 +102,7 @@ all:
           3834323934656463383961343539303963663334373963386566
       desktop:
         enable: true
-        wm: i3
+        wm: pantheon
         graphics:
           enable: true
       hardware:
