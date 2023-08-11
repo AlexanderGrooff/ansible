@@ -16,6 +16,9 @@ services:
         protocol: tcp
     deploy:
       mode: global  # Every node 1x
+      placement:
+        constraints:
+          - node.labels.public == true
       labels:
         # Enable Traefik for this service, to make it available in the public network
         - traefik.enable=true

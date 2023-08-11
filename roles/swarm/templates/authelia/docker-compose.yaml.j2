@@ -23,6 +23,9 @@ services:
       # AUTHELIA_STORAGE_POSTGRES_PASSWORD_FILE: /run/secrets/authelia_storage_postgres_password
       AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: /run/secrets/authelia_storage_encryption_key
     deploy:
+      placement:
+        constraints:
+          - node.labels.worker == true
       labels:
         - 'traefik.enable=true'
         - 'traefik.docker.network=traefik-public'

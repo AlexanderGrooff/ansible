@@ -1,0 +1,22 @@
+version: '3'
+services:
+  homeassistant:
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - /data/swarm/home-assistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "8123:8123"
+    deploy:
+      placement:
+        constraints:
+          - node.labels.home_assistant == true
+      labels:
+        - 'traefik.enable=true'
+        - 'traefik.docker.network=traefik-public'
+        - 'traefik.http.routers.home_assistant.tls=true'
+        - 'traefik.http.routers.home_assistant.tls.certresolver=main'
+        - 'traefik.http.routers.home_assistant.rule=Host(`{{ home_assistant.domain_name }}`)'
+        - 'traefik.http.routers.home_assistant.entrypoints=https'
+        - 'traefik.http.services.home_assistant.loadbalancer.server.port=8123'
+        - 'traefik.http.routers.home_assistant.middlewares=authelia'

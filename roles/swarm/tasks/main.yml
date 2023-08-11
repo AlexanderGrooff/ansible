@@ -10,12 +10,13 @@
 - include: keepalived.yml
   tags: [keepalived]
 
-- name: Initialize Docker swarm
-  community.docker.docker_swarm:
-    state: present
-    advertise_addr: "{{ tailscale_ip }}"
-    labels: "{{ labels | default({}) }}"
-  become: true
+# Only do this once
+# - name: Initialize Docker swarm
+#   community.docker.docker_swarm:
+#     state: present
+#     advertise_addr: "{{ tailscale_ip }}"
+#     labels: "{{ labels | default({}) }}"
+#   become: true
 
 - name: Create public network
   community.docker.docker_network:
@@ -23,6 +24,12 @@
     name: traefik-public
     driver: overlay
     attachable: true
+  become: true
+
+- name: Set node labels
+  community.docker.docker_node:
+    hostname: "{{ inventory_hostname }}"
+    labels: "{{ labels | default({}) }}"
   become: true
 
 - name: Ensure dirs exist before mounting in Docker
@@ -42,6 +49,8 @@
   - {path: /data/swarm/vault}  # vault user in container
   - {path: /data/swarm/vault/data, owner: "100"}  # vault user in container
   - {path: /data/swarm/vault/config, owner: "100"}  # vault user in container
+  - {path: /data/swarm/home-assistant}
+  - {path: /data/swarm/home-assistant/config}
 
 - name: Ensure files exist before mounting in Docker
   file:
@@ -76,3 +85,5 @@
   - name: "traefik"
     files:
       - {src: traefik/config/traefik.toml.j2, dest: /data/swarm/traefik/config/traefik.toml}
+  - name: "home-assistant"
+    files: []

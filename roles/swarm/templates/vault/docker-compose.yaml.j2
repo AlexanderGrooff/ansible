@@ -15,6 +15,9 @@ services:
       traefik-public: {}
     entrypoint: "vault server -config=/vault/config"
     deploy:
+      placement:
+        constraints:
+          - node.labels.worker == true
       labels:
         - 'traefik.enable=true'
         - 'traefik.docker.network=traefik-public'
