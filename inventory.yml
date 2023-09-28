@@ -96,7 +96,7 @@ all:
           3834323934656463383961343539303963663334373963386566
       desktop:
         enable: true
-        wm: pantheon
+        wm: hyprland
         graphics:
           enable: true
       hardware:
@@ -331,9 +331,6 @@ swarm:
       labels:
         public: "true"
         worker: "true"
-    # phi:
-    #   labels:
-    #     home_assistant: "true"
   vars:
     traefik:
       domain_name: "traefik.{{ apex_domain }}"

@@ -3,7 +3,6 @@
     name: [
       # https://wiki.archlinux.org/title/Pantheon
       pantheon-session,  # Core components
-      dconf-editor,
       elementary-icon-theme,
       elementary-wallpapers,
       gala,
@@ -68,3 +67,10 @@
     src: etc/xdg/autostart/pantheon-plank.desktop
     dest: /etc/xdg/autostart/pantheon-plank.desktop
   become: true
+
+- name: Disable dunst
+  systemd:
+    name: dunst.service
+    enabled: false
+    state: stopped
+    scope: user
