@@ -42,6 +42,7 @@
       aconfmgr-git,
       bluez-utils,
       bluez,
+      dconf-editor,
       gnome-keyring,  # https://github.com/MicrosoftDocs/live-share/issues/224#issuecomment-383324321
       libimobiledevice,  # iPhone USB tethering
       nm-connection-editor,  # Networkmanager GUI
@@ -186,42 +187,8 @@
     enabled: yes
   become: true
 
-- name: Check if fingerprint reader is present
-  shell: lsusb | grep -i "Fingerprint Reader"
-  failed_when: false
-  changed_when: false
-  register: fingerprint_reader
+- include: fingerprint.yml
 
-- name: Install Debian fingerprint reader packages
-  apt:
-    name: [
-      fprintd,
-      fprintd-gui,
-    ]
-    state: latest
-  become: true
-  when: fingerprint_reader.rc == 0 and ansible_os_family == "Debian"
-
-- name: Install Arch fingerprint reader packages
-  kewlfft.aur.aur:
-    name: [
-      fprintd,
-    ]
-    state: latest
-  become: true
-  when: fingerprint_reader.rc == 0 and ansible_distribution == "Archlinux"
-
-- name: Allow fingerprint as system login
-  lineinfile:
-    path: /etc/pam.d/system-local-login
-    line: "auth sufficient pam_fprintd.so"
-    insertbefore: "auth      include   system-login"
-  become: true
-  when: fingerprint_reader.rc == 0
-
-- name: Start fprintd
-  systemd:
-    name: fprintd
-    enabled: yes
-  become: true
-  when: fingerprint_reader.rc == 0
+# If you want to remove proprietary stuff to avoid asking for a Lens ID, you
+# can delete the folder /usr/share/lens/resources/extensions/lenscloud*
+# sudo rm -vr /usr/share/lens/resources/extensions/lenscloud*
