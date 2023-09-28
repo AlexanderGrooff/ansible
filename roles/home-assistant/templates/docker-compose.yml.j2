@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  home-assistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    environment:
+      - TZ=Europe/Amsterdam
+    volumes:
+      - /data/home-assistant/config:/config
+      - /run/dbus:/run/dbus:ro  # Bluetooth
+    restart: unless-stopped
+    # To connect to LAN devices
+    network_mode: host

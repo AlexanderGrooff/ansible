@@ -1,0 +1,53 @@
+---
+- name: Create /data
+  file:
+    path: /data
+    state: directory
+    mode: 0755
+    owner: alex
+    group: alex
+  become: true
+
+- name: Create /data/home-assistant
+  file:
+    path: /data/home-assistant
+    state: directory
+    mode: 0755
+    owner: alex
+    group: alex
+
+- name: Create /data/home-assistant/config
+  file:
+    path: /data/home-assistant/config
+    state: directory
+    mode: 0755
+    owner: alex
+    group: alex
+
+- name: Place home-assistant docker-compose file
+  template:
+    src: docker-compose.yml.j2
+    dest: /data/home-assistant/docker-compose.yml
+    owner: alex
+    group: alex
+    mode: 0644
+
+- name: Install pip libraries library
+  pip:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - docker==6.1.1
+  - jsondiff==2.0.0
+  become: true
+
+- name: Install HACS
+  shell: |
+    curl -sfSL https://get.hacs.xyz | bash -
+  args:
+    chdir: /data/home-assistant/config
+    creates: /data/home-assistant/config/custom_components/hacs
+
+- name: Start home-assistant
+  community.docker.docker_compose:
+    project_src: /data/home-assistant

@@ -1,0 +1,4 @@
+- name: Home assistant playbook
+  hosts: phi
+  roles:
+    - home-assistant
