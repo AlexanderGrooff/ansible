@@ -21,7 +21,7 @@ if [ $(( $(date -d "$DATE_LAST_RUN" +%s) + $COOLDOWN_DURATION )) -le $(date -d "
     echo "Cooldown has expired; running ansible"
 
     pushd ~/code/ansible
-    roles=core $(cue export "$ANSIBLE_ROLES_FILE" | jq -r ".roles[]")
+    roles="core $(cue export "$ANSIBLE_ROLES_FILE" | jq -r '.roles[]')"
     for role in $roles; do
         echo "Running $role playbook"
         PLAYBOOK=$role.yml ./run.sh

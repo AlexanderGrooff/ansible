@@ -1,12 +1,10 @@
 wheel
-ansible>=2.9.20
+ansible==2.9.20
 ansible-core==2.14.5
 loguru>=0.6.0
 pre-commit
 ansible-lint
 
-# Airflow editor support
-apache-airflow
 kubernetes
 
 # Docker swarm
