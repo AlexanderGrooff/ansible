@@ -32,3 +32,9 @@
 
 - name: Create local bin
   file: path=/home/alex/.local/bin state=directory owner=alex group=alex
+
+# Lingering services are specifically for systemctl --user things, those are killed
+# if there is no active user session
+- name: Enable lingering services
+  command: loginctl enable-linger alex
+  become: true
