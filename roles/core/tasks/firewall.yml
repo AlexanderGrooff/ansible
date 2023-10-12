@@ -28,7 +28,6 @@
 - name: Allow access from Tailscale
   community.general.ufw:
     rule: allow
-    from: '{{ tailscale_cidr }}'
     interface: tailscale0
     direction: in
   become: true
@@ -39,16 +38,6 @@
     rule: allow
     port: 41641
     proto: udp
-  become: true
-  notify: reload-ufw
-
-# DEFAULT
-- name: Default to deny all incoming traffic on Tailscale interface
-  community.general.ufw:
-    state: enabled
-    policy: deny
-    interface: tailscale0
-    direction: incoming
   become: true
   notify: reload-ufw
 
