@@ -27,6 +27,7 @@
       git,
       htop,
       inetutils,  # Contains telnet
+      inotify-tools,
       jq,
       keychain,
       lshw,
@@ -35,8 +36,8 @@
       net-tools,  # Contains netstat
       nmap,
       openvpn,
-      rsync,
       ripgrep,
+      rsync,
       sudo,
       syncthing,
       traceroute,
