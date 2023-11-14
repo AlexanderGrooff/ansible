@@ -16,11 +16,6 @@
   set_fact:
     desktop_packages: [
       alacritty,
-      cups,
-      flameshot,
-      pavucontrol,
-      pkg-config,
-      thunar,
     ]
 
 - name: Define Debian specific desktop packages
@@ -38,44 +33,33 @@
   set_fact:
     arch_desktop_packages: [
       1password,
-      accountsservice,  # Fixes lightdm error
-      aconfmgr-git,
       bluez-utils,
       bluez,
-      dconf-editor,
+      cups,
       gnome-keyring,  # https://github.com/MicrosoftDocs/live-share/issues/224#issuecomment-383324321
       libimobiledevice,  # iPhone USB tethering
-      nm-connection-editor,  # Networkmanager GUI
       obsidian,
-      rofi-emoji,
-      seahorse,  # Gnome keyring GUI
       slack-desktop,
-      ttf-font-awesome,
       ttf-jetbrains-mono-nerd,
-      usbutils,  # lsusb
       usbmuxd,  # iPhone USB tethering
       visual-studio-code-bin,
-      zotero,
     ]
 
-- name: Define i3 packages
+- name: Define WM packages
   set_fact:
-    i3_packages: [
-      arandr,
-      autorandr,
-      dunst,
-      i3-wm,
-      i3lock,
-      py3status,
-      rofi,
-      xss-lock,  # Locks screen on suspend
-    ]
-
-- name: Define kdm packages
-  set_fact:
-    kde_packages: [
-      kde-plasma-desktop,
-      kwin-bismuth,  # WM
+    wm_packages: [
+      accountsservice,  # Fixes lightdm error
+      aconfmgr-git,
+      dconf-editor,
+      flameshot,
+      nm-connection-editor,  # Networkmanager GUI
+      pavucontrol,
+      pkg-config,
+      rofi-emoji,
+      seahorse,  # Gnome keyring GUI
+      thunar,
+      ttf-font-awesome,
+      usbutils,  # lsusb
     ]
 
 - name: Define redundant packages for Debian
@@ -148,7 +132,7 @@
     dest: /usr/lib/ssh/ssh-askpass
     state: link
   become: yes
-  when: ansible_distribution == "Archlinux"
+  when: ansible_distribution == "Archlinux" and desktop.type == "wm"
 
 - name: Set default applications for xdg-open
   lineinfile:
@@ -156,17 +140,18 @@
     line: "{{ item }}"
     state: present
     insertafter: "[Added Associations]"
+  when: desktop.type == "wm"
   loop:
   - "text/html=firefox.desktop"
   - "x-scheme-handler/http=firefox.desktop"
   - "x-scheme-handler/https=firefox.desktop"
-  - "inode/directory=thunar.desktop"
+  # - "inode/directory=thunar.desktop"
 
 - name: Activate user service files
   include: includes/user_service.yml
   loop:
   - hnproxy
-  - wakelock
+  # - wakelock
   loop_control:
     loop_var: service_name
 

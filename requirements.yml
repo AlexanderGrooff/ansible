@@ -5,3 +5,4 @@ collections:
 - kewlfft.aur  # Contains AUR installers like yay
 - kubernetes.core
 - community.docker  # Contains swarm
+- ansible.posix  # Contains authorized_key

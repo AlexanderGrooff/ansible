@@ -24,6 +24,7 @@
       dnsutils,
       fd,
       fwupd,
+      fzf,
       git,
       htop,
       inetutils,  # Contains telnet
@@ -33,6 +34,7 @@
       lshw,
       man-db,
       ncdu,
+      neovim,
       net-tools,  # Contains netstat
       nmap,
       openvpn,

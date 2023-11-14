@@ -1,6 +1,20 @@
+- name: Install wm desktop packages for Arch i3
+  kewlfft.aur.aur:
+    name: "{{ wm_packages }}"
+  when: ansible_distribution == "Archlinux"
+
 - name: Install i3 desktop packages for Arch
   kewlfft.aur.aur:
-    name: "{{ i3_packages }}"
+    name: [
+      arandr,
+      autorandr,
+      dunst,
+      i3-wm,
+      i3lock,
+      py3status,
+      rofi,
+      xss-lock,  # Locks screen on suspend
+    ]
   when: ansible_distribution == "Archlinux"
 
 - name: Install desktop packages for Debian

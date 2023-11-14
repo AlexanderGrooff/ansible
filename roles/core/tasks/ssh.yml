@@ -22,7 +22,7 @@
     ssh_keys: "{{ github_ssh_keys['content'].split('\n') + misc_ssh_keys }}"
 
 - name: Authorize ssh keys
-  authorized_key:
+  ansible.posix.authorized_key:
     user: alex
     exclusive: yes
     key: "{{ '\n'.join(ssh_keys) }}"

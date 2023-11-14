@@ -1,12 +1,17 @@
-    - name: Install sway
-      apt:
-        name: [
-          grimshot,  # Screenshot tool
-          sway,
-          swaylock,
-          wdisplays,
-          weston,  # Compositor
-        ]
-        state: latest
-      become: true
-      when: ansible_os_family == "Debian"
+- name: Install wm desktop packages for Arch sway
+  kewlfft.aur.aur:
+    name: "{{ wm_packages }}"
+  when: ansible_distribution == "Archlinux"
+
+- name: Install sway
+  apt:
+    name: [
+      grimshot,  # Screenshot tool
+      sway,
+      swaylock,
+      wdisplays,
+      weston,  # Compositor
+    ]
+    state: latest
+  become: true
+  when: ansible_os_family == "Debian"

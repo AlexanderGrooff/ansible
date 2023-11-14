@@ -1,0 +1,7 @@
+- name: Install gnome desktop packages for Arch
+  kewlfft.aur.aur:
+    name: [
+      gnome,
+      gnome-extra,
+    ]
+  when: ansible_distribution == "Archlinux"

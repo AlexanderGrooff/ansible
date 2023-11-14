@@ -12,6 +12,15 @@
 #   command: nix profile install nixpkgs#cachix
 #   notify: restart nix daemon
 
+- name: Create /etc/nix
+  file:
+    path: /etc/nix
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+
 - name: Place nix.conf
   template:
     src: etc/nix/nix.conf
