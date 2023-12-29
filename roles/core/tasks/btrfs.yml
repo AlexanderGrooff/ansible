@@ -1,0 +1,9 @@
+- name: install btrfs packages
+  kewlfft.aur.aur:
+    name: [
+      btrfs-assistant,  # If GUI
+      snapper,
+      snap-sync,  # Push snapshots to remote
+    ]
+
+- name: run snapper create for all subvolumes

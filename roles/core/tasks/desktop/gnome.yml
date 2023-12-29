@@ -3,5 +3,8 @@
     name: [
       gnome,
       gnome-extra,
+      gnome-shell-extension-appindicator,
+      gnome-shell-extensions,
+      gnome-browser-connector,
     ]
   when: ansible_distribution == "Archlinux"

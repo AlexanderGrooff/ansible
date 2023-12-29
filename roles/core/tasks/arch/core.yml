@@ -16,6 +16,7 @@
 - name: Install core packages
   kewlfft.aur.aur:
     name: [
+      archlinux-contrib,  # Contains pacdiff
       autossh,
       calc,  # CLI calculator
       cronie,
@@ -36,6 +37,7 @@
       ncdu,
       neovim,
       net-tools,  # Contains netstat
+      networkmanager-openvpn,
       nmap,
       openvpn,
       ripgrep,
