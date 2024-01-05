@@ -1,0 +1,11 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = *
+
+[Action]
+Description = Show Arch news before installation
+When = PreTransaction
+Exec = /usr/bin/yay -Pw
+AbortOnFail

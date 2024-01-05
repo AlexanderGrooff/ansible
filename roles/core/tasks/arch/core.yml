@@ -84,3 +84,18 @@
     state: link
     force: yes
   become: true
+
+- name: Ensure pacman hooks dir exists
+  file:
+    path: /etc/pacman.d/hooks
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+  become: true
+
+- name: Place pacman news hook
+  copy:
+    src: etc/pacman.d/hooks/00-news.hook
+    dest: /etc/pacman.d/hooks/00-news.hook
+  become: true
