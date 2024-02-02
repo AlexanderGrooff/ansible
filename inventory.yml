@@ -14,7 +14,7 @@ all:
     prometheus:
       enable: true
     development:
-      enable: true
+      enable: false
 
     # Constants used globally
     tailscale_cidr: 100.64.0.0/10
@@ -71,6 +71,8 @@ all:
       ansible_host: 100.78.218.73
       tailscale_ip: 100.78.218.73
       external_ip: 116.203.149.177
+      development:
+        enable: true
       hardware:
         external_interface: eth0
       tailscale:
@@ -103,6 +105,8 @@ all:
           enable: false
       hardware:
         external_interface: enp4s0
+      development:
+        enable: true
     delta:
       ansible_host: 100.72.69.31
       tailscale_ip: 100.72.69.31
@@ -119,6 +123,8 @@ all:
           3733353331626163610a643036393434393639623639366465326638363932343766336534343730
           63656435646635343838313038313766663137353330653436343835323336303239653962623030
           3432626465383166663930326662626431643030656265656331
+      development:
+        enable: true
     phi:
       ansible_host: 100.78.134.137
       desktop:
@@ -128,8 +134,8 @@ all:
       development:
         enable: false
     mu:
-      ansible_host: localhost
-      tailscale_ip: localhost
+      ansible_host: 100.72.146.47
+      tailscale_ip: 100.72.146.47
       tailscale:
         auth_key: !vault |
           $ANSIBLE_VAULT;1.1;AES256
@@ -145,6 +151,17 @@ all:
         wm: i3
         graphics:
           enable: false
+      development:
+        enable: true
+    vm1:
+      ansible_host: 100.68.116.146
+      tailscale_ip: 100.68.116.146
+      tailscale:
+        enable: true
+      development:
+        enable: false
+      desktop:
+        enable: false
 
 storage_servers:
   hosts:

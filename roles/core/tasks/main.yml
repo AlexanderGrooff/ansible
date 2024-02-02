@@ -13,14 +13,6 @@
 - include: arch.yml
   when: ansible_distribution == "Archlinux"
 
-- name: Install Python packages
-  pip:
-    name: [
-        virtualenvwrapper,
-    ]
-  when: development.enable
-  register: pip_installs
-
 - include: hostname.yml
   when: inventory_hostname != "localhost"
 - include: users.yml
@@ -37,9 +29,9 @@
 - include: dotfiles.yml
 - include: tmux.yml
 
-- include: mail.yml
-  tags: [mail]
-  when: development.enable
+  #- include: mail.yml
+  #  tags: [mail]
+  #  when: development.enable
 
 - include: prometheus.yml
   when: inventory_hostname not in groups["k3s"]

@@ -31,9 +31,3 @@
     groups: docker
     append: yes
   become: yes
-
-- name: Install docker-compose via pip
-  pip:
-    name: docker-compose
-    state: present
-  become: yes

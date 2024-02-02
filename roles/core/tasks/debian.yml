@@ -1,13 +1,11 @@
 ---
-- include: debian/go.yml
-  when: development.enable
-
 - name: Install core packages
   apt:
     name: [
       autossh,
       apparmor,
       curl,
+      direnv,
       gpg-agent,  # Required for apt-key
       gpg,
       htop,
@@ -33,7 +31,6 @@
     name: [
       binutils,  # Commands like `strings`
       cmake,
-      direnv,
       dnsutils,
       git,
       make,
@@ -94,7 +91,5 @@
   become: yes
   when: development.enable
 
-- include: debian/rust.yml
-  when: development.enable
 - include: debian/syncthing.yml
 - include: debian/docker.yml
